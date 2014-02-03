@@ -8,10 +8,12 @@
 package edu.nr.main;
 
 
+import edu.nr.main.commands.DriveDistanceCommand;
 import edu.nr.main.subsystems.Drive;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -47,7 +49,8 @@ public class Robot extends IterativeRobot {
 
     public void teleopInit() 
     {
-        
+        SmartDashboard.putData("DriveDistanceCommand", new DriveDistanceCommand(10, 0.8f));
+        SmartDashboard.putData("Drive", drive);
     }
 
     /**
