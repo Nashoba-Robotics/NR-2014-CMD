@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.nr.main.commands.DriveAngleCommand;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,6 +32,7 @@ public class Robot extends IterativeRobot {
     public static Drive drive;
     public void robotInit() 
     {
+        SmartDashboard.putNumber("Angle", 90);
         drive = new Drive();
     }
 
@@ -50,7 +52,9 @@ public class Robot extends IterativeRobot {
     public void teleopInit() 
     {
         SmartDashboard.putData("DriveDistanceCommand", new DriveDistanceCommand(10, 0.8f));
-        SmartDashboard.putData("Drive", drive);
+        SmartDashboard.putData("DriveAngleCommand", new DriveAngleCommand(90, 0.6));
+        //SmartDashboard.putData("Drive", drive);
+        OI.init();
     }
 
     /**

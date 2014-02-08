@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.can.CANTimeoutException;
+import edu.wpi.first.wpilibj.Talon;
 
 public class Drive extends Subsystem 
 {
@@ -17,14 +17,7 @@ public class Drive extends Subsystem
     private Encoder e1, e2;
     public Drive()
     {
-        try
-        {
-            drive = new RobotDrive(new CANJaguar(1),new CANJaguar(2),new CANJaguar(3),new CANJaguar(4));
-        }
-        catch(CANTimeoutException e)
-        {
-            throw new RuntimeException("Couldn't create robotdrive :(");
-        }
+        drive = new RobotDrive(new Talon(1),new Talon(2),new Talon(3),new Talon(4));
         drive.setSafetyEnabled(false);
 
         gyro = new Gyro(1);
@@ -46,7 +39,7 @@ public class Drive extends Subsystem
     
     public void drive(double speed, double angle)
     {
-        drive.drive(speed, -angle);
+        drive.arcadeDrive(speed, angle);
     }
     
     public void resetEncs()

@@ -44,14 +44,14 @@ public class DriveDistanceCommand extends Command
     protected void execute() 
     {
         double angle = Robot.drive.getGyroAngle();// - initialGyroAngle;
-        SmartDashboard.putNumber("Initial Angle", angle);
+        SmartDashboard.putNumber("Gyro", angle);
         double turnAngle = 0;
         if(Math.abs(angle) > 0.3)
         {
             if(angle < 0)
-                turnAngle = Math.max(-0.5, angle*0.05);
+                turnAngle = Math.min(0.5, -angle*0.05);
             else
-                turnAngle = Math.min(0.5, angle*0.05);
+                turnAngle = Math.min(-0.5, -angle*0.05);
         }
         
         double ave = Robot.drive.getAverageEncoderDistance();
@@ -68,12 +68,14 @@ public class DriveDistanceCommand extends Command
 
         double proportionalStopDistance = 4;
         double proportionalSpeed = ((1/(proportionalStopDistance)) * err) * speed;
-        double integralSpeed = count * speed/Math.abs(speed) * 0.0004;
+        double integralSpeed = count * speed/Math.abs(speed) * 0.002;
         double newSpeed = Math.min(speed, proportionalSpeed + integralSpeed);
-        SmartDashboard.putNumber("Angle", turnAngle);
+        SmartDashboard.putNumber("TurnAngle", turnAngle);
         SmartDashboard.putNumber("New Speed", newSpeed);
         Robot.drive.drive(newSpeed, turnAngle);
 
+        
+        SmartDashboard.putNumber("Encs", Robot.drive.getAverageEncoderDistance());
         /*SmartDashboard.putNumber("Encoder 1", val1);
         SmartDashboard.putNumber("Encoder 2", val2);
         SmartDashboard.putNumber("Gyro", angle);
@@ -89,6 +91,8 @@ public class DriveDistanceCommand extends Command
 
     protected boolean isFinished() 
     {
+        if((Robot.drive.getAverageEncoderDistance() > distance));
+            //System.out.println("Should Finish");
         return (Robot.drive.getAverageEncoderDistance() > distance);
     }
 
