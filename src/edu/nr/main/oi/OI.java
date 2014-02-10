@@ -1,8 +1,11 @@
 
-package edu.nr.main;
+package edu.nr.main.oi;
 
-import edu.nr.main.commands.DriveIdleCommand;
-import edu.nr.main.commands.DriveJoystickCommand;
+import edu.nr.main.subsystems.Drive.DriveIdleCommand;
+import edu.nr.main.subsystems.Drive.DriveJoystickCommand;
+import edu.nr.main.subsystems.Pneumatics.SolenoidForwardCommand;
+import edu.nr.main.subsystems.Pneumatics.SolenoidOffCommand;
+import edu.nr.main.subsystems.Pneumatics.SolenoidReverseCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -13,25 +16,65 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class OI 
 {
     private static Joystick stick1;
-    private static JoystickButton button1, button2;
+    private static JoystickButton button7, button1, button5, button6, button3;
+    private static int joystickType = 1;
+    
+    public static void setJoystickType(int type)
+    {
+        joystickType = type;
+    }
+    
     public static void init()
     {
-        stick1 = new Joystick(1);
-        button1 = new JoystickButton(stick1, 7);
-        button1.whenPressed(new DriveJoystickCommand());
+        if(joystickType == 1)
+        {
+            stick1 = new Joystick(1);
+            button7 = new JoystickButton(stick1, 7);
+            button1 = new JoystickButton(stick1, 1);
+            button5 = new JoystickButton(stick1, 5);
+            button6 = new JoystickButton(stick1, 6);
+            button3 = new JoystickButton(stick1, 3);
+        }
+        else
+        {
+            stick1 = new Gamepad(1);
+            button7 = new JoystickButton(stick1, Gamepad.kStartButton);
+            button1 = new JoystickButton(stick1, Gamepad.kBButton);
+            button5 = new JoystickButton(stick1, Gamepad.kLeftBumper);
+            button6 = new JoystickButton(stick1, Gamepad.kRightBumper);
+            button3 = new JoystickButton(stick1, Gamepad.kRightTrigger);
+        }
         
-        button2 = new JoystickButton(stick1, 1);
-        button2.whenPressed(new DriveIdleCommand());
+        button7.whenPressed(new DriveJoystickCommand());
+        
+        
+        button1.whenPressed(new DriveIdleCommand());
+        
+        button5.whenPressed(new SolenoidReverseCommand());
+        
+        button6.whenPressed(new SolenoidForwardCommand());
+        
+        button3.whenPressed(new SolenoidOffCommand());
     }
     
     public static double getJoy1Z()
     {
-        return stick1.getAxis(Joystick.AxisType.kZ);
+        if(joystickType == 1)
+        {
+            return stick1.getAxis(Joystick.AxisType.kZ);
+        }
+        else
+        {
+            return ((Gamepad)stick1).getX("right");
+        }
     }
     
     public static double getJoy1Y()
     {
-        return stick1.getAxis(Joystick.AxisType.kY);
+        if(joystickType == 1)
+            return stick1.getAxis(Joystick.AxisType.kY);
+        else
+            return ((Gamepad)stick1).getY("left");
     }
 }
 

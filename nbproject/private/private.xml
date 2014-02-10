@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/commands/DriveIdleCommand.java</file>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Drive.java</file>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/OI.java</file>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/commands/DriveJoystickCommand.java</file>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/commands/DriveAngleCommand.java</file>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/commands/DriveDistanceCommand.java</file>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/Robot.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/oi/Gamepad.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Drive/DriveJoystickCommand.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/commands/OneRunCommand.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Drive/Drive.java</file>
         </group>
     </open-files>
 </project-private>

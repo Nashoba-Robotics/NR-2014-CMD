@@ -8,13 +8,17 @@
 package edu.nr.main;
 
 
-import edu.nr.main.commands.DriveDistanceCommand;
-import edu.nr.main.subsystems.Drive;
+import edu.nr.main.commands.OneRunCommand;
+import edu.nr.main.oi.OI;
+import edu.nr.main.subsystems.Drive.DriveDistanceCommand;
+import edu.nr.main.subsystems.Drive.Drive;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.nr.main.commands.DriveAngleCommand;
+import edu.nr.main.subsystems.Drive.DriveAngleCommand;
+import edu.nr.main.subsystems.Pneumatics.Pneumatics;
+import edu.nr.main.subsystems.SolenoidSys;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -29,11 +33,18 @@ public class Robot extends IterativeRobot {
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
-    public static Drive drive;
+    public static Drive drive = null;
+    public static SolenoidSys solenoidSys = null;
+    public static Pneumatics pneumatics = null;
     public void robotInit() 
     {
         SmartDashboard.putNumber("Angle", 90);
-        drive = new Drive();
+        if(drive == null)
+            drive = new Drive();
+        if(solenoidSys == null)
+            solenoidSys = new SolenoidSys();
+        if(pneumatics == null)
+            pneumatics = new Pneumatics();
     }
 
     public void autonomousInit() 
@@ -51,9 +62,11 @@ public class Robot extends IterativeRobot {
 
     public void teleopInit() 
     {
-        SmartDashboard.putData("DriveDistanceCommand", new DriveDistanceCommand(10, 0.8f));
-        SmartDashboard.putData("DriveAngleCommand", new DriveAngleCommand(90, 0.6));
-        //SmartDashboard.putData("Drive", drive);
+        /*SmartDashboard.putData("DriveDistanceCommand", new DriveDistanceCommand(10, 0.8f));
+        SmartDashboard.putData("DriveAngleCommand", new DriveAngleCommand(90, 0.6));*/
+        SmartDashboard.putData(new OneRunCommand(pneumatics.startCompressor, pneumatics));
+        SmartDashboard.putData(new OneRunCommand(pneumatics.stopCompressor, pneumatics));
+        SmartDashboard.putData("Drive", drive);
         OI.init();
     }
 

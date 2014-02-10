@@ -4,20 +4,23 @@
  * and open the template in the editor.
  */
 
-package edu.nr.main.subsystems.Drive;
+package edu.nr.main.commands;
 
-import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  *
  * @author colin
  */
-public class DriveIdleCommand extends Command
+public class OneRunCommand extends Command
 {
-    public DriveIdleCommand()
+    private Runnable run;
+    public OneRunCommand(NamedRunnable run, Subsystem requires)
     {
-        this.requires(Robot.drive);
+        super(run.name);
+        this.run = run;
+        this.requires(requires);
     }
     
     protected void initialize() 
@@ -27,12 +30,12 @@ public class DriveIdleCommand extends Command
 
     protected void execute() 
     {
-        Robot.drive.drive(0, 0);
+        run.run();
     }
 
     protected boolean isFinished() 
     {
-        return false;
+        return true;
     }
 
     protected void end() 

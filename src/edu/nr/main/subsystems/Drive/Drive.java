@@ -1,14 +1,14 @@
 
-package edu.nr.main.subsystems;
+
+package edu.nr.main.subsystems.Drive;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.nr.main.commands.DriveIdleCommand;
-import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive extends Subsystem 
 {
@@ -21,7 +21,7 @@ public class Drive extends Subsystem
         drive.setSafetyEnabled(false);
 
         gyro = new Gyro(1);
-        e1 = new Encoder(1, 2, true, CounterBase.EncodingType.k4X);
+        e1 = new Encoder(5, 6, true, CounterBase.EncodingType.k4X);
         e2 = new Encoder(3,4, false, CounterBase.EncodingType.k4X);
         
         e1.setDistancePerPulse(0.0349065850388889/12);
@@ -30,6 +30,9 @@ public class Drive extends Subsystem
         
         drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
         drive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
+        
+        SmartDashboard.putData("GyroObject", gyro);
+        SmartDashboard.putData("RobotDrive", new Talon(5));
     }
 
     public void initDefaultCommand()
@@ -72,6 +75,22 @@ public class Drive extends Subsystem
     public void resetGyro()
     {
         gyro.reset();
+    }
+    
+    public float getRawEncoder(int which)
+    {
+        if(which == 1)
+        {
+            return e1.getRaw();
+        }
+        else if(which == 2)
+        {
+            return e2.getRaw();
+        }
+        else
+        {
+            throw new RuntimeException("Error: Invalid encoder value");
+        }
     }
 }
 

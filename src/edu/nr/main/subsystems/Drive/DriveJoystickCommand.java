@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 
-package edu.nr.main.commands;
+package edu.nr.main.subsystems.Drive;
 
-import edu.nr.main.OI;
+import edu.nr.main.oi.OI;
 import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -35,12 +35,14 @@ public class DriveJoystickCommand extends Command
         
         SmartDashboard.putNumber("Y axis", ySpeed);
         SmartDashboard.putNumber("Z axis", zSpeed);
+        SmartDashboard.putNumber("Encoder 1", Robot.drive.getRawEncoder(1));
+        SmartDashboard.putNumber("Encoder 2", Robot.drive.getRawEncoder(2));
         if(ySpeed < 0.05 && ySpeed > -0.05)
             ySpeed = 0;
         if(zSpeed < 0.05 && zSpeed > -0.05)
             zSpeed = 0;
         
-        Robot.drive.drive(-ySpeed, -zSpeed);
+        Robot.drive.drive(ySpeed, zSpeed);
     }
 
     protected boolean isFinished() 

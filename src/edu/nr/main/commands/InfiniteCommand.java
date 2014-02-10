@@ -4,30 +4,31 @@
  * and open the template in the editor.
  */
 
-package edu.nr.main.subsystems.Drive;
+package edu.nr.main.commands;
 
-import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  *
  * @author colin
  */
-public class DriveIdleCommand extends Command
+public class InfiniteCommand extends Command
 {
-    public DriveIdleCommand()
+    private Runnable run;
+    public InfiniteCommand(NamedRunnable run, Subsystem requires)
     {
-        this.requires(Robot.drive);
+        super(run.name);
+        this.run = run;
+        this.requires(requires);
     }
     
-    protected void initialize() 
-    {
-        
+    protected void initialize() {
     }
 
     protected void execute() 
     {
-        Robot.drive.drive(0, 0);
+        run.run();
     }
 
     protected boolean isFinished() 
@@ -35,14 +36,10 @@ public class DriveIdleCommand extends Command
         return false;
     }
 
-    protected void end() 
-    {
-        
+    protected void end() {
     }
 
-    protected void interrupted() 
-    {
-        
+    protected void interrupted() {
     }
     
 }
