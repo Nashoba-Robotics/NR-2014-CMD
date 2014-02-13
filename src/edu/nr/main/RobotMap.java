@@ -8,8 +8,14 @@ package edu.nr.main;
  */
 public class RobotMap 
 {
-    public static final int BACK_LEFT_JAG=1;
-    public static final int BACK_RIGHT_JAG=3;
-    public static final int FRONT_LEFT_JAG=2;
-    public static final int FRONT_FRONT_JAG=4;
+    public static final int BACK_LEFT_TALON=1;
+    public static final int BACK_RIGHT_TALON=3;
+    public static final int FRONT_LEFT_TALON=2;
+    public static final int FRONT_FRONT_TALON=4;
+    public static final int ROLLER_JAG = 5;
+    public static final int ROLLER_VICTOR = 7;
+    public static final int WINCH_JAG = 4;
+    
+    public static final int DOG_EAR_SOLENOID_UNDEPLOY = 5;
+    public static final int DOG_EAR_SOLENOID_DEPLOY = 6;
 }

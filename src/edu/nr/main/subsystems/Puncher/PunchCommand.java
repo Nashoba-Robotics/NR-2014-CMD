@@ -4,25 +4,30 @@
  * and open the template in the editor.
  */
 
-package edu.nr.main.subsystems.Pneumatics;
+package edu.nr.main.subsystems.Puncher;
 
 import edu.nr.main.Robot;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  * @author colin
  */
-public class SolenoidOffCommand extends Command
+public class PunchCommand extends Command
 {
-
-    protected void initialize() {
+    public PunchCommand()
+    {
+        this.requires(Robot.puncher);
+    }
+    
+    protected void initialize() 
+    {
+        Robot.puncher.setTentionerSpeed(0);
     }
 
-    protected void execute()
+    protected void execute() 
     {
-        Robot.solenoidSys.set(DoubleSolenoid.Value.kOff);
+        Robot.puncher.punch();
     }
 
     protected boolean isFinished() 
@@ -30,10 +35,14 @@ public class SolenoidOffCommand extends Command
         return true;
     }
 
-    protected void end() {
+    protected void end() 
+    {
+        
     }
 
-    protected void interrupted() {
+    protected void interrupted() 
+    {
+        
     }
     
 }

@@ -8,17 +8,20 @@
 package edu.nr.main;
 
 
-import edu.nr.main.commands.OneRunCommand;
 import edu.nr.main.oi.OI;
-import edu.nr.main.subsystems.Drive.DriveDistanceCommand;
+import edu.nr.main.subsystems.BottomRollers.BottomRollers;
+import edu.nr.main.subsystems.Compressor.Compressor;
+import edu.nr.main.subsystems.Compressor.CompressorStart;
+import edu.nr.main.subsystems.Compressor.CompressorStop;
 import edu.nr.main.subsystems.Drive.Drive;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.nr.main.subsystems.Drive.DriveAngleCommand;
-import edu.nr.main.subsystems.Pneumatics.Pneumatics;
-import edu.nr.main.subsystems.SolenoidSys;
+import edu.nr.main.subsystems.Flower.Flower;
+import edu.nr.main.subsystems.Puncher.PunchCommand;
+import edu.nr.main.subsystems.Puncher.Puncher;
+import edu.nr.main.subsystems.ShooterRotator.ShooterRotator;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -34,17 +37,27 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public static Drive drive = null;
-    public static SolenoidSys solenoidSys = null;
-    public static Pneumatics pneumatics = null;
+    public static BottomRollers rollers = null;
+    public static Flower flower = null;
+    public static Puncher puncher = null;
+    public static ShooterRotator shooterRotator = null;
+    public static Compressor compressor;
+    
     public void robotInit() 
     {
-        SmartDashboard.putNumber("Angle", 90);
         if(drive == null)
             drive = new Drive();
-        if(solenoidSys == null)
-            solenoidSys = new SolenoidSys();
-        if(pneumatics == null)
-            pneumatics = new Pneumatics();
+        if(compressor == null)
+            compressor = new Compressor();
+        if(rollers == null)
+            rollers = new BottomRollers();
+        if(flower == null)
+            flower = new Flower();
+        if(puncher == null)
+            puncher = new Puncher();
+        if(shooterRotator == null)
+            shooterRotator = new ShooterRotator();
+        SmartDashboard.putNumber("Tensioner Speed", 0);
     }
 
     public void autonomousInit() 
@@ -64,8 +77,9 @@ public class Robot extends IterativeRobot {
     {
         /*SmartDashboard.putData("DriveDistanceCommand", new DriveDistanceCommand(10, 0.8f));
         SmartDashboard.putData("DriveAngleCommand", new DriveAngleCommand(90, 0.6));*/
-        SmartDashboard.putData(new OneRunCommand(pneumatics.startCompressor, pneumatics));
-        SmartDashboard.putData(new OneRunCommand(pneumatics.stopCompressor, pneumatics));
+        SmartDashboard.putData(new CompressorStart());
+        SmartDashboard.putData(new CompressorStop());
+        SmartDashboard.putData(new PunchCommand());
         SmartDashboard.putData("Drive", drive);
         OI.init();
     }

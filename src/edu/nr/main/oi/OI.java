@@ -1,11 +1,13 @@
 
 package edu.nr.main.oi;
 
+import edu.nr.main.subsystems.BottomRollers.RollCommand;
 import edu.nr.main.subsystems.Drive.DriveIdleCommand;
 import edu.nr.main.subsystems.Drive.DriveJoystickCommand;
-import edu.nr.main.subsystems.Pneumatics.SolenoidForwardCommand;
-import edu.nr.main.subsystems.Pneumatics.SolenoidOffCommand;
-import edu.nr.main.subsystems.Pneumatics.SolenoidReverseCommand;
+import edu.nr.main.subsystems.Puncher.PunchCommand;
+import edu.nr.main.subsystems.Puncher.ResetDogEarCommand;
+import edu.nr.main.subsystems.Puncher.TensionCommand;
+import edu.nr.main.subsystems.ShooterRotator.ShooterRotationCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -16,8 +18,8 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 public class OI 
 {
     private static Joystick stick1;
-    private static JoystickButton button7, button1, button5, button6, button3;
-    private static int joystickType = 1;
+    private static JoystickButton button7, button1, button5, button6, button3, xButton, rightStickButton, leftStickButton, yButton;
+    private static int joystickType = 2;
     
     public static void setJoystickType(int type)
     {
@@ -43,18 +45,27 @@ public class OI
             button5 = new JoystickButton(stick1, Gamepad.kLeftBumper);
             button6 = new JoystickButton(stick1, Gamepad.kRightBumper);
             button3 = new JoystickButton(stick1, Gamepad.kRightTrigger);
+            xButton = new JoystickButton(stick1, Gamepad.kXButton);
+            rightStickButton = new JoystickButton(stick1, Gamepad.kRightStickButton);
+            leftStickButton = new JoystickButton(stick1, Gamepad.kLeftStickButton);
+            yButton = new JoystickButton(stick1, Gamepad.kYButton);
         }
         
         button7.whenPressed(new DriveJoystickCommand());
         
+        button6.whileHeld(new ShooterRotationCommand(0.4));
+        
+        button5.whileHeld(new ShooterRotationCommand(-0.4));
+        
+        button3.whileHeld(new TensionCommand(0.4f));
+        
+        xButton.whenPressed(new PunchCommand());
         
         button1.whenPressed(new DriveIdleCommand());
+        rightStickButton.whenPressed(new RollCommand(0.8));
+        leftStickButton.whenPressed(new RollCommand(0));
         
-        button5.whenPressed(new SolenoidReverseCommand());
-        
-        button6.whenPressed(new SolenoidForwardCommand());
-        
-        button3.whenPressed(new SolenoidOffCommand());
+        yButton.whenPressed(new ResetDogEarCommand());
     }
     
     public static double getJoy1Z()

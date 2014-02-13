@@ -4,28 +4,30 @@
  * and open the template in the editor.
  */
 
-package edu.nr.main.subsystems.Pneumatics;
+package edu.nr.main.subsystems.Compressor;
 
 import edu.nr.main.Robot;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  * @author colin
  */
-public class SolenoidReverseCommand extends Command
+public class CompressorStop extends Command
 {
-    public SolenoidReverseCommand()
+    public CompressorStop()
     {
-        this.requires(Robot.solenoidSys);
+        super("Compressor Stop");
+        this.requires(Robot.compressor);
     }
-    protected void initialize() {
+    protected void initialize()
+    {
+        
     }
 
     protected void execute()
     {
-        Robot.solenoidSys.set(DoubleSolenoid.Value.kReverse);
+        Robot.compressor.stopCompressor();
     }
 
     protected boolean isFinished()

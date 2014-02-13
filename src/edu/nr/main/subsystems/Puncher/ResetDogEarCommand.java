@@ -4,30 +4,34 @@
  * and open the template in the editor.
  */
 
-package edu.nr.main.subsystems.Pneumatics;
+package edu.nr.main.subsystems.Puncher;
 
 import edu.nr.main.Robot;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  * @author colin
  */
-public class SolenoidIdleCommand extends Command
+public class ResetDogEarCommand extends Command
 {
-    public SolenoidIdleCommand()
+    public ResetDogEarCommand()
     {
-        this.requires(Robot.solenoidSys);
+        super("Reset Dog Ear");
+        this.requires(Robot.puncher);
     }
     protected void initialize() {
     }
 
-    protected void execute() {
+    protected void execute() 
+    {
+        Robot.puncher.resetDogEar();
     }
 
     protected boolean isFinished()
     {
-        return false;
+        return true;
     }
 
     protected void end() {

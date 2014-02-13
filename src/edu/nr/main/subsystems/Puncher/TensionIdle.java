@@ -4,40 +4,38 @@
  * and open the template in the editor.
  */
 
-package edu.nr.main.commands;
+package edu.nr.main.subsystems.Puncher;
 
+import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  *
  * @author colin
  */
-public class InfiniteCommand extends Command
+public class TensionIdle extends Command
 {
-    private Runnable run;
-    public InfiniteCommand(NamedRunnable run, Subsystem requires)
+    public TensionIdle()
     {
-        super(run.name);
-        this.run = run;
-        this.requires(requires);
+        super("Tension Idle");
+        this.requires(Robot.puncher);
     }
-    
     protected void initialize() {
     }
 
     protected void execute() 
     {
-        if(run != null)
-            run.run();
+        Robot.puncher.setTentionerSpeed(0);
     }
 
-    protected boolean isFinished() 
+    protected boolean isFinished()
     {
         return false;
     }
 
-    protected void end() {
+    protected void end() 
+    {
+        
     }
 
     protected void interrupted() {
