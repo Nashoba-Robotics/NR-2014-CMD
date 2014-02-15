@@ -6,17 +6,24 @@
 
 package edu.nr.main.subsystems.Flower;
 
-import edu.nr.main.commands.InfiniteCommand;
+import edu.nr.main.subsystems.Printable;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  * @author colin
  */
-public class Flower extends Subsystem
+public class Flower extends Subsystem implements Printable
 {
     protected void initDefaultCommand() 
     {
-        this.setDefaultCommand(new InfiniteCommand(null, this));
+        this.setDefaultCommand(new FlowerIdleCommand());
+    }
+
+    public void sendInfo() 
+    {
+        SmartDashboard.putData("Flower", this);
+        SmartDashboard.putData("Flower Idle Command", new FlowerIdleCommand());
     }
 }

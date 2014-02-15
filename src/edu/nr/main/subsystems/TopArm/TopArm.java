@@ -6,17 +6,39 @@
 
 package edu.nr.main.subsystems.TopArm;
 
-import edu.nr.main.commands.InfiniteCommand;
+import edu.nr.main.RobotMap;
+import edu.nr.main.subsystems.Printable;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  * @author colin
  */
-public class TopArm extends Subsystem
+public class TopArm extends Subsystem implements Printable
 {
+    private DoubleSolenoid solenoid;
     protected void initDefaultCommand()
     {
-        setDefaultCommand(new InfiniteCommand(null, this));
+        setDefaultCommand(new TopArmIdleCommand());
+        solenoid = new DoubleSolenoid(RobotMap.TOP_ARM_SOLENOID_DEPLOY, RobotMap.TOP_ARM_SOLENOID_UNDEPLOY);
+    }
+    
+    public void deploy()
+    {
+        solenoid.set(DoubleSolenoid.Value.kForward);
+    }
+    
+    public void undeploy()
+    {
+        solenoid.set(DoubleSolenoid.Value.kReverse);
+    }
+
+    public void sendInfo() 
+    {
+        SmartDashboard.putData(this);
+        SmartDashboard.putData(new TopArmDownCommand());
+        SmartDashboard.putData(new TopArmUpCommand());
     }
 }

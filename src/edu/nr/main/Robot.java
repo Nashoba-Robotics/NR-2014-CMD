@@ -22,6 +22,7 @@ import edu.nr.main.subsystems.Flower.Flower;
 import edu.nr.main.subsystems.Puncher.PunchCommand;
 import edu.nr.main.subsystems.Puncher.Puncher;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotator;
+import edu.nr.main.subsystems.TopArm.TopArm;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -42,22 +43,24 @@ public class Robot extends IterativeRobot {
     public static Puncher puncher = null;
     public static ShooterRotator shooterRotator = null;
     public static Compressor compressor;
+    public static TopArm topArm;
     
     public void robotInit() 
     {
-        if(drive == null)
-            drive = new Drive();
-        if(compressor == null)
-            compressor = new Compressor();
-        if(rollers == null)
-            rollers = new BottomRollers();
-        if(flower == null)
-            flower = new Flower();
-        if(puncher == null)
-            puncher = new Puncher();
-        if(shooterRotator == null)
-            shooterRotator = new ShooterRotator();
+        drive = new Drive();
+        compressor = new Compressor();
+        rollers = new BottomRollers();
+        puncher = new Puncher();
+        shooterRotator = new ShooterRotator();
+        topArm = new TopArm();
+        flower = new Flower();
+        
         SmartDashboard.putNumber("Tensioner Speed", 0);
+        SmartDashboard.putData(rollers);
+        
+        topArm.sendInfo();
+        puncher.sendInfo();
+        drive.sendInfo();
     }
 
     public void autonomousInit() 
@@ -77,10 +80,6 @@ public class Robot extends IterativeRobot {
     {
         /*SmartDashboard.putData("DriveDistanceCommand", new DriveDistanceCommand(10, 0.8f));
         SmartDashboard.putData("DriveAngleCommand", new DriveAngleCommand(90, 0.6));*/
-        SmartDashboard.putData(new CompressorStart());
-        SmartDashboard.putData(new CompressorStop());
-        SmartDashboard.putData(new PunchCommand());
-        SmartDashboard.putData("Drive", drive);
         OI.init();
     }
 
@@ -90,6 +89,7 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() 
     {
         Scheduler.getInstance().run();
+        //SmartDashboard.putNumber("Linear encoder Distance", puncher.getLinearEncoderDistance());
     }
     
     /**

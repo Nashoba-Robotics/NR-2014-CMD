@@ -4,32 +4,30 @@
  * and open the template in the editor.
  */
 
-package edu.nr.main.commands;
+package edu.nr.main.subsystems.BottomRollers;
 
+import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  *
  * @author colin
  */
-public class InfiniteCommand extends Command
+public class StopRollCommand extends Command
 {
-    private Runnable run;
-    public InfiniteCommand(NamedRunnable run, Subsystem requires)
+    public StopRollCommand()
     {
-        super(run.name);
-        this.run = run;
-        this.requires(requires);
+        super("Stop Roll");
+        this.requires(Robot.rollers);
     }
-    
-    protected void initialize() {
+    protected void initialize()
+    {
+        
     }
 
     protected void execute() 
     {
-        if(run != null)
-            run.run();
+        Robot.rollers.stopRoll();
     }
 
     protected boolean isFinished() 

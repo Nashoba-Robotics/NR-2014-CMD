@@ -4,17 +4,13 @@
  * and open the template in the editor.
  */
 
-package edu.nr.main.commands;
+package edu.nr.main.subsystems;
 
 /**
  *
  * @author colin
  */
-public abstract class NamedRunnable implements Runnable
+public interface Printable 
 {
-    public String name;
-    public NamedRunnable(String name)
-    {
-        this.name = name;
-    }
+    public void sendInfo();
 }

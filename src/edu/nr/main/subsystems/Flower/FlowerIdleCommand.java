@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package edu.nr.main.subsystems.TopArm;
+package edu.nr.main.subsystems.Flower;
 
 import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -13,26 +13,24 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  * @author colin
  */
-public class TopArmDownCommand extends Command
+public class FlowerIdleCommand extends Command
 {
-    public TopArmDownCommand()
+    public FlowerIdleCommand()
     {
-        super("Top Arm Down");
-        this.requires(Robot.topArm);
+        super("Flower Idle Command");
+        this.requires(Robot.flower);
     }
-    protected void initialize() 
-    {
-        
+    protected void initialize() {
     }
 
-    protected void execute()
+    protected void execute() 
     {
-        Robot.topArm.deploy();
+        //Nothing to do here
     }
 
     protected boolean isFinished() 
     {
-         return true;
+        return false;
     }
 
     protected void end() {

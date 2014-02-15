@@ -15,11 +15,9 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class RollCommand extends Command
 {
-    private double speed;
-    public RollCommand(double speed)
+    public RollCommand()
     {
         super("Roll Command");
-        this.speed = speed;
         this.requires(Robot.rollers);
     }
     
@@ -30,7 +28,7 @@ public class RollCommand extends Command
 
     protected void execute() 
     {
-        Robot.rollers.setRollSpeed(speed);
+        Robot.rollers.startRoll();
     }
 
     protected boolean isFinished() 
@@ -40,12 +38,12 @@ public class RollCommand extends Command
 
     protected void end()
     {
-        Robot.rollers.setRollSpeed(0);
+        Robot.rollers.stopRoll();
     }
 
     protected void interrupted() 
     {
-        Robot.rollers.setRollSpeed(0);
+        Robot.rollers.stopRoll();
     }
     
 }

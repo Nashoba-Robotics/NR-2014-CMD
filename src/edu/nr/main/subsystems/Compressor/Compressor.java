@@ -6,15 +6,17 @@
 
 package edu.nr.main.subsystems.Compressor;
 
+import edu.nr.main.subsystems.Printable;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  * @author colin
  */
-public class Compressor extends Subsystem
+public class Compressor extends Subsystem implements Printable
 {
     private Relay relay;
     DigitalInput limit;
@@ -24,7 +26,7 @@ public class Compressor extends Subsystem
         relay = new Relay(1);
         relay.setDirection(Relay.Direction.kForward);
         
-        limit = new DigitalInput(3);
+        //limit = new DigitalInput(3);
     }
     
     protected void initDefaultCommand()
@@ -44,6 +46,14 @@ public class Compressor extends Subsystem
     
     public boolean getPressureSensor()
     {
-        return limit.get();
+        return false;
+        //return limit.get();
+    }
+
+    public void sendInfo() 
+    {
+        SmartDashboard.putData("Compressor Start", new CompressorStart());
+        SmartDashboard.putData("Compressor Stop", new CompressorStop());
+        SmartDashboard.putData("Compressor", this);
     }
 }

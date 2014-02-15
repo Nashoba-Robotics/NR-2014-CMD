@@ -2,6 +2,8 @@
 
 package edu.nr.main.subsystems.Drive;
 
+import edu.nr.main.RobotMap;
+import edu.nr.main.subsystems.Printable;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
@@ -10,7 +12,7 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Drive extends Subsystem 
+public class Drive extends Subsystem implements Printable
 {
     private RobotDrive drive = null;
     private Gyro gyro;
@@ -21,8 +23,8 @@ public class Drive extends Subsystem
         drive.setSafetyEnabled(false);
 
         gyro = new Gyro(1);
-        e1 = new Encoder(5, 6, true, CounterBase.EncodingType.k4X);
-        e2 = new Encoder(3,4, false, CounterBase.EncodingType.k4X);
+        e1 = new Encoder(RobotMap.ENCODER_1_A, RobotMap.ENCODER_1_B, false, CounterBase.EncodingType.k4X);
+        e2 = new Encoder(RobotMap.ENCODER_2_A, RobotMap.ENCODER_2_B, false, CounterBase.EncodingType.k4X);
         
         e1.setDistancePerPulse(0.0349065850388889/12);
         e2.setDistancePerPulse(0.0349065850388889/12);
@@ -31,8 +33,6 @@ public class Drive extends Subsystem
         drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
         drive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
         
-        SmartDashboard.putData("GyroObject", gyro);
-        SmartDashboard.putData("RobotDrive", new Talon(5));
     }
 
     public void initDefaultCommand()
@@ -77,20 +77,27 @@ public class Drive extends Subsystem
         gyro.reset();
     }
     
-    public float getRawEncoder(int which)
+    public double getRawEncoder(int which)
     {
         if(which == 1)
         {
-            return e1.getRaw();
+            return e1.getDistance();
         }
         else if(which == 2)
         {
-            return e2.getRaw();
+            return e2.getDistance();
         }
         else
         {
             throw new RuntimeException("Error: Invalid encoder value");
         }
+    }
+
+    public void sendInfo() 
+    {
+        SmartDashboard.putData("Drive", this);
+        SmartDashboard.putData("Drive Idle Command", new DriveIdleCommand());
+        SmartDashboard.putData("Drive Joystick Command", new DriveJoystickCommand());
     }
 }
 

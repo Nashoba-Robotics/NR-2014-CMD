@@ -13,26 +13,21 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  * @author colin
  */
-public class TopArmDownCommand extends Command
+public class TopArmIdleCommand extends Command
 {
-    public TopArmDownCommand()
+    public TopArmIdleCommand()
     {
-        super("Top Arm Down");
         this.requires(Robot.topArm);
     }
-    protected void initialize() 
-    {
-        
+    protected void initialize() {
     }
 
-    protected void execute()
-    {
-        Robot.topArm.deploy();
+    protected void execute() {
     }
 
     protected boolean isFinished() 
     {
-         return true;
+        return false;
     }
 
     protected void end() {

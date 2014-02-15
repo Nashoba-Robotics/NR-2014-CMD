@@ -6,15 +6,17 @@
 
 package edu.nr.main.subsystems.ShooterRotator;
 
+import edu.nr.main.subsystems.Printable;
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  * @author colin
  */
-public class ShooterRotator extends Subsystem
+public class ShooterRotator extends Subsystem implements Printable
 {
     private CANJaguar rotationJag;
     protected void initDefaultCommand() 
@@ -52,5 +54,13 @@ public class ShooterRotator extends Subsystem
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public void sendInfo() 
+    {
+        SmartDashboard.putData("Shooter Rotator", this);
+        SmartDashboard.putData("Shooter Rotator Idle", new ShooterRotatorIdle());
+        SmartDashboard.putData("Shooter Rotation (0.4)", new ShooterRotationCommand(0.4));
+        SmartDashboard.putData("Shooter Rotation (-0.4)", new ShooterRotationCommand(-0.4));
     }
 }
