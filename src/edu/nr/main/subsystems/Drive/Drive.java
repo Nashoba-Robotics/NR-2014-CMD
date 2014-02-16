@@ -6,6 +6,7 @@ import edu.nr.main.RobotMap;
 import edu.nr.main.subsystems.Printable;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.CounterBase;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -17,6 +18,7 @@ public class Drive extends Subsystem implements Printable
     private RobotDrive drive = null;
     private Gyro gyro;
     private Encoder e1, e2;
+    private DoubleSolenoid shifter;
     public Drive()
     {
         drive = new RobotDrive(new Talon(1),new Talon(2),new Talon(3),new Talon(4));
@@ -33,6 +35,17 @@ public class Drive extends Subsystem implements Printable
         drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
         drive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
         
+        shifter = new DoubleSolenoid(RobotMap.SHIFTER_ENGAGE, RobotMap.SHIFTER_DISENGAGE);
+    }
+    
+    public void setFirstGear()
+    {
+        shifter.set(DoubleSolenoid.Value.kForward);
+    }
+    
+    public void setSecondGear()
+    {
+        shifter.set(DoubleSolenoid.Value.kReverse);
     }
 
     public void initDefaultCommand()
@@ -98,6 +111,9 @@ public class Drive extends Subsystem implements Printable
         SmartDashboard.putData("Drive", this);
         SmartDashboard.putData("Drive Idle Command", new DriveIdleCommand());
         SmartDashboard.putData("Drive Joystick Command", new DriveJoystickCommand());
+        SmartDashboard.putData("Shift First Gear", new ShiftCommand(true));
+        SmartDashboard.putData("Shift Second Gear", new ShiftCommand(false));
+        SmartDashboard.putData("Drive Distance", new DriveDistanceCommand(10f, 0.6f));
     }
 }
 

@@ -33,9 +33,6 @@ public class BottomRollers extends Subsystem implements Printable
         Victor roller2 = new Victor(RobotMap.ROLLER_VICTOR);
         roller2.setSafetyEnabled(false);
         rollers = new RollerPair(roller1, roller2);
-        
-        SmartDashboard.putNumber("Jag Speed", 0.8);
-        SmartDashboard.putNumber("Victor Speed", 0.8);
     }
     protected void initDefaultCommand() 
     {
@@ -55,8 +52,8 @@ public class BottomRollers extends Subsystem implements Printable
     public void sendInfo() 
     {
         SmartDashboard.putData("Bottom Rollers", this);
-        SmartDashboard.putData("First Roller", rollers.getJag());
-        SmartDashboard.putData("Second Roller", rollers.getVictor());
+        //SmartDashboard.putData("First Roller", rollers.getJag());
+        //SmartDashboard.putData("Second Roller", rollers.getVictor());
         SmartDashboard.putData("Roll Command", new RollCommand());
         SmartDashboard.putData("Stop Roll", new StopRollCommand());
     }

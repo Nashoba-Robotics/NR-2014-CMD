@@ -33,12 +33,13 @@ public class Puncher extends Subsystem implements Printable
             winch = new CANJaguar(RobotMap.WINCH_JAG);
             winch.configEncoderCodesPerRev(250);
             winch.setPositionReference(CANJaguar.PositionReference.kQuadEncoder);
+            winch.setSpeedReference(CANJaguar.SpeedReference.kEncoder);
             winch.setSafetyEnabled(false);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
         dogEar = new DoubleSolenoid(RobotMap.DOG_EAR_SOLENOID_DEPLOY, RobotMap.DOG_EAR_SOLENOID_UNDEPLOY);
-        dogEar.set(Value.kForward);
+        dogEar.set(Value.kReverse);
     }
     
     protected void initDefaultCommand()
@@ -48,12 +49,12 @@ public class Puncher extends Subsystem implements Printable
     
     public void punch() 
     {
-        dogEar.set(Value.kReverse);
+        dogEar.set(Value.kForward);
     }
     
     public void resetDogEar()
     {
-        dogEar.set(Value.kForward);
+        dogEar.set(Value.kReverse);
     }
     
     public void setTentionerSpeed(float speed) 

@@ -5,9 +5,12 @@
         <group>
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/TopArm/TopArmUpCommand.java</file>
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Flower/Flower.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/OffBoardCompressor/ExtCompressorOn.java</file>
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/ResetDogEarCommand.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/OffBoardCompressor/OffBoardCompressor.java</file>
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/TopArm/TopArm.java</file>
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/oi/OI.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Camera/CameraOnCommand.java</file>
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/TensionIdle.java</file>
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/ShooterRotator/ShooterRotatorIdle.java</file>
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Compressor/CompressorStop.java</file>
@@ -15,9 +18,11 @@
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Compressor/Compressor.java</file>
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/Robot.java</file>
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/TensionCommand.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Camera/CameraIdle.java</file>
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Drive/Drive.java</file>
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Compressor/CompressorStart.java</file>
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/RobotMap.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Drive/ShiftCommand.java</file>
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/BottomRollers/StopRollCommand.java</file>
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/ShooterRotator/ShooterRotator.java</file>
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/Puncher.java</file>
@@ -27,10 +32,14 @@
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Drive/DriveJoystickCommand.java</file>
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/TopArm/TopArmIdleCommand.java</file>
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Compressor/CompressorIdle.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/OffBoardCompressor/ExtCompressorOff.java</file>
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/oi/Gamepad.java</file>
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Flower/FlowerIdleCommand.java</file>
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/TopArm/TopArmDownCommand.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/OffBoardCompressor/ExtCompressorIdle.java</file>
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/PunchCommand.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Camera/Camera.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Drive/DriveDistanceCommand.java</file>
         </group>
     </open-files>
 </project-private>

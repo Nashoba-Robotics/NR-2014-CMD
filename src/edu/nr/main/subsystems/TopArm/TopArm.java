@@ -8,7 +8,9 @@ package edu.nr.main.subsystems.TopArm;
 
 import edu.nr.main.RobotMap;
 import edu.nr.main.subsystems.Printable;
+import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -19,10 +21,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class TopArm extends Subsystem implements Printable
 {
     private DoubleSolenoid solenoid;
+    CANJaguar jag;
     protected void initDefaultCommand()
     {
         setDefaultCommand(new TopArmIdleCommand());
         solenoid = new DoubleSolenoid(RobotMap.TOP_ARM_SOLENOID_DEPLOY, RobotMap.TOP_ARM_SOLENOID_UNDEPLOY);
+        try {
+            jag = new CANJaguar(RobotMap.TOP_ARM_JAG);
+        } catch (CANTimeoutException ex) {
+            System.err.println("Error: couldn't create top arm jag!!");
+        }
     }
     
     public void deploy()
@@ -33,6 +41,15 @@ public class TopArm extends Subsystem implements Printable
     public void undeploy()
     {
         solenoid.set(DoubleSolenoid.Value.kReverse);
+    }
+    
+    public void runTopArm(double speed)
+    {
+        try {
+            jag.setX(speed);
+        } catch (CANTimeoutException ex) {
+            System.out.println("ERROR: Couldn't set top arm jag speed");
+        }
     }
 
     public void sendInfo() 

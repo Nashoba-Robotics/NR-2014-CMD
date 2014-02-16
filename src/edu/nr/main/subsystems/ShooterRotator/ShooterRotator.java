@@ -6,6 +6,7 @@
 
 package edu.nr.main.subsystems.ShooterRotator;
 
+import edu.nr.main.RobotMap;
 import edu.nr.main.subsystems.Printable;
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
@@ -19,11 +20,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ShooterRotator extends Subsystem implements Printable
 {
     private CANJaguar rotationJag;
-    protected void initDefaultCommand() 
+    public ShooterRotator()
     {
         try 
         {
-            rotationJag = new CANJaguar(4);
+            rotationJag = new CANJaguar(RobotMap.SHOOTER_ROTATION_JAG);
             rotationJag.configNeutralMode(CANJaguar.NeutralMode.kBrake);
             rotationJag.setPositionReference(CANJaguar.PositionReference.kPotentiometer);
             rotationJag.configPotentiometerTurns(1);
@@ -32,6 +33,10 @@ public class ShooterRotator extends Subsystem implements Printable
         {
             ex.printStackTrace();
         }
+    }
+    protected void initDefaultCommand() 
+    {
+        this.setDefaultCommand(new ShooterRotatorIdle());
     }
     
     public double getRotation()
@@ -49,9 +54,11 @@ public class ShooterRotator extends Subsystem implements Printable
     
     public void rotate(double speed)
     {
-        try {
+        try 
+        {
             rotationJag.setX(speed);
-        } catch (CANTimeoutException ex) {
+        }
+        catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
     }
@@ -60,7 +67,7 @@ public class ShooterRotator extends Subsystem implements Printable
     {
         SmartDashboard.putData("Shooter Rotator", this);
         SmartDashboard.putData("Shooter Rotator Idle", new ShooterRotatorIdle());
-        SmartDashboard.putData("Shooter Rotation (0.4)", new ShooterRotationCommand(0.4));
-        SmartDashboard.putData("Shooter Rotation (-0.4)", new ShooterRotationCommand(-0.4));
+//SmartDashboard.putData("Shooter Rotation (0.4)", new ShooterRotationCommand(0.4));
+        //SmartDashboard.putData("Shooter Rotation (-0.4)", new ShooterRotationCommand(-0.4));
     }
 }

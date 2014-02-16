@@ -10,6 +10,7 @@ package edu.nr.main;
 
 import edu.nr.main.oi.OI;
 import edu.nr.main.subsystems.BottomRollers.BottomRollers;
+import edu.nr.main.subsystems.Camera.Camera;
 import edu.nr.main.subsystems.Compressor.Compressor;
 import edu.nr.main.subsystems.Compressor.CompressorStart;
 import edu.nr.main.subsystems.Compressor.CompressorStop;
@@ -19,6 +20,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.nr.main.subsystems.Flower.Flower;
+import edu.nr.main.subsystems.OffBoardCompressor.OffBoardCompressor;
 import edu.nr.main.subsystems.Puncher.PunchCommand;
 import edu.nr.main.subsystems.Puncher.Puncher;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotator;
@@ -44,6 +46,8 @@ public class Robot extends IterativeRobot {
     public static ShooterRotator shooterRotator = null;
     public static Compressor compressor;
     public static TopArm topArm;
+    public static OffBoardCompressor extCompressor;
+    public static Camera camera;
     
     public void robotInit() 
     {
@@ -54,6 +58,8 @@ public class Robot extends IterativeRobot {
         shooterRotator = new ShooterRotator();
         topArm = new TopArm();
         flower = new Flower();
+        extCompressor = new OffBoardCompressor();
+        camera = new Camera();
         
         SmartDashboard.putNumber("Tensioner Speed", 0);
         SmartDashboard.putData(rollers);
@@ -61,6 +67,10 @@ public class Robot extends IterativeRobot {
         topArm.sendInfo();
         puncher.sendInfo();
         drive.sendInfo();
+        rollers.sendInfo();
+        shooterRotator.sendInfo();
+        compressor.sendInfo();
+        extCompressor.sendInfo();
     }
 
     public void autonomousInit() 
@@ -89,6 +99,11 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() 
     {
         Scheduler.getInstance().run();
+        SmartDashboard.putNumber("Potentiometer",Robot.shooterRotator.getRotation());
+        SmartDashboard.putNumber("Linear Encoder", Robot.puncher.getLinearEncoderDistance());
+        SmartDashboard.putNumber("Encoder 1", Robot.drive.getRawEncoder(1));
+        SmartDashboard.putNumber("Encoder 2", Robot.drive.getRawEncoder(2));
+        
         //SmartDashboard.putNumber("Linear encoder Distance", puncher.getLinearEncoderDistance());
     }
     

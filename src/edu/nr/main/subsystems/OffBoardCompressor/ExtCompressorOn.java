@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package edu.nr.main.subsystems.ShooterRotator;
+package edu.nr.main.subsystems.OffBoardCompressor;
 
 import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -13,27 +13,23 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  * @author colin
  */
-public class ShooterRotatorIdle extends Command
+public class ExtCompressorOn extends Command
 {
-    public ShooterRotatorIdle()
+    public ExtCompressorOn()
     {
-        super("Shooter Rotator Idle");
-        this.requires(Robot.shooterRotator);
+        this.requires(Robot.extCompressor);
     }
-    
-    protected void initialize() 
-    {
-        
+    protected void initialize() {
     }
 
     protected void execute() 
     {
-        Robot.shooterRotator.rotate(0);
+        Robot.extCompressor.startCompressor();
     }
 
     protected boolean isFinished() 
     {
-        return false;
+        return true;
     }
 
     protected void end() {

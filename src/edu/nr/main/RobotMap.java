@@ -22,6 +22,8 @@ public class RobotMap
     public static final int ROLLER_JAG = 2;
     public static final int ROLLER_VICTOR = 5;
     public static final int WINCH_JAG = 3;
+    public static final int TOP_ARM_JAG = 1;
+    public static final int SHOOTER_ROTATION_JAG = 4;
     
     
     //Pneumatics
@@ -30,4 +32,7 @@ public class RobotMap
     public static final int TOP_ARM_SOLENOID_DEPLOY = 3;
     public static final int TOP_ARM_SOLENOID_UNDEPLOY=4;
     public static final int PRESSURE_LIMIT = 3;
+    public static final int SHIFTER_ENGAGE = 1;
+    public static final int SHIFTER_DISENGAGE = 2;
+    public static final int OFF_BOARD_COMPRESSOR_RELAY=2;
 }

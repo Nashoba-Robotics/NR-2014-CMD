@@ -52,6 +52,9 @@ public class OI
         bButton.whenPressed(new StopRollCommand());
         
         yButton.whenPressed(new ResetDogEarCommand());
+        
+        rightBumperButton.whileHeld(new ShooterRotationCommand(0.5, 1));
+        leftBumperButton.whileHeld(new ShooterRotationCommand(-0.5, 0));
     }
     
     public static double getJoy1Z()

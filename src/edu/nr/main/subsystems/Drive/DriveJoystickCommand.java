@@ -33,8 +33,8 @@ public class DriveJoystickCommand extends Command
         double zSpeed = OI.getJoy1Z();
         
         
-        SmartDashboard.putNumber("Y axis", ySpeed);
-        SmartDashboard.putNumber("Z axis", zSpeed);
+        //SmartDashboard.putNumber("Y axis", ySpeed);
+        //SmartDashboard.putNumber("Z axis", zSpeed);
         SmartDashboard.putNumber("Encoder 1", Robot.drive.getRawEncoder(1));
         SmartDashboard.putNumber("Encoder 2", Robot.drive.getRawEncoder(2));
         if(ySpeed < 0.05 && ySpeed > -0.05)

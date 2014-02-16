@@ -26,6 +26,7 @@ public class TopArmUpCommand extends Command
     protected void execute() 
     {
         Robot.topArm.undeploy();
+        //Robot.topArm.runTopArm(0);
     }
 
     protected boolean isFinished() 

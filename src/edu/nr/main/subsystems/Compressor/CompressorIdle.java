@@ -8,6 +8,7 @@ package edu.nr.main.subsystems.Compressor;
 
 import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -36,6 +37,8 @@ public class CompressorIdle extends Command
             //Uncomment if we want automatic pressurizing
             //Robot.compressor.startCompressor();
         }
+        
+        SmartDashboard.putBoolean("Pressure Limit", Robot.compressor.getPressureSensor());
     }
 
     protected boolean isFinished()

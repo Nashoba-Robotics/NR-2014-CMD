@@ -16,9 +16,11 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ShooterRotationCommand extends Command
 {
     private double speed;
-    public ShooterRotationCommand(double speed)
+    private double destination;
+    public ShooterRotationCommand(double speed, double destination)
     {
         this.speed = speed;
+        this.destination = destination;
         this.requires(Robot.shooterRotator);
     }
     
@@ -27,6 +29,10 @@ public class ShooterRotationCommand extends Command
 
     protected void execute()
     {
+        /*double err = destination - Robot.shooterRotator.getRotation();
+        double proportionalStopDistance = 0.2;
+        double proportionalSpeed = ((1/proportionalStopDistance)*err)*speed;
+        double finalSpeed = Math.min(speed, proportionalSpeed);*/
         Robot.shooterRotator.rotate(speed);
     }
 
