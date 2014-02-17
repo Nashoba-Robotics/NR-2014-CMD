@@ -26,6 +26,7 @@ public class TopArm extends Subsystem implements Printable
     {
         setDefaultCommand(new TopArmIdleCommand());
         solenoid = new DoubleSolenoid(RobotMap.TOP_ARM_SOLENOID_DEPLOY, RobotMap.TOP_ARM_SOLENOID_UNDEPLOY);
+        deploy();
         try {
             jag = new CANJaguar(RobotMap.TOP_ARM_JAG);
         } catch (CANTimeoutException ex) {
@@ -46,7 +47,7 @@ public class TopArm extends Subsystem implements Printable
     public void runTopArm(double speed)
     {
         try {
-            jag.setX(speed);
+            jag.setX(-speed);
         } catch (CANTimeoutException ex) {
             System.out.println("ERROR: Couldn't set top arm jag speed");
         }
@@ -57,5 +58,7 @@ public class TopArm extends Subsystem implements Printable
         SmartDashboard.putData(this);
         SmartDashboard.putData(new TopArmDownCommand());
         SmartDashboard.putData(new TopArmUpCommand());
+        SmartDashboard.putData(new TopArmRunCommand());
+        SmartDashboard.putData(new TopArmStopCommand());
     }
 }

@@ -9,6 +9,10 @@ import edu.nr.main.subsystems.Puncher.PunchCommand;
 import edu.nr.main.subsystems.Puncher.ResetDogEarCommand;
 import edu.nr.main.subsystems.Puncher.TensionCommand;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotationCommand;
+import edu.nr.main.subsystems.TopArm.TopArmDownCommand;
+import edu.nr.main.subsystems.TopArm.TopArmRunCommand;
+import edu.nr.main.subsystems.TopArm.TopArmStopCommand;
+import edu.nr.main.subsystems.TopArm.TopArmUpCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -53,8 +57,13 @@ public class OI
         
         yButton.whenPressed(new ResetDogEarCommand());
         
-        rightBumperButton.whileHeld(new ShooterRotationCommand(0.5, 1));
-        leftBumperButton.whileHeld(new ShooterRotationCommand(-0.5, 0));
+        rightBumperButton.whenPressed(new TopArmRunCommand());
+        leftBumperButton.whenPressed(new TopArmStopCommand());
+        
+        leftStickButton.whenPressed(new TopArmDownCommand());
+        rightStickButton.whenPressed(new TopArmUpCommand());
+        //rightBumperButton.whileHeld(new ShooterRotationCommand(0.3, 1));
+        //leftBumperButton.whileHeld(new ShooterRotationCommand(-0.3, 0));
     }
     
     public static double getJoy1Z()

@@ -12,9 +12,12 @@ import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.ADXL345_I2C;
+import edu.wpi.first.wpilibj.ADXL345_I2C.DataFormat_Range;
 
 public class Drive extends Subsystem implements Printable
 {
+    private ADXL345_I2C accel;
     private RobotDrive drive = null;
     private Gyro gyro;
     private Encoder e1, e2;
@@ -24,7 +27,7 @@ public class Drive extends Subsystem implements Printable
         drive = new RobotDrive(new Talon(1),new Talon(2),new Talon(3),new Talon(4));
         drive.setSafetyEnabled(false);
 
-        gyro = new Gyro(1);
+        
         e1 = new Encoder(RobotMap.ENCODER_1_A, RobotMap.ENCODER_1_B, false, CounterBase.EncodingType.k4X);
         e2 = new Encoder(RobotMap.ENCODER_2_A, RobotMap.ENCODER_2_B, false, CounterBase.EncodingType.k4X);
         
@@ -32,10 +35,24 @@ public class Drive extends Subsystem implements Printable
         e2.setDistancePerPulse(0.0349065850388889/12);
         startEncoders();
         
+        gyro = new Gyro(RobotMap.GYRO);
+        
         drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
         drive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
         
         shifter = new DoubleSolenoid(RobotMap.SHIFTER_ENGAGE, RobotMap.SHIFTER_DISENGAGE);
+    }
+    
+    public void initGyroAccel()
+    {
+        accel = new ADXL345_I2C(1, DataFormat_Range.k2G);
+        
+        gyro.reset();
+    }
+    
+    public double getAccel(ADXL345_I2C.Axes axis)
+    {
+        return accel.getAcceleration(axis);
     }
     
     public void setFirstGear()

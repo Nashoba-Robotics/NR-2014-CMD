@@ -12,8 +12,6 @@ import edu.nr.main.oi.OI;
 import edu.nr.main.subsystems.BottomRollers.BottomRollers;
 import edu.nr.main.subsystems.Camera.Camera;
 import edu.nr.main.subsystems.Compressor.Compressor;
-import edu.nr.main.subsystems.Compressor.CompressorStart;
-import edu.nr.main.subsystems.Compressor.CompressorStop;
 import edu.nr.main.subsystems.Drive.Drive;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -21,10 +19,15 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.nr.main.subsystems.Flower.Flower;
 import edu.nr.main.subsystems.OffBoardCompressor.OffBoardCompressor;
-import edu.nr.main.subsystems.Puncher.PunchCommand;
 import edu.nr.main.subsystems.Puncher.Puncher;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotator;
 import edu.nr.main.subsystems.TopArm.TopArm;
+import edu.wpi.first.wpilibj.ADXL345_I2C;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Vector;
+import javax.microedition.io.Connector;
+import javax.microedition.io.SocketConnection;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -33,12 +36,16 @@ import edu.nr.main.subsystems.TopArm.TopArm;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class Robot extends IterativeRobot {
 
+//10.17.68.15:3200
+
+public class Robot extends IterativeRobot 
+{
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
+    
     public static Drive drive = null;
     public static BottomRollers rollers = null;
     public static Flower flower = null;
@@ -49,8 +56,14 @@ public class Robot extends IterativeRobot {
     public static OffBoardCompressor extCompressor;
     public static Camera camera;
     
+    static SocketConnection pieConnection;
+    static InputStream pieInput;
+    
+    boolean connectedToPie = false;
+    
     public void robotInit() 
     {
+        System.out.println("ROBOT STARTED");
         drive = new Drive();
         compressor = new Compressor();
         rollers = new BottomRollers();
@@ -71,13 +84,41 @@ public class Robot extends IterativeRobot {
         shooterRotator.sendInfo();
         compressor.sendInfo();
         extCompressor.sendInfo();
-    }
-
-    public void autonomousInit() 
-    {
+        camera.sendInfo();
         
+        new Thread(new Runnable()
+        {
+            public void run() 
+            {
+                try
+                {
+                    pieConnection = (SocketConnection) Connector.open("socket://10.17.68.12:8888");
+                    pieInput = pieConnection.openInputStream();
+                    connectedToPie = true;
+                }
+                catch(IOException e)
+                {
+                    System.err.println("ERROR: couldn't connect to pie");
+                }
+            }
+        }).start();
+        
+        new Thread(new Runnable()
+        {
+            public void run() 
+            {
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+                Robot.drive.initGyroAccel();
+                System.out.println("SENSORS STARTED");
+            }
+        }).start();
+        
+        System.out.println("ROBOT FINISHED STARTING");
     }
-
     /**
      * This function is called periodically during autonomous
      */
@@ -91,11 +132,13 @@ public class Robot extends IterativeRobot {
         /*SmartDashboard.putData("DriveDistanceCommand", new DriveDistanceCommand(10, 0.8f));
         SmartDashboard.putData("DriveAngleCommand", new DriveAngleCommand(90, 0.6));*/
         OI.init();
+        System.out.println("TELEOP STARTED");
     }
 
     /**
      * This function is called periodically during operator control
      */
+    
     public void teleopPeriodic() 
     {
         Scheduler.getInstance().run();
@@ -103,8 +146,54 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Linear Encoder", Robot.puncher.getLinearEncoderDistance());
         SmartDashboard.putNumber("Encoder 1", Robot.drive.getRawEncoder(1));
         SmartDashboard.putNumber("Encoder 2", Robot.drive.getRawEncoder(2));
+        SmartDashboard.putNumber("Gyro", Robot.drive.getGyroAngle());
+        SmartDashboard.putNumber("Accel y", Robot.drive.getAccel(ADXL345_I2C.Axes.kY));
+        SmartDashboard.putNumber("Accel x", Robot.drive.getAccel(ADXL345_I2C.Axes.kX));
+        SmartDashboard.putNumber("Accel z", Robot.drive.getAccel(ADXL345_I2C.Axes.kZ));
         
-        //SmartDashboard.putNumber("Linear encoder Distance", puncher.getLinearEncoderDistance());
+        if(connectedToPie)
+            listenForPieInput();
+    }
+    
+    Vector pieBytes = new Vector();
+    boolean startedReading = false;
+    void listenForPieInput()
+    {
+        try 
+        {
+            while(pieInput.available() > 0)
+            {
+                byte input = (byte)pieInput.read();
+                if(!startedReading)
+                {
+                    if(input == 10)
+                    {
+                        startedReading = true;
+                    }
+                }
+                else
+                {
+                    if(input == 0)
+                    {
+                        startedReading = false;
+                        byte[] bytes = new byte[pieBytes.size()];
+                        for(int i = 0; i < bytes.length; i++)
+                        {
+                            bytes[i] = ((Byte)pieBytes.elementAt(i)).byteValue();
+                        }
+                        String message = new String(bytes);
+                        System.out.println(message);
+                        pieBytes.removeAllElements();
+                    }
+                    else
+                    {
+                        pieBytes.addElement(Byte.valueOf(input));
+                    }
+                }
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
     
     /**

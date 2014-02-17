@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package edu.nr.main.subsystems.Camera;
+package edu.nr.main.subsystems.TopArm;
 
 import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -13,18 +13,15 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  * @author colin
  */
-public class CameraOnCommand extends Command
+public class TopArmStopCommand extends Command
 {
-    public CameraOnCommand()
-    {
-        this.requires(Robot.camera);
-    }
+
     protected void initialize() {
     }
 
     protected void execute() 
     {
-        Robot.camera.turnOn();
+        Robot.topArm.runTopArm(0);
     }
 
     protected boolean isFinished() 
@@ -32,8 +29,7 @@ public class CameraOnCommand extends Command
         return true;
     }
 
-    protected void end() 
-    {
+    protected void end() {
     }
 
     protected void interrupted() {

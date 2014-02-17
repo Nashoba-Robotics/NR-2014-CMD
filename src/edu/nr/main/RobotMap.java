@@ -18,6 +18,8 @@ public class RobotMap
     public static final int ENCODER_2_A = 6;
     public static final int ENCODER_2_B = 7;
     
+    public static final int GYRO = 1;
+    
     //Misc. Speed Controllers
     public static final int ROLLER_JAG = 2;
     public static final int ROLLER_VICTOR = 5;

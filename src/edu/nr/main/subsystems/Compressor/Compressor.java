@@ -26,7 +26,7 @@ public class Compressor extends Subsystem implements Printable
         relay = new Relay(1);
         relay.setDirection(Relay.Direction.kForward);
         
-        //limit = new DigitalInput(3);
+        limit = new DigitalInput(3);
     }
     
     protected void initDefaultCommand()
@@ -46,8 +46,7 @@ public class Compressor extends Subsystem implements Printable
     
     public boolean getPressureSensor()
     {
-        return false;
-        //return limit.get();
+        return limit.get();
     }
 
     public void sendInfo() 

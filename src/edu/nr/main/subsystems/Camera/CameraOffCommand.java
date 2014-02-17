@@ -13,18 +13,19 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  * @author colin
  */
-public class CameraOnCommand extends Command
+public class CameraOffCommand extends Command
 {
-    public CameraOnCommand()
+    public CameraOffCommand()
     {
+        super("Camera Off Command");
         this.requires(Robot.camera);
     }
     protected void initialize() {
     }
 
-    protected void execute() 
+    protected void execute()
     {
-        Robot.camera.turnOn();
+        Robot.camera.turnOff();
     }
 
     protected boolean isFinished() 
@@ -32,8 +33,7 @@ public class CameraOnCommand extends Command
         return true;
     }
 
-    protected void end() 
-    {
+    protected void end() {
     }
 
     protected void interrupted() {

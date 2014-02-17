@@ -42,6 +42,10 @@ public class DriveJoystickCommand extends Command
         if(zSpeed < 0.05 && zSpeed > -0.05)
             zSpeed = 0;
         
+        //Cut the speeds down because they are really fast
+        ySpeed /= 2f;
+        zSpeed /= 2f;
+        
         Robot.drive.drive(ySpeed, zSpeed);
     }
 
