@@ -13,19 +13,20 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  * @author colin
  */
-public class CameraOffCommand extends Command
+public class SetOuterLightCommand extends Command
 {
-    public CameraOffCommand()
+    private boolean value;
+    public SetOuterLightCommand(boolean value)
     {
-        super("Camera Off Command");
         this.requires(Robot.camera);
+        this.value = value;
     }
     protected void initialize() {
     }
 
-    protected void execute()
+    protected void execute() 
     {
-        Robot.camera.turnAllOff();
+        Robot.camera.setOuter(value);
     }
 
     protected boolean isFinished() 

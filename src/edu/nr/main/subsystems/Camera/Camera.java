@@ -30,22 +30,33 @@ public class Camera extends Subsystem implements Printable
         this.setDefaultCommand(new CameraIdle());
     }
     
-    public void turnOn()
+    public void turnAllOn()
     {
         light1.set(true);
         light2.set(true);
     }
     
-    public void turnOff()
+    public void turnAllOff()
     {
         light1.set(false);
         light2.set(false);
+    }
+    
+    public void setInner(boolean value)
+    {
+        light1.set(value);
+    }
+    
+    public void setOuter(boolean value)
+    {
+        light2.set(value);
     }
 
     public void sendInfo() 
     {
         SmartDashboard.putData(new CameraOnCommand());
         SmartDashboard.putData(new CameraOffCommand());
+        SmartDashboard.putData(new CameraPatternCommand());
     }
     
 }

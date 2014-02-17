@@ -24,7 +24,7 @@ public class CameraOnCommand extends Command
 
     protected void execute() 
     {
-        Robot.camera.turnOn();
+        Robot.camera.turnAllOn();
     }
 
     protected boolean isFinished() 

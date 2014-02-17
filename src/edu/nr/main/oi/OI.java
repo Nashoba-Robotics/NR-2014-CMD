@@ -13,7 +13,6 @@ import edu.nr.main.subsystems.TopArm.TopArmDownCommand;
 import edu.nr.main.subsystems.TopArm.TopArmRunCommand;
 import edu.nr.main.subsystems.TopArm.TopArmStopCommand;
 import edu.nr.main.subsystems.TopArm.TopArmUpCommand;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
@@ -22,7 +21,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI 
 {
-    private static Joystick stick1;
+    private static Controller stick1;
     private static JoystickButton startButton, bButton,
             leftBumperButton, rightBumperButton, aButton,
             xButton, rightStickButton, leftStickButton, yButton,
@@ -30,17 +29,18 @@ public class OI
     
     public static void init()
     {
-        stick1 = new Gamepad(1);
-        startButton = new JoystickButton(stick1, Gamepad.kStartButton);
-        bButton = new JoystickButton(stick1, Gamepad.kBButton);
-        leftBumperButton = new JoystickButton(stick1, Gamepad.kLeftBumper);
-        rightBumperButton = new JoystickButton(stick1, Gamepad.kRightBumper);
-        aButton = new JoystickButton(stick1, Gamepad.kAButton);
-        xButton = new JoystickButton(stick1, Gamepad.kXButton);
-        rightStickButton = new JoystickButton(stick1, Gamepad.kRightStickButton);
-        leftStickButton = new JoystickButton(stick1, Gamepad.kLeftStickButton);
-        yButton = new JoystickButton(stick1, Gamepad.kYButton);
-        backButton = new JoystickButton(stick1, Gamepad.kBackButton);
+        stick1 = new XPad(1);
+        startButton = new JoystickButton(stick1, stick1.startButton);
+        bButton = new JoystickButton(stick1, stick1.bButton);
+        leftBumperButton = new JoystickButton(stick1, stick1.leftBumperButton);
+        rightBumperButton = new JoystickButton(stick1, stick1.rightBumperButton);
+        aButton = new JoystickButton(stick1, stick1.aButton);
+        xButton = new JoystickButton(stick1, stick1.xButton);
+        rightStickButton = new JoystickButton(stick1, stick1.rightStickButton);
+        leftStickButton = new JoystickButton(stick1, stick1.leftStickButton);
+        yButton = new JoystickButton(stick1, stick1.yButton);
+        backButton = new JoystickButton(stick1, stick1.selectButton);
+
         
         startButton.whenPressed(new DriveJoystickCommand());
         
@@ -68,12 +68,12 @@ public class OI
     
     public static double getJoy1Z()
     {
-        return ((Gamepad)stick1).getX("right");
+        return stick1.getRawAxis(stick1.rightStickXAxis);
     }
     
     public static double getJoy1Y()
     {
-        return -((Gamepad)stick1).getY("left");
+        return -stick1.getRawAxis(stick1.leftStickYAxis);
     }
 }
 

@@ -25,6 +25,7 @@ public class Puncher extends Subsystem implements Printable
 
     private CANJaguar winch;
     private DoubleSolenoid dogEar;
+    public final float TENSIONER_REGULAR_SPEED = 0.7f;
     
     public Puncher() 
     {
@@ -66,6 +67,25 @@ public class Puncher extends Subsystem implements Printable
         }
     }
     
+    public void setWinchLimit(float position)
+    {
+        try {
+            winch.configSoftPositionLimits(position, -2);
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public double getWinchVoltage()
+    {
+        try {
+            return winch.getOutputVoltage();
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
+        return -1;
+    }
+    
     public double getLinearEncoderDistance()
     {
         try {
@@ -89,5 +109,6 @@ public class Puncher extends Subsystem implements Printable
         SmartDashboard.putData("Tension Command (defined Speed)", new TensionCommand(0));
         SmartDashboard.putData("TensionIdle", new TensionIdle());
         SmartDashboard.putData("Punch Command", new PunchCommand());
+        SmartDashboard.putData("Tension to Distance", new TensionToDistanceCommand());
     }
 }

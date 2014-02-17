@@ -8,24 +8,19 @@ package edu.nr.main.subsystems.Puncher;
 
 import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  * @author colin
  */
-public class TensionCommand extends Command
+public class TensionToDistanceCommand extends Command
 {
-   private float speed;
-   public TensionCommand(float speed)
-   {
-       this.speed = speed;
-       this.requires(Robot.puncher);
-   }
-   protected void initialize() 
-   {
-        
-   }
+
+    private double target = 1;
+    protected void initialize() 
+    {
+        Robot.puncher.setWinchLimit((float)target);
+    }
 
     protected void execute() 
     {
@@ -34,17 +29,15 @@ public class TensionCommand extends Command
 
     protected boolean isFinished() 
     {
-        return false;
+        /*double diff = target - Robot.puncher.getLinearEncoderDistance();
+        return diff <=0f;*/
+        return Math.abs(Robot.puncher.getWinchVoltage()) > 0.1;
     }
 
-    protected void end() 
-    {
-        
+    protected void end() {
     }
 
-    protected void interrupted() 
-    {
-        
+    protected void interrupted() {
     }
     
 }

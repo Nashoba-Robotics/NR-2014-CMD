@@ -60,6 +60,7 @@ public class Robot extends IterativeRobot
     static InputStream pieInput;
     
     boolean connectedToPie = false;
+    boolean sensorsStarted =false;
     
     public void robotInit() 
     {
@@ -108,12 +109,13 @@ public class Robot extends IterativeRobot
             public void run() 
             {
                 try {
-                    Thread.sleep(10000);
+                    Thread.sleep(5000);
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
                 Robot.drive.initGyroAccel();
                 System.out.println("SENSORS STARTED");
+                sensorsStarted = true;
             }
         }).start();
         
@@ -141,18 +143,21 @@ public class Robot extends IterativeRobot
     
     public void teleopPeriodic() 
     {
-        Scheduler.getInstance().run();
-        SmartDashboard.putNumber("Potentiometer",Robot.shooterRotator.getRotation());
-        SmartDashboard.putNumber("Linear Encoder", Robot.puncher.getLinearEncoderDistance());
-        SmartDashboard.putNumber("Encoder 1", Robot.drive.getRawEncoder(1));
-        SmartDashboard.putNumber("Encoder 2", Robot.drive.getRawEncoder(2));
-        SmartDashboard.putNumber("Gyro", Robot.drive.getGyroAngle());
-        SmartDashboard.putNumber("Accel y", Robot.drive.getAccel(ADXL345_I2C.Axes.kY));
-        SmartDashboard.putNumber("Accel x", Robot.drive.getAccel(ADXL345_I2C.Axes.kX));
-        SmartDashboard.putNumber("Accel z", Robot.drive.getAccel(ADXL345_I2C.Axes.kZ));
+        if(sensorsStarted)
+        {
+            Scheduler.getInstance().run();
+            SmartDashboard.putNumber("Potentiometer",Robot.shooterRotator.getRotation());
+            SmartDashboard.putNumber("Linear Encoder", Robot.puncher.getLinearEncoderDistance());
+            SmartDashboard.putNumber("Encoder 1", Robot.drive.getRawEncoder(1));
+            SmartDashboard.putNumber("Encoder 2", Robot.drive.getRawEncoder(2));
+            SmartDashboard.putNumber("Gyro", Robot.drive.getGyroAngle());
+            SmartDashboard.putNumber("Accel y", Robot.drive.getAccel(ADXL345_I2C.Axes.kY));
+            SmartDashboard.putNumber("Accel x", Robot.drive.getAccel(ADXL345_I2C.Axes.kX));
+            SmartDashboard.putNumber("Accel z", Robot.drive.getAccel(ADXL345_I2C.Axes.kZ));
         
-        if(connectedToPie)
-            listenForPieInput();
+            if(connectedToPie)
+                listenForPieInput();
+        }
     }
     
     Vector pieBytes = new Vector();
