@@ -19,7 +19,7 @@ public class CameraPatternCommand extends CommandGroup
     {
         this.addParallel(new CameraOffCommand());
         this.addSequential(new SetInnerLightCommand(true));
-        this.addSequential(new WaitCommand(2));
+        this.addSequential(new WaitCommand(.5));
         this.addParallel(new SetInnerLightCommand(false));
         this.addSequential(new SetOuterLightCommand(true));
         this.addSequential(new WaitCommand(0.5));

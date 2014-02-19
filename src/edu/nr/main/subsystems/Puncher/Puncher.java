@@ -36,6 +36,7 @@ public class Puncher extends Subsystem implements Printable
             winch.setPositionReference(CANJaguar.PositionReference.kQuadEncoder);
             winch.setSpeedReference(CANJaguar.SpeedReference.kEncoder);
             winch.setSafetyEnabled(false);
+            setWinchLimit(5);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
@@ -46,6 +47,16 @@ public class Puncher extends Subsystem implements Printable
     protected void initDefaultCommand()
     {
         this.setDefaultCommand(new TensionIdle());
+    }
+    
+    public boolean getLimitSwitch()
+    {
+        try {
+            return winch.getForwardLimitOK();
+        } catch (CANTimeoutException ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
     
     public void punch() 
@@ -106,7 +117,7 @@ public class Puncher extends Subsystem implements Printable
     {
         SmartDashboard.putData("Puncher", this);
         SmartDashboard.putData("Reset Dog Gear", new ResetDogEarCommand());
-        SmartDashboard.putData("Tension Command (defined Speed)", new TensionCommand(0));
+        SmartDashboard.putData("Tension Command (defined Speed)", new TensionCommand());
         SmartDashboard.putData("TensionIdle", new TensionIdle());
         SmartDashboard.putData("Punch Command", new PunchCommand());
         SmartDashboard.putData("Tension to Distance", new TensionToDistanceCommand());

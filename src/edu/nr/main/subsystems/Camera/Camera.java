@@ -6,6 +6,7 @@
 
 package edu.nr.main.subsystems.Camera;
 
+import edu.nr.main.RobotMap;
 import edu.nr.main.subsystems.Printable;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -21,8 +22,8 @@ public class Camera extends Subsystem implements Printable
     
     public Camera()
     {
-        light1 = new DigitalOutput(9);
-        light2 = new DigitalOutput(8);
+        light1 = new DigitalOutput(RobotMap.CAMERA_LIGHT_1);
+        light2 = new DigitalOutput(RobotMap.CAMERA_LIGHT_2);
     }
     
     protected void initDefaultCommand() 

@@ -4,35 +4,40 @@
  * and open the template in the editor.
  */
 
-package edu.nr.main.subsystems.BottomRollers;
+package edu.nr.main.Autonomous;
 
-import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  * @author colin
  */
-public class StopRollCommand extends Command
+public class AutonomousPunchCommand extends Command
 {
-    public StopRollCommand()
+    private int delay;
+    private float startTime;
+    private boolean done = false;
+    public AutonomousPunchCommand(int delay)
     {
-        super("Stop Roll");
-        this.requires(Robot.rollers);
+        this.delay = delay;
     }
     protected void initialize()
     {
-        
+        startTime = (System.currentTimeMillis() / 1000f);
     }
 
     protected void execute() 
     {
-        Robot.rollers.stopRoll();
+        if((System.currentTimeMillis()/1000f) - startTime > delay)
+        {
+            System.out.println("SHOOT THE BALL");
+            done = true;
+        }
     }
 
     protected boolean isFinished() 
     {
-        return true;
+        return done;
     }
 
     protected void end() {

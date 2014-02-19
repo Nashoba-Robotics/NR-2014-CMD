@@ -33,17 +33,15 @@ public class RollCommand extends Command
 
     protected boolean isFinished() 
     {
-        return false;
+        return true;
     }
 
     protected void end()
     {
-        Robot.rollers.stopRoll();
     }
 
     protected void interrupted() 
     {
-        Robot.rollers.stopRoll();
     }
     
 }

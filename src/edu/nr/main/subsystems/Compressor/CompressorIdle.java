@@ -28,14 +28,15 @@ public class CompressorIdle extends Command
 
     protected void execute() 
     {
+        if(SmartDashboard.getBoolean("Auto Compressor"))
         if(Robot.compressor.getPressureSensor())
         {
             Robot.compressor.stopCompressor();
         }
-        else
+        else if(SmartDashboard.getBoolean("Auto Compressor"))
         {
             //Uncomment if we want automatic pressurizing
-            //Robot.compressor.startCompressor();
+            Robot.compressor.startCompressor();
         }
         
         SmartDashboard.putBoolean("Pressure Limit", Robot.compressor.getPressureSensor());

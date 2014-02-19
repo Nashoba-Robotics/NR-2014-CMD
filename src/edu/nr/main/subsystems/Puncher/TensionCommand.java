@@ -16,10 +16,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class TensionCommand extends Command
 {
-   private float speed;
-   public TensionCommand(float speed)
+   public TensionCommand()
    {
-       this.speed = speed;
        this.requires(Robot.puncher);
    }
    protected void initialize() 

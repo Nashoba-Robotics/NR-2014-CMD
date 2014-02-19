@@ -10,6 +10,7 @@ package edu.nr.main;
 
 import edu.nr.main.oi.OI;
 import edu.nr.main.subsystems.BottomRollers.BottomRollers;
+import edu.nr.main.subsystems.BottomRollers.ResetPieConnectionCommand;
 import edu.nr.main.subsystems.Camera.Camera;
 import edu.nr.main.subsystems.Compressor.Compressor;
 import edu.nr.main.subsystems.Drive.Drive;
@@ -59,12 +60,16 @@ public class Robot extends IterativeRobot
     static SocketConnection pieConnection;
     static InputStream pieInput;
     
-    boolean connectedToPie = false;
+    static boolean connectedToPie = false;
     boolean sensorsStarted =false;
     
     public void robotInit() 
     {
         System.out.println("ROBOT STARTED");
+        SmartDashboard.putData("Connect to Pie", new ResetPieConnectionCommand());
+        SmartDashboard.putBoolean("Auto Compressor", false);
+        SmartDashboard.putNumber("Tension Distance", 0);
+        SmartDashboard.putNumber("Drive Distance", 10);
         drive = new Drive();
         compressor = new Compressor();
         rollers = new BottomRollers();
@@ -87,29 +92,14 @@ public class Robot extends IterativeRobot
         extCompressor.sendInfo();
         camera.sendInfo();
         
-        new Thread(new Runnable()
-        {
-            public void run() 
-            {
-                try
-                {
-                    pieConnection = (SocketConnection) Connector.open("socket://10.17.68.12:8888");
-                    pieInput = pieConnection.openInputStream();
-                    connectedToPie = true;
-                }
-                catch(IOException e)
-                {
-                    System.err.println("ERROR: couldn't connect to pie");
-                }
-            }
-        }).start();
+        connectToPie();
         
         new Thread(new Runnable()
         {
             public void run() 
             {
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
@@ -128,6 +118,51 @@ public class Robot extends IterativeRobot
     {
         Scheduler.getInstance().run();
     }
+    
+    static Thread t = null;
+    
+    static public void connectToPie()
+    {
+        if(pieConnection != null)
+        {    
+            try 
+            {
+                pieConnection.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        pieConnection = null;
+        connectedToPie = false;
+        
+        if(t != null)
+            t.interrupt();
+        t = new Thread(new Runnable()
+        {
+            public void run()  
+            {
+                while(connectedToPie == false)
+                {
+                    try
+                    {
+                        if(pieConnection != null)
+                            pieConnection.close();
+                        pieConnection = (SocketConnection) Connector.open("socket://10.17.68.15:1180");
+                        if(pieConnection == null)
+                            throw new RuntimeException("ERRROR: Didn't actually connect to pie!!!");
+                        pieInput = pieConnection.openInputStream();
+                        connectedToPie = true;
+                        System.out.println("[ DBG ] CONNECTED TO PIE");
+                    }
+                    catch(IOException e)
+                    {
+                        SmartDashboard.putString("Pie Error", e.toString());//System.err.println(e.toString());
+                    }
+                }
+            }
+        });
+        t.start();
+    }
 
     public void teleopInit() 
     {
@@ -143,6 +178,7 @@ public class Robot extends IterativeRobot
     
     public void teleopPeriodic() 
     {
+        SmartDashboard.putBoolean("Pie Connection", connectedToPie);
         if(sensorsStarted)
         {
             Scheduler.getInstance().run();
@@ -154,15 +190,20 @@ public class Robot extends IterativeRobot
             SmartDashboard.putNumber("Accel y", Robot.drive.getAccel(ADXL345_I2C.Axes.kY));
             SmartDashboard.putNumber("Accel x", Robot.drive.getAccel(ADXL345_I2C.Axes.kX));
             SmartDashboard.putNumber("Accel z", Robot.drive.getAccel(ADXL345_I2C.Axes.kZ));
+            SmartDashboard.putNumber("Ultrasonic Sensor (feet)", Robot.drive.getUltrasonicFeet());
+            SmartDashboard.putBoolean("Infrared Sensor", Robot.topArm.getIRSensor());
+            
+            SmartDashboard.putBoolean("Tension Limit Condition", Robot.puncher.getLimitSwitch());
         
+            SmartDashboard.putString("Pie Message", "");
             if(connectedToPie)
                 listenForPieInput();
         }
     }
     
-    Vector pieBytes = new Vector();
-    boolean startedReading = false;
-    void listenForPieInput()
+    static Vector pieBytes = new Vector();
+    static boolean startedReading = false;
+    static void listenForPieInput()
     {
         try 
         {
@@ -187,7 +228,7 @@ public class Robot extends IterativeRobot
                             bytes[i] = ((Byte)pieBytes.elementAt(i)).byteValue();
                         }
                         String message = new String(bytes);
-                        System.out.println(message);
+                        SmartDashboard.putString("Pie Message", message);
                         pieBytes.removeAllElements();
                     }
                     else
@@ -196,8 +237,12 @@ public class Robot extends IterativeRobot
                     }
                 }
             }
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } 
+        catch (IOException ex) 
+        {
+            SmartDashboard.putString("Pie Error", ex.toString());
+            System.out.println("ERROR TALKING TO PIE");
+            connectToPie();
         }
     }
     

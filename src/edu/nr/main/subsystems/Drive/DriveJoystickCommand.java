@@ -22,15 +22,34 @@ public class DriveJoystickCommand extends Command
         this.requires(Robot.drive);
     }
     
+    double x = 0, y = 0, lastEncoderDistance = 0;
     protected void initialize() 
     {
-        
+        x = 0;
+        y = 0;
+        lastEncoderDistance = 0;
+        Robot.drive.resetGyro();
     }
-
+    
     protected void execute()
     {
         double ySpeed = OI.getJoy1Y();
         double zSpeed = OI.getJoy1Z();
+        
+        double angle = Robot.drive.getGyroAngle();
+        angle = angle * (Math.PI / 180);
+        
+        double ave = Robot.drive.getAverageEncoderDistance() * (34d/32d);// * (34d/33d);
+        double delta_x_r = (ave-lastEncoderDistance);
+        double deltax = delta_x_r * Math.cos(-angle);
+        double deltay = delta_x_r * Math.sin(-angle);
+        x += deltax;
+        y += deltay;
+        
+        lastEncoderDistance = ave;
+        
+        SmartDashboard.putNumber("Location x", x);
+        SmartDashboard.putNumber("Location y", y);
         
         
         //SmartDashboard.putNumber("Y axis", ySpeed);
@@ -43,8 +62,8 @@ public class DriveJoystickCommand extends Command
             zSpeed = 0;
         
         //Cut the speeds down because they are really fast
-        ySpeed /= 2f;
-        zSpeed /= 2f;
+        zSpeed = (zSpeed/3) * 2;
+        ySpeed = (ySpeed/4) * 3;
         
         Robot.drive.drive(ySpeed, zSpeed);
     }

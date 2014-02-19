@@ -4,9 +4,8 @@
  * and open the template in the editor.
  */
 
-package edu.nr.main.subsystems.OffBoardCompressor;
+package edu.nr.main.Autonomous;
 
-import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -14,24 +13,28 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  * @author colin
  */
-public class ExtCompressorIdle extends Command
+public class CheckHotGoalCommand extends Command
 {
-    public ExtCompressorIdle()
-    {
-        this.requires(Robot.extCompressor);
-    }
+
     protected void initialize() {
     }
 
     protected void execute() 
     {
-        if(Robot.compressor.getPressureSensor())
+        try
         {
-            Robot.extCompressor.stopCompressor();
+            if(SmartDashboard.getNumber("isHot") == 1 && (SmartDashboard.getNumber("isVisible") == 1))
+            {
+                new AutonomousPunchCommand(0).start();
+            }
+            else
+            {
+               new AutonomousPunchCommand(4).start();
+            }
         }
-        else if(SmartDashboard.getBoolean("Auto Compressor"))
+        catch(Throwable t)
         {
-            Robot.extCompressor.startCompressor();
+            System.err.println("ERROR DURING AUTONOMOUS");
         }
     }
 

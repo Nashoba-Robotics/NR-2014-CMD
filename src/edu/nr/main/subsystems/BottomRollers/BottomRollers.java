@@ -36,7 +36,7 @@ public class BottomRollers extends Subsystem implements Printable
     }
     protected void initDefaultCommand() 
     {
-        this.setDefaultCommand(new StopRollCommand());
+        this.setDefaultCommand(new RollIdleCommand());
     }
     
     public void startRoll()

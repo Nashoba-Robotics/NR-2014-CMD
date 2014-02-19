@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.ADXL345_I2C.DataFormat_Range;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 public class Drive extends Subsystem implements Printable
 {
@@ -22,6 +23,7 @@ public class Drive extends Subsystem implements Printable
     private Gyro gyro;
     private Encoder e1, e2;
     private DoubleSolenoid shifter;
+    Ultrasonic sonic;
     public Drive()
     {
         drive = new RobotDrive(new Talon(1),new Talon(2),new Talon(3),new Talon(4));
@@ -35,19 +37,27 @@ public class Drive extends Subsystem implements Printable
         e2.setDistancePerPulse(0.0349065850388889/12);
         startEncoders();
         
-        gyro = new Gyro(RobotMap.GYRO);
-        
-        drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
+        drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);      
         drive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
         
+        sonic = new Ultrasonic(RobotMap.ULTRASONIC_A, RobotMap.ULTRASONIC_B);
+        sonic.setAutomaticMode(true);
+        sonic.setEnabled(true);
+        
+        
         shifter = new DoubleSolenoid(RobotMap.SHIFTER_ENGAGE, RobotMap.SHIFTER_DISENGAGE);
+    }
+    
+    public double getUltrasonicFeet()
+    {
+        return (sonic.getRangeInches() / 12d);
     }
     
     public void initGyroAccel()
     {
         accel = new ADXL345_I2C(1, DataFormat_Range.k2G);
         
-        gyro.reset();
+        gyro = new Gyro(RobotMap.GYRO);
     }
     
     public double getAccel(ADXL345_I2C.Axes axis)
@@ -57,12 +67,12 @@ public class Drive extends Subsystem implements Printable
     
     public void setFirstGear()
     {
-        shifter.set(DoubleSolenoid.Value.kForward);
+        shifter.set(DoubleSolenoid.Value.kReverse);
     }
     
     public void setSecondGear()
     {
-        shifter.set(DoubleSolenoid.Value.kReverse);
+        shifter.set(DoubleSolenoid.Value.kForward);
     }
 
     public void initDefaultCommand()
@@ -130,7 +140,7 @@ public class Drive extends Subsystem implements Printable
         SmartDashboard.putData("Drive Joystick Command", new DriveJoystickCommand());
         SmartDashboard.putData("Shift First Gear", new ShiftCommand(true));
         SmartDashboard.putData("Shift Second Gear", new ShiftCommand(false));
-        SmartDashboard.putData("Drive Distance", new DriveDistanceCommand(10f, 0.6f));
+        SmartDashboard.putData("Drive Distance", new DriveDistanceCommand(2f, .6f));
     }
 }
 

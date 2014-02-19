@@ -67,7 +67,7 @@ public class ShooterRotator extends Subsystem implements Printable
     {
         SmartDashboard.putData("Shooter Rotator", this);
         SmartDashboard.putData("Shooter Rotator Idle", new ShooterRotatorIdle());
-//SmartDashboard.putData("Shooter Rotation (0.4)", new ShooterRotationCommand(0.4));
-        //SmartDashboard.putData("Shooter Rotation (-0.4)", new ShooterRotationCommand(-0.4));
+        //SmartDashboard.putData("Shooter Rotation (0.4)", new ShooterRotationCommand(0.4,1));
+        //SmartDashboard.putData("Shooter Rotation (-0.4)", new ShooterRotationCommand(-0.4,1));
     }
 }

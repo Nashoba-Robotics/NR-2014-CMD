@@ -13,21 +13,15 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  * @author colin
  */
-public class StopRollCommand extends Command
+public class ResetPieConnectionCommand extends Command
 {
-    public StopRollCommand()
-    {
-        super("Stop Roll");
-        this.requires(Robot.rollers);
-    }
-    protected void initialize()
-    {
-        
+
+    protected void initialize() {
     }
 
     protected void execute() 
     {
-        Robot.rollers.stopRoll();
+        Robot.connectToPie();
     }
 
     protected boolean isFinished() 

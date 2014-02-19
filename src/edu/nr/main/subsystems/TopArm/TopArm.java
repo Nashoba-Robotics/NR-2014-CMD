@@ -9,6 +9,7 @@ package edu.nr.main.subsystems.TopArm;
 import edu.nr.main.RobotMap;
 import edu.nr.main.subsystems.Printable;
 import edu.wpi.first.wpilibj.CANJaguar;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -22,16 +23,28 @@ public class TopArm extends Subsystem implements Printable
 {
     private DoubleSolenoid solenoid;
     CANJaguar jag;
-    protected void initDefaultCommand()
+    DigitalInput ir;
+    
+    public TopArm()
     {
-        setDefaultCommand(new TopArmIdleCommand());
         solenoid = new DoubleSolenoid(RobotMap.TOP_ARM_SOLENOID_DEPLOY, RobotMap.TOP_ARM_SOLENOID_UNDEPLOY);
-        deploy();
         try {
             jag = new CANJaguar(RobotMap.TOP_ARM_JAG);
         } catch (CANTimeoutException ex) {
             System.err.println("Error: couldn't create top arm jag!!");
         }
+        ir = new DigitalInput(10);
+    }
+    
+    public boolean getIRSensor()
+    {
+        //Must be inverted because the sensor reports the opposite
+        return (!ir.get());
+    }
+    
+    protected void initDefaultCommand()
+    {
+        setDefaultCommand(new TopArmIdleCommand());
     }
     
     public void deploy()
@@ -44,13 +57,20 @@ public class TopArm extends Subsystem implements Printable
         solenoid.set(DoubleSolenoid.Value.kReverse);
     }
     
+    boolean isRunning = false;
     public void runTopArm(double speed)
     {
+        isRunning = (Math.abs(speed) > 0);
         try {
             jag.setX(-speed);
         } catch (CANTimeoutException ex) {
             System.out.println("ERROR: Couldn't set top arm jag speed");
         }
+    }
+    
+    public boolean isRunning()
+    {
+        return isRunning;
     }
 
     public void sendInfo() 

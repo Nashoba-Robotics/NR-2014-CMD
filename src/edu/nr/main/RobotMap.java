@@ -13,10 +13,6 @@ public class RobotMap
     public static final int BACK_RIGHT_TALON=3;
     public static final int FRONT_LEFT_TALON=2;
     public static final int FRONT_FRONT_TALON=4;
-    public static final int ENCODER_1_A = 4;
-    public static final int ENCODER_1_B = 5;
-    public static final int ENCODER_2_A = 6;
-    public static final int ENCODER_2_B = 7;
     
     public static final int GYRO = 1;
     
@@ -27,13 +23,23 @@ public class RobotMap
     public static final int TOP_ARM_JAG = 1;
     public static final int SHOOTER_ROTATION_JAG = 4;
     
+    //Digital Sidecar
+    public static final int CAMERA_LIGHT_1 = 1;
+    public static final int CAMERA_LIGHT_2 = 2;
+    public static final int ULTRASONIC_A = 3;
+    public static final int ULTRASONIC_B = 4;
+    public static final int PRESSURE_LIMIT = 5;
+    public static final int ENCODER_1_A = 6;
+    public static final int ENCODER_1_B = 7;
+    public static final int ENCODER_2_A = 8;
+    public static final int ENCODER_2_B = 9;
+    public static final int TOP_ARM_IR_SENSOR = 10;
     
     //Pneumatics
     public static final int DOG_EAR_SOLENOID_UNDEPLOY = 5;
     public static final int DOG_EAR_SOLENOID_DEPLOY = 6;
     public static final int TOP_ARM_SOLENOID_DEPLOY = 3;
     public static final int TOP_ARM_SOLENOID_UNDEPLOY=4;
-    public static final int PRESSURE_LIMIT = 3;
     public static final int SHIFTER_ENGAGE = 1;
     public static final int SHIFTER_DISENGAGE = 2;
     public static final int OFF_BOARD_COMPRESSOR_RELAY=2;

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package edu.nr.main.subsystems.BottomRollers;
+package edu.nr.main.subsystems.TopArm;
 
 import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -13,26 +13,29 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  * @author colin
  */
-public class StopRollCommand extends Command
+public class DelayedStopIntakeCommand extends Command
 {
-    public StopRollCommand()
+    int init;
+    boolean done = false;
+    protected void initialize() 
     {
-        super("Stop Roll");
-        this.requires(Robot.rollers);
-    }
-    protected void initialize()
-    {
-        
+        init = (int)(System.currentTimeMillis()/1000f);
     }
 
     protected void execute() 
     {
-        Robot.rollers.stopRoll();
+        int current = (int)(System.currentTimeMillis()/1000f);
+        if(current - init > 0.5)
+        {
+            done = true;
+            Robot.rollers.stopRoll();
+            Robot.topArm.runTopArm(0);
+        }
     }
 
     protected boolean isFinished() 
     {
-        return true;
+        return done;
     }
 
     protected void end() {

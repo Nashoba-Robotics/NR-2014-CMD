@@ -13,26 +13,22 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  * @author colin
  */
-public class StopRollCommand extends Command
+public class RollIdleCommand extends Command
 {
-    public StopRollCommand()
+    public RollIdleCommand()
     {
-        super("Stop Roll");
         this.requires(Robot.rollers);
     }
-    protected void initialize()
+    protected void initialize() 
     {
-        
     }
 
-    protected void execute() 
-    {
-        Robot.rollers.stopRoll();
+    protected void execute() {
     }
 
     protected boolean isFinished() 
     {
-        return true;
+        return false;
     }
 
     protected void end() {

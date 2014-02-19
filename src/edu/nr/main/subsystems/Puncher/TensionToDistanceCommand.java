@@ -8,6 +8,7 @@ package edu.nr.main.subsystems.Puncher;
 
 import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -16,10 +17,9 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TensionToDistanceCommand extends Command
 {
 
-    private double target = 1;
     protected void initialize() 
     {
-        Robot.puncher.setWinchLimit((float)target);
+        Robot.puncher.setWinchLimit((float) SmartDashboard.getNumber("Tension Distance"));
     }
 
     protected void execute() 
@@ -31,7 +31,7 @@ public class TensionToDistanceCommand extends Command
     {
         /*double diff = target - Robot.puncher.getLinearEncoderDistance();
         return diff <=0f;*/
-        return Math.abs(Robot.puncher.getWinchVoltage()) > 0.1;
+        return !Robot.puncher.getLimitSwitch();
     }
 
     protected void end() {

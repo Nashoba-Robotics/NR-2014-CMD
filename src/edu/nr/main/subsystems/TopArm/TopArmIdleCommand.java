@@ -15,14 +15,35 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class TopArmIdleCommand extends Command
 {
+    boolean startedCounting = false;
+    long lastTime;
     public TopArmIdleCommand()
     {
         this.requires(Robot.topArm);
     }
-    protected void initialize() {
+    protected void initialize() 
+    {
+        
     }
 
-    protected void execute() {
+    protected void execute() 
+    {
+        if(Robot.topArm.isRunning && Robot.topArm.getIRSensor())
+        {
+            if(!startedCounting)
+            {
+                startedCounting = true;
+                lastTime = System.currentTimeMillis();
+            }
+            else// if(((System.currentTimeMillis() - lastTime)/1000) > 1)
+            {
+                new DelayedStopIntakeCommand().start();
+            }
+        }
+        else if(!Robot.topArm.getIRSensor())
+        {
+            startedCounting = false;
+        }
     }
 
     protected boolean isFinished() 

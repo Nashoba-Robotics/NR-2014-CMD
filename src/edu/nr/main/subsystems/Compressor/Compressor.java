@@ -6,6 +6,7 @@
 
 package edu.nr.main.subsystems.Compressor;
 
+import edu.nr.main.RobotMap;
 import edu.nr.main.subsystems.Printable;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Relay;
@@ -26,7 +27,7 @@ public class Compressor extends Subsystem implements Printable
         relay = new Relay(1);
         relay.setDirection(Relay.Direction.kForward);
         
-        limit = new DigitalInput(3);
+        limit = new DigitalInput(RobotMap.PRESSURE_LIMIT);
     }
     
     protected void initDefaultCommand()

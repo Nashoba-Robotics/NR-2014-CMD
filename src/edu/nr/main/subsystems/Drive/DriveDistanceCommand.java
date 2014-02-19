@@ -28,7 +28,7 @@ public class DriveDistanceCommand extends Command
     public DriveDistanceCommand(float distance, float speed)
     {
         super("DriveDistanceCommand");
-        this.distance = distance;
+        this.distance = (float) SmartDashboard.getNumber("Drive Distance");
         this.speed = speed;
         this.requires(Robot.drive);
     }
@@ -38,6 +38,7 @@ public class DriveDistanceCommand extends Command
         count = 0;
         Robot.drive.resetEncs();
         Robot.drive.resetGyro();
+        Robot.drive.setFirstGear();
         initialGyroAngle = Robot.drive.getGyroAngle();
     }
 
@@ -55,7 +56,7 @@ public class DriveDistanceCommand extends Command
         }
         
         double ave = Robot.drive.getAverageEncoderDistance();
-        
+        SmartDashboard.putNumber("Encoder Ave", ave);
         /*Position calculations
         double delta_x_r = (ave-lastEncoderDistance);
         double deltax = delta_x_r * Math.cos(-angle);
@@ -66,16 +67,16 @@ public class DriveDistanceCommand extends Command
         count++;
         double err = distance - ave;
 
-        double proportionalStopDistance = 4;
+        double proportionalStopDistance = distance / 4 * 3;
         double proportionalSpeed = ((1/(proportionalStopDistance)) * err) * speed;
         double integralSpeed = count * speed/Math.abs(speed) * 0.002;
         double newSpeed = Math.min(speed, proportionalSpeed + integralSpeed);
         SmartDashboard.putNumber("TurnAngle", turnAngle);
+        SmartDashboard.putNumber("I Value", integralSpeed);
         SmartDashboard.putNumber("New Speed", newSpeed);
-        Robot.drive.drive(newSpeed, turnAngle);
+        Robot.drive.drive(-newSpeed, turnAngle);
 
         
-        SmartDashboard.putNumber("Encs", Robot.drive.getAverageEncoderDistance());
         /*SmartDashboard.putNumber("Encoder 1", val1);
         SmartDashboard.putNumber("Encoder 2", val2);
         SmartDashboard.putNumber("Gyro", angle);
