@@ -43,4 +43,9 @@ public class RobotMap
     public static final int SHIFTER_ENGAGE = 1;
     public static final int SHIFTER_DISENGAGE = 2;
     public static final int OFF_BOARD_COMPRESSOR_RELAY=2;
+    
+    public static final boolean USING_LINCODER = false;
+    public static final double WINCH_JAG_REV_SOFT_LIM = 0.0;
+    public static final int POT_TURNS = 1;
+    public static final int LINCODER_CLICKS = 250;
 }

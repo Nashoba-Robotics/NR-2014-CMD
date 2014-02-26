@@ -11,7 +11,6 @@ import edu.nr.main.subsystems.Printable;
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,11 +31,18 @@ public class Puncher extends Subsystem implements Printable
         try 
         {
             winch = new CANJaguar(RobotMap.WINCH_JAG);
-            winch.configEncoderCodesPerRev(250);
-            winch.setPositionReference(CANJaguar.PositionReference.kQuadEncoder);
-            winch.setSpeedReference(CANJaguar.SpeedReference.kEncoder);
+            if(RobotMap.USING_LINCODER) {
+                winch.configEncoderCodesPerRev(RobotMap.LINCODER_CLICKS);
+                winch.setPositionReference(CANJaguar.PositionReference.kQuadEncoder);
+                winch.setSpeedReference(CANJaguar.SpeedReference.kEncoder);
+            }
+            else {
+                winch.setPositionReference(CANJaguar.PositionReference.kPotentiometer);
+                winch.setSpeedReference(CANJaguar.SpeedReference.kNone);
+                winch.configPotentiometerTurns(RobotMap.POT_TURNS);
+            }
             winch.setSafetyEnabled(false);
-            setWinchLimit(5);
+            
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
@@ -81,7 +87,8 @@ public class Puncher extends Subsystem implements Printable
     public void setWinchLimit(float position)
     {
         try {
-            winch.configSoftPositionLimits(position, -2);
+            winch.configSoftPositionLimits(position, RobotMap.WINCH_JAG_REV_SOFT_LIM);
+            winch.enableControl();
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
