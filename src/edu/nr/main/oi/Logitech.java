@@ -1,41 +1,36 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package edu.nr.main.oi;
 
-/**
- *
- * @author colin
- */
 public class Logitech extends Controller
 {
 
     public Logitech(int port) 
     {
         super(port);
-        aButton = 1;
-        bButton = 2;
-        xButton = 3;
-        yButton = 4;
-        rightBumperButton = 6;
-        leftBumperButton = 5;
-        selectButton = 7;
-        startButton = 8;
-        leftStickButton = 9;
-        rightStickButton = 10;
-
-        leftStickXAxis = 1;
-        leftStickYAxis = 2;
-        rightStickXAxis = 3;
-        rightStickYAxis = 4;
-        extraAxis1 = 5;
-        extraAxis2 = 6;
-        extraAxis3 = 7;
+        AxisType.leftXAxis = 1;
+        AxisType.leftYAxis = 2;
+        AxisType.rightXAxis = 3;
+        AxisType.rightYAxis = 4;
+        AxisType.extraAxis1 = 5;
+        AxisType.extraAxis2 = 6;
+        AxisType.extraAxis3 = 7;
+        
+        ButtonType.aButton = 1;
+        ButtonType.bButton = 2;
+        ButtonType.xButton = 3;
+        ButtonType.yButton = 4;
+        ButtonType.leftBumperButton = 5;
+        ButtonType.rightBumperButton = 6;
+        ButtonType.selectButton = 7;
+        ButtonType.startButton = 8;
+        ButtonType.leftStickButton = 9;
+        ButtonType.rightStickButton = 10;
     }
     
+    public boolean getButton(int button) {
+       return true;
+    }
     
-    
+    public double getRawAxis(int axis) {
+        return 0.0;
+    }     
 }

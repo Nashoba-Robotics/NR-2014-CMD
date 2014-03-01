@@ -1,18 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package edu.nr.main.oi;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
 
-/**
- *
- * @author colin
- */
 public abstract class Controller extends Joystick
 {
 
@@ -20,24 +9,29 @@ public abstract class Controller extends Joystick
         super(port);
     }
     
-    public int aButton;
-    public int bButton;
-    public int xButton;
-    public int yButton;
-    public int rightBumperButton;
-    public int leftBumperButton;
-    public int selectButton;
-    public int startButton;
-    public int leftStickButton;
-    public int rightStickButton;
-    
-    public int leftStickXAxis;
-    public int leftStickYAxis;
-    public int rightStickXAxis;
-    public int rightStickYAxis;
-    public int extraAxis1;
-    public int extraAxis2;
-    public int extraAxis3;
-    
-    
+    public static abstract class ButtonType {
+        public static int aButton;
+        public static int bButton;
+        public static int xButton;
+        public static int yButton;
+        public static int rightBumperButton;
+        public static int leftBumperButton;
+        public static int selectButton;
+        public static int startButton;
+        public static int leftStickButton;
+        public static int rightStickButton;
+    }
+
+    public static abstract class AxisType {
+        public static int leftXAxis;
+        public static int rightXAxis;
+        public static int leftYAxis;
+        public static int rightYAxis;
+        public static int extraAxis1;
+        public static int extraAxis2;
+        public static int extraAxis3;
+    }
+
+    public abstract boolean getButton(int button);
+    public abstract double getRawAxis(int axis);
 }
