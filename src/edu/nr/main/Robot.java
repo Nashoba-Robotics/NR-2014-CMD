@@ -182,7 +182,7 @@ public class Robot extends IterativeRobot
         if(sensorsStarted)
         {
             Scheduler.getInstance().run();
-            SmartDashboard.putNumber("Potentiometer",Robot.shooterRotator.getRotation());
+            SmartDashboard.putNumber("Potentiometer",Robot.shooterRotator.getShooterTiltEncClicks());
             SmartDashboard.putNumber("Linear Encoder", Robot.puncher.getLinearEncoderDistance());
             SmartDashboard.putNumber("Encoder 1", Robot.drive.getRawEncoder(1));
             SmartDashboard.putNumber("Encoder 2", Robot.drive.getRawEncoder(2));

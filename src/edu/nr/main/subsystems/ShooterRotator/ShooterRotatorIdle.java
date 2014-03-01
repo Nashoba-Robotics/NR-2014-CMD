@@ -28,7 +28,7 @@ public class ShooterRotatorIdle extends Command
 
     protected void execute() 
     {
-        Robot.shooterRotator.rotate(0);
+        Robot.shooterRotator.stop();
     }
 
     protected boolean isFinished() 

@@ -15,16 +15,16 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class DelayedStopIntakeCommand extends Command
 {
-    int init;
-    boolean done = false;
+    private double init;
+    private boolean done = false;
     protected void initialize() 
     {
-        init = (int)(System.currentTimeMillis()/1000f);
+        init = System.currentTimeMillis()/1000f;
     }
 
     protected void execute() 
     {
-        int current = (int)(System.currentTimeMillis()/1000f);
+        double current = System.currentTimeMillis()/1000f;
         if(current - init > 0.5)
         {
             done = true;
@@ -42,6 +42,5 @@ public class DelayedStopIntakeCommand extends Command
     }
 
     protected void interrupted() {
-    }
-    
+    }   
 }

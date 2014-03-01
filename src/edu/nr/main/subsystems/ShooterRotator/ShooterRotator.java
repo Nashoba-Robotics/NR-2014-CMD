@@ -39,7 +39,7 @@ public class ShooterRotator extends Subsystem implements Printable
         this.setDefaultCommand(new ShooterRotatorIdle());
     }
     
-    public double getRotation()
+    public double getShooterTiltEncClicks()
     {
         try 
         {
@@ -52,14 +52,41 @@ public class ShooterRotator extends Subsystem implements Printable
         return 2;
     }
     
-    public void rotate(double speed)
+    public boolean isAtDestination(double destination) {
+        return getShooterTiltEncClicks() == destination;
+    }
+    
+    public void rotate(double destination)
     {
+        double count = 0;
+        double p, i, d = 0;
         try 
         {
-            rotationJag.setX(speed);
+            rotationJag.configSoftPositionLimits(destination, 
+                                             RobotMap.SHOOTER_ROT_REV_SOFT_LIM);
+            if(rotationJag.getPosition() != destination) {
+                p = rotationJag.getPosition()/destination;
+                i = count * 0.002;
+            
+                rotationJag.setPID(p, i, d);
+                rotationJag.enableControl();
+                count++;
+            }
+            else {
+                return;
+            }
         }
         catch (CANTimeoutException ex) {
             ex.printStackTrace();
+        }
+    }
+    
+    public void stop() {
+        try {
+            rotationJag.setX(0);
+        }
+        catch(CANTimeoutException e) {
+            System.out.println("Could not stop Jag!");
         }
     }
 
