@@ -5,37 +5,36 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AccelerationCalc 
 {
-    private double sample_x, sample_y, sample_z;
-    private char count_x, count_y;
-    private double[] acc_x = new double[2];
-    private double[] acc_y = new double[2];
-    private double[] acc_z = new double[2];
-    private double[] velocity_x = new double[2];
-    private double[] velocity_y = new double[2];
-    private long[] position_x = new long[2];
-    private long[] position_y = new long[2];
-    private long[] position_z = new long[2];
-    private char direction;
-    private long s_state_x, s_state_y;
+    private static double sample_x, sample_y, sample_z;
+    private static char count_x, count_y;
+    private static double[] acc_x = new double[2];
+    private static double[] acc_y = new double[2];
+    private static double[] acc_z = new double[2];
+    private static double[] velocity_x = new double[2];
+    private static double[] velocity_y = new double[2];
+    private static long[] position_x = new long[2];
+    private static long[] position_y = new long[2];
+    private static long[] position_z = new long[2];
+    private static char direction;
+    private static long s_state_x, s_state_y;
     
-    private boolean hasInit = false;
+    private static boolean hasInit = false;
     
-    public void run() {
+    public static void run() {
         if(!hasInit) {
             calibrate();
             hasInit = true;
         }
-        
         position();
     }
     
-    private void get_all_axes() {
+    private static void get_all_axes() {
         sample_x = Robot.drive.getAccel(ADXL345_I2C.Axes.kX);
         sample_y = Robot.drive.getAccel(ADXL345_I2C.Axes.kY);
         sample_z = Robot.drive.getAccel(ADXL345_I2C.Axes.kZ);
     }
     
-    private void calibrate() {
+    private static void calibrate() {
         int count = 0;
         
         do {
@@ -49,7 +48,7 @@ public class AccelerationCalc
         s_state_y = s_state_x >> 10;
     }
     
-    private void movement_end_check() {
+    private static void movement_end_check() {
         if (acc_x[1]==0) { 
             count_x++;
         }
@@ -80,7 +79,7 @@ public class AccelerationCalc
         }
     }
     
-    private void position() {
+    private static void position() {
         char count2 = 0;
         
         do {
@@ -141,7 +140,7 @@ public class AccelerationCalc
         direction = 0;
     }
     
-    private void displayData() {
+    private static void displayData() {
         SmartDashboard.putNumber("X Position", position_x[1]);
         SmartDashboard.putNumber("Y Position", position_y[1]);
         
