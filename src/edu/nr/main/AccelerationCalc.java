@@ -47,4 +47,6 @@ public class AccelerationCalc
         s_state_x = s_state_x >> 10;
         s_state_y = s_state_x >> 10;
     }
+    
+  
 }
