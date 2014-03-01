@@ -42,6 +42,7 @@ public class RobotMap
     public static final int TOP_ARM_SOLENOID_UNDEPLOY=4;
     public static final int SHIFTER_ENGAGE = 1;
     public static final int SHIFTER_DISENGAGE = 2;
+    public static final int ON_BOARD_COMPRESSOR_RELAY=1;
     public static final int OFF_BOARD_COMPRESSOR_RELAY=2;
     
     public static final boolean USING_LINCODER = false;

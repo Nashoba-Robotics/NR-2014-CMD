@@ -19,7 +19,7 @@ public class ShooterRotationCommand extends Command
 
     protected void execute()
     {
-        Robot.shooterRotator.rotate(speed, destination);
+        Robot.shooterRotator.rotate(destination);
     }
 
     protected boolean isFinished()

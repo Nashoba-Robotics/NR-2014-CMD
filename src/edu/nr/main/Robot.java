@@ -12,14 +12,14 @@ import edu.nr.main.oi.OI;
 import edu.nr.main.subsystems.BottomRollers.BottomRollers;
 import edu.nr.main.subsystems.BottomRollers.ResetPieConnectionCommand;
 import edu.nr.main.subsystems.Camera.Camera;
-import edu.nr.main.subsystems.Compressor.Compressor;
+import edu.nr.main.subsystems.Compressor.InternalCompressor;
 import edu.nr.main.subsystems.Drive.Drive;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.nr.main.subsystems.Flower.Flower;
-import edu.nr.main.subsystems.OffBoardCompressor.OffBoardCompressor;
+import edu.nr.main.subsystems.Compressor.ExternalCompressor;
 import edu.nr.main.subsystems.Puncher.Puncher;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotator;
 import edu.nr.main.subsystems.TopArm.TopArm;
@@ -52,9 +52,9 @@ public class Robot extends IterativeRobot
     public static Flower flower = null;
     public static Puncher puncher = null;
     public static ShooterRotator shooterRotator = null;
-    public static Compressor compressor;
+    public static InternalCompressor intCompressor;
     public static TopArm topArm;
-    public static OffBoardCompressor extCompressor;
+    public static ExternalCompressor extCompressor;
     public static Camera camera;
     
     static SocketConnection pieConnection;
@@ -71,13 +71,15 @@ public class Robot extends IterativeRobot
         SmartDashboard.putNumber("Tension Distance", 0);
         SmartDashboard.putNumber("Drive Distance", 10);
         drive = new Drive();
-        compressor = new Compressor();
+        intCompressor = InternalCompressor.getInstance(); 
+        intCompressor.init(RobotMap.ON_BOARD_COMPRESSOR_RELAY);
         rollers = new BottomRollers();
         puncher = new Puncher();
         shooterRotator = new ShooterRotator();
         topArm = new TopArm();
         flower = new Flower();
-        extCompressor = new OffBoardCompressor();
+        extCompressor = ExternalCompressor.getInstance();
+        extCompressor.init(RobotMap.OFF_BOARD_COMPRESSOR_RELAY);
         camera = new Camera();
         
         SmartDashboard.putNumber("Tensioner Speed", 0);
@@ -88,7 +90,7 @@ public class Robot extends IterativeRobot
         drive.sendInfo();
         rollers.sendInfo();
         shooterRotator.sendInfo();
-        compressor.sendInfo();
+        intCompressor.sendInfo();
         extCompressor.sendInfo();
         camera.sendInfo();
         
