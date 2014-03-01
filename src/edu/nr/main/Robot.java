@@ -10,7 +10,6 @@ package edu.nr.main;
 
 import edu.nr.main.oi.OI;
 import edu.nr.main.subsystems.BottomRollers.BottomRollers;
-import edu.nr.main.subsystems.BottomRollers.ResetPieConnectionCommand;
 import edu.nr.main.subsystems.Camera.Camera;
 import edu.nr.main.subsystems.Compressor.InternalCompressor;
 import edu.nr.main.subsystems.Drive.Drive;

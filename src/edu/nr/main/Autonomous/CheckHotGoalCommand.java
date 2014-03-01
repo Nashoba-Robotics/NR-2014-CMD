@@ -1,20 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package edu.nr.main.Autonomous;
 
+import edu.nr.main.RobotMap;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
-/**
- *
- * @author colin
- */
+
 public class CheckHotGoalCommand extends Command
 {
+    private NetworkTable realmTable = NetworkTable.getTable
+                                               (RobotMap.ROBO_REALM_TABLE_NAME);
 
     protected void initialize() {
     }
@@ -23,7 +17,7 @@ public class CheckHotGoalCommand extends Command
     {
         try
         {
-            if(SmartDashboard.getNumber("isHot") == 1 && (SmartDashboard.getNumber("isVisible") == 1))
+            if(realmTable.getNumber("isHot") == 1 && (realmTable.getNumber("isVisible") == 1))
             {
                 new AutonomousPunchCommand(0).start();
             }
