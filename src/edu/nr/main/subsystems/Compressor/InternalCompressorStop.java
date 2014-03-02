@@ -1,27 +1,23 @@
 package edu.nr.main.subsystems.Compressor;
 
-import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class InternalCompressorStop extends Command
-{
-    public InternalCompressorStop()
-    {
+public class InternalCompressorStop extends Command {
+    private final InternalCompressor compr = InternalCompressor.getInstance();
+    
+    public InternalCompressorStop() {
         super("Stop Internal Compressor");
-        this.requires(Robot.intCompressor);
+        requires(compr);
     }
-    protected void initialize()
-    {
+    protected void initialize() {
         
     }
 
-    protected void execute()
-    {
-        Robot.intCompressor.stop();
+    protected void execute() {
+        compr.stop();
     }
 
-    protected boolean isFinished()
-    {
+    protected boolean isFinished() {
         return true;
     }
 

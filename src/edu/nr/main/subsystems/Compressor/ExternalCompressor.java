@@ -36,6 +36,10 @@ public class ExternalCompressor extends CompressorBase {
         spike.set(Relay.Value.kOff);
     }
     
+    protected boolean getLimit() {
+        return limit.getLimit();
+    }
+    
     public void sendInfo() {
         SmartDashboard.putData("External Compressor Start", new ExternalCompressorStart());
         SmartDashboard.putData("External Compressor Stop", new ExternalCompressorStop());

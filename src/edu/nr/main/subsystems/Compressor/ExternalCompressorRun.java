@@ -1,13 +1,13 @@
 package edu.nr.main.subsystems.Compressor;
-import edu.nr.main.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
-
 public class ExternalCompressorRun extends Command {
+    private final ExternalCompressor compr = ExternalCompressor.getInstance();
     
     public ExternalCompressorRun() {
         super("Run External Compressor Routine");
-        requires(Robot.extCompressor);
+        requires(compr);
     }
 
     // Called just before this Command runs the first time
@@ -16,12 +16,12 @@ public class ExternalCompressorRun extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Robot.extCompressor.run();
+        compr.run();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return compr.getLimit();
     }
 
     // Called once after isFinished returns true

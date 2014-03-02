@@ -4,32 +4,28 @@ import edu.nr.main.subsystems.Printable;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class InternalCompressor extends CompressorBase implements Printable
-{
+public class InternalCompressor extends CompressorBase implements Printable {
     private static InternalCompressor INSTANCE = null;
+    
     private InternalCompressor() {
     }
     
-    public void init(int spikePort)
-    {
+    public void init(int spikePort) {
         m_spikePort = spikePort;
         spike.setDirection(Relay.Direction.kForward);
         
         limit.init();
     }
     
-    protected void initDefaultCommand()
-    {
+    protected void initDefaultCommand() {
         setDefaultCommand(new InternalCompressorIdle());
     }
     
-    protected void start()
-    {
+    protected void start() {
         spike.set(Relay.Value.kOn);
     }
     
-    protected void stop()
-    {
+    protected void stop() {
         spike.set(Relay.Value.kOff);
     }
     
@@ -41,9 +37,12 @@ public class InternalCompressor extends CompressorBase implements Printable
             stop();
         }
     }
+    
+    protected boolean getLimit() {
+        return limit.getLimit();
+    }
 
-    public void sendInfo() 
-    {
+    public void sendInfo() {
         SmartDashboard.putData("Internal Compressor Start", new InternalCompressorStart());
         SmartDashboard.putData("Internal Compressor Stop", new InternalCompressorStop());
         SmartDashboard.putData("Internal Compressor", this);

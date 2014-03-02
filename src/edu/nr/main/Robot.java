@@ -13,7 +13,7 @@ import edu.nr.main.oi.OI;
 
 /** Subsystems **/
 import edu.nr.main.subsystems.BottomRollers.BottomRollers;
-import edu.nr.main.subsystems.Camera.Camera;
+import edu.nr.main.subsystems.NetworkCameraLights.NetworkCameraLights;
 import edu.nr.main.subsystems.Compressor.InternalCompressor;
 import edu.nr.main.subsystems.Drive.Drive;
 import edu.nr.main.subsystems.Flower.Flower;
@@ -44,7 +44,7 @@ public class Robot extends IterativeRobot
     public InternalCompressor intCompressor = null;
     public TopArm topArm = null;
     public ExternalCompressor extCompressor = null;
-    public Camera camera = null;
+    public NetworkCameraLights cameraLights = null;
     public RaspberryPie pie = null;
     public ListenForPieInputCommand lpi = null;
     
@@ -61,17 +61,24 @@ public class Robot extends IterativeRobot
         
         drive = Drive.getInstance();
         drive.init();
+        
         intCompressor = InternalCompressor.getInstance(); 
         intCompressor.init(RobotMap.ON_BOARD_COMPRESSOR_RELAY);
+        
         rollers = BottomRollers.getInstance();
         rollers.init();
+        
         puncher = new Puncher();
         shooterRotator = new ShooterRotator();
         topArm = new TopArm();
         flower = new Flower();
+        
         extCompressor = ExternalCompressor.getInstance();
         extCompressor.init(RobotMap.OFF_BOARD_COMPRESSOR_RELAY);
-        camera = new Camera();
+        
+        cameraLights = NetworkCameraLights.getInstance();
+        cameraLights.init();
+        
         pie = RaspberryPie.getInstance();
         lpi = new ListenForPieInputCommand();
         
@@ -86,7 +93,7 @@ public class Robot extends IterativeRobot
         shooterRotator.sendInfo();
         intCompressor.sendInfo();
         extCompressor.sendInfo();
-        camera.sendInfo();
+        cameraLights.sendInfo();
         
         /** Connect to the pie **/
         pie.connectToPie();

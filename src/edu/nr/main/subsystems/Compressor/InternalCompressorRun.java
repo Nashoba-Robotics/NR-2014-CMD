@@ -1,13 +1,13 @@
 package edu.nr.main.subsystems.Compressor;
 
-import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class InternalCompressorRun extends Command {
+    private final InternalCompressor compr = InternalCompressor.getInstance();
     
     public InternalCompressorRun() {
         super("Run Internal Compressor Routine");
-        requires(Robot.intCompressor);
+        requires(compr);
     }
 
     // Called just before this Command runs the first time
@@ -16,12 +16,12 @@ public class InternalCompressorRun extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Robot.intCompressor.run();
+        compr.run();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.intCompressor.limit.getLimit();
+        return compr.getLimit();
     }
 
     // Called once after isFinished returns true

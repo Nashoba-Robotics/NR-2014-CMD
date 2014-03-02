@@ -1,37 +1,29 @@
 package edu.nr.main.subsystems.Compressor;
 
-import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class InternalCompressorIdle extends Command
-{
-    public InternalCompressorIdle()
-    {
+public class InternalCompressorIdle extends Command {
+    private final InternalCompressor compr = InternalCompressor.getInstance();
+    
+    public InternalCompressorIdle() {
         super("Internal Compressor Idle");
-        requires(Robot.intCompressor);
+        requires(compr);
     }
-    protected void initialize() 
-    {
-        
+    protected void initialize() {
     }
 
-    protected void execute() 
-    {
-        Robot.intCompressor.stop();
+    protected void execute() {
+        compr.stop();
     }
 
-    protected boolean isFinished()
-    {
+    protected boolean isFinished() {
         return false;
     }
 
-    protected void end() 
-    {
+    protected void end() {
         
     }
 
     protected void interrupted() {
     }
-    
 }

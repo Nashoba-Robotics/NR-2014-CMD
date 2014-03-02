@@ -1,13 +1,13 @@
 package edu.nr.main.subsystems.Compressor;
 
-import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 public class ExternalCompressorStop extends Command {
+    private final ExternalCompressor compr = ExternalCompressor.getInstance();
     
     public ExternalCompressorStop() {
         super("Stop External Compressor");
-        requires(Robot.extCompressor);
+        requires(compr);
     }
 
     // Called just before this Command runs the first time
@@ -16,7 +16,7 @@ public class ExternalCompressorStop extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        Robot.extCompressor.stop();
+        compr.stop();
     }
 
     // Make this return true when this Command no longer needs to run execute()
