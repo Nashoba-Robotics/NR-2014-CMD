@@ -1,24 +1,45 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package edu.nr.main.subsystems.Flower;
 
+import edu.nr.main.RobotMap;
 import edu.nr.main.subsystems.Printable;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 
-/**
- *
- * @author colin
- */
-public class Flower extends Subsystem implements Printable
-{
-    protected void initDefaultCommand() 
-    {
+public class Flower extends Subsystem implements Printable {
+    private DoubleSolenoid flowerSol;
+    private TopArm topArm;
+    private static Flower INSTANCE = null;
+    
+    protected void initDefaultCommand() {
         this.setDefaultCommand(new FlowerIdleCommand());
+    }
+    
+    private Flower() {
+    }
+    
+    public void init() {
+        flowerSol = new DoubleSolenoid(RobotMap.FLOWER_SOLENOID_DEPLOY,
+                                        RobotMap.FLOWER_SOLENOID_UNDEPLOY);
+    }
+    
+    public static final Flower getInstance() {
+        if(INSTANCE == null) {
+            synchronized(Flower.class) {
+                if(INSTANCE == null) {
+                    INSTANCE = new Flower();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+    
+    public void close() {
+        flowerSol.set(DoubleSolenoid.Value.kForward);
+    }
+    
+    public void bloom() {
+        flowerSol.set(DoubleSolenoid.Value.kReverse);
     }
 
     public void sendInfo() 

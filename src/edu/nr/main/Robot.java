@@ -21,7 +21,7 @@ import edu.nr.main.subsystems.Compressor.ExternalCompressor;
 import edu.nr.main.subsystems.Puncher.Puncher;
 import edu.nr.main.subsystems.RaspberryPie.ListenForPieInputCommand;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotator;
-import edu.nr.main.subsystems.TopArm.TopArm;
+import edu.nr.main.subsystems.Flower.TopArm;
 import edu.nr.main.subsystems.RaspberryPie.RaspberryPie;
 
 /** WPILibJ stuff **/
@@ -70,8 +70,10 @@ public class Robot extends IterativeRobot
         
         puncher = new Puncher();
         shooterRotator = new ShooterRotator();
-        topArm = new TopArm();
-        flower = new Flower();
+        topArm = TopArm.getInstance();
+        topArm.init();
+        flower = Flower.getInstance();
+        flower.init();
         
         extCompressor = ExternalCompressor.getInstance();
         extCompressor.init(RobotMap.OFF_BOARD_COMPRESSOR_RELAY);

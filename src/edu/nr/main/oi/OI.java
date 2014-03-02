@@ -13,10 +13,10 @@ import edu.nr.main.subsystems.Puncher.ResetDogEarCommand;
 import edu.nr.main.subsystems.Puncher.TensionCommand;
 import edu.nr.main.subsystems.Puncher.TensionIdle;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotationCommand;
-import edu.nr.main.subsystems.TopArm.TopArmDownCommand;
-import edu.nr.main.subsystems.TopArm.TopArmRunCommand;
-import edu.nr.main.subsystems.TopArm.TopArmStopCommand;
-import edu.nr.main.subsystems.TopArm.TopArmUpCommand;
+import edu.nr.main.subsystems.Flower.FlowerCloseCommand;
+import edu.nr.main.subsystems.Flower.TopArmRunCommand;
+import edu.nr.main.subsystems.Flower.TopArmStopCommand;
+import edu.nr.main.subsystems.Flower.FloweBloomCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -43,8 +43,8 @@ public class OI
         new JoystickButton(stick1, 10).whileHeld(new ShooterRotationCommand(-0.5f, 1));
         new JoystickButton(stick1, 1).whenPressed(new PunchCommand());
         new JoystickButton(stick1, 2).whenPressed(new ResetDogEarCommand());
-        new JoystickButton(stick1, 7).whenPressed(new TopArmDownCommand());
-        new JoystickButton(stick1, 8).whenPressed(new TopArmUpCommand());
+        new JoystickButton(stick1, 7).whenPressed(new FlowerCloseCommand());
+        new JoystickButton(stick1, 8).whenPressed(new FloweBloomCommand());
         new JoystickButton(stick1, 11).whenPressed(new TensionCommand());
         new JoystickButton(stick1, 12).whenPressed(new TensionIdle());
         
@@ -82,8 +82,8 @@ public class OI
         //rightBumperButton.whenPressed(new TopArmRunCommand());
         //leftBumperButton.whenPressed(new TopArmStopCommand());
         
-        leftStickButton.whenPressed(new TopArmDownCommand());
-        rightStickButton.whenPressed(new TopArmUpCommand());
+        leftStickButton.whenPressed(new FlowerCloseCommand());
+        rightStickButton.whenPressed(new FloweBloomCommand());
         rightBumperButton.whileHeld(new ShooterRotationCommand(0.3, 1));
         leftBumperButton.whileHeld(new ShooterRotationCommand(-0.3, 0));*/
     }

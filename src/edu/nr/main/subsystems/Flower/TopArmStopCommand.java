@@ -2,21 +2,23 @@ package edu.nr.main.subsystems.Flower;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class FlowerIdleCommand extends Command {
-    private final Flower flower = Flower.getInstance();
+public class TopArmStopCommand extends Command {
+    private final TopArm arm = TopArm.getInstance();
     
-    public FlowerIdleCommand() {
-        super("Flower Idle Command");
-        requires(flower);
+    public TopArmStopCommand() {
+        super("Top Arm Stop");
+        requires(arm);
     }
+    
     protected void initialize() {
     }
 
     protected void execute() {
+        arm.run(0);
     }
 
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     protected void end() {
@@ -24,4 +26,5 @@ public class FlowerIdleCommand extends Command {
 
     protected void interrupted() {
     }
+    
 }

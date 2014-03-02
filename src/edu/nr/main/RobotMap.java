@@ -36,10 +36,10 @@ public class RobotMap
     public static final int TOP_ARM_IR_SENSOR = 10;
     
     //Pneumatics
-    public static final int DOG_EAR_SOLENOID_UNDEPLOY = 5;
-    public static final int DOG_EAR_SOLENOID_DEPLOY = 6;
-    public static final int TOP_ARM_SOLENOID_DEPLOY = 3;
-    public static final int TOP_ARM_SOLENOID_UNDEPLOY=4;
+    public static final int DOG_GEAR_SOLENOID_UNDEPLOY = 5;
+    public static final int DOG_GEAR_SOLENOID_DEPLOY = 6;
+    public static final int FLOWER_SOLENOID_DEPLOY = 3;
+    public static final int FLOWER_SOLENOID_UNDEPLOY=4;
     public static final int SHIFTER_ENGAGE = 1;
     public static final int SHIFTER_DISENGAGE = 2;
     public static final int ON_BOARD_COMPRESSOR_RELAY=1;
