@@ -1,27 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+package edu.nr.main.subsystems.RaspberryPie;
 
-package edu.nr.main;
-
-import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- * @author colin
- */
 public class ResetPieConnectionCommand extends Command
 {
+    public ResetPieConnectionCommand() {
+        super("Reset Connection w/Raspberry Pie");
+        requires(RaspberryPie.getInstance());
+    }
 
     protected void initialize() {
     }
 
     protected void execute() 
     {
-        Robot.connectToPie();
+        RaspberryPie.getInstance().connectToPie();
     }
 
     protected boolean isFinished() 

@@ -1,5 +1,6 @@
 package edu.nr.main;
 
+import edu.nr.main.subsystems.Drive.Drive;
 import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -29,9 +30,9 @@ public class AccelerationCalc
     }
     
     private static void get_all_axes() {
-        sample_x = Robot.drive.getAccel(ADXL345_I2C.Axes.kX);
-        sample_y = Robot.drive.getAccel(ADXL345_I2C.Axes.kY);
-        sample_z = Robot.drive.getAccel(ADXL345_I2C.Axes.kZ);
+        sample_x = Drive.getInstance().getAccel(ADXL345_I2C.Axes.kX);
+        sample_y = Drive.getInstance().getAccel(ADXL345_I2C.Axes.kY);
+        sample_z = Drive.getInstance().getAccel(ADXL345_I2C.Axes.kZ);
     }
     
     private static void calibrate() {

@@ -1,10 +1,3 @@
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package edu.nr.main.subsystems.BottomRollers;
 
 import edu.nr.main.RobotMap;
@@ -15,28 +8,44 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- *
- * @author colin
- */
 public class BottomRollers extends Subsystem implements Printable
 {
+    private static BottomRollers INSTANCE = null;
     private RollerPair rollers;
-    public BottomRollers()
-    {
+    
+    private BottomRollers() {
+       
+    }
+    
+    public void init() {
         CANJaguar roller1 = null;
+        
         try {
-            roller1 = new CANJaguar(RobotMap.ROLLER_JAG);
-        } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+           roller1 = new CANJaguar(RobotMap.ROLLER_JAG);
+        } 
+        catch (CANTimeoutException ex) {
+           ex.printStackTrace();
         }
+        
         Victor roller2 = new Victor(RobotMap.ROLLER_VICTOR);
         roller2.setSafetyEnabled(false);
         rollers = new RollerPair(roller1, roller2);
     }
+    
+    public static BottomRollers getInstance() {
+        if(INSTANCE == null) {
+            synchronized(BottomRollers.class) {
+                if(INSTANCE == null) {
+                    INSTANCE = new BottomRollers();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+    
     protected void initDefaultCommand() 
     {
-        this.setDefaultCommand(new RollIdleCommand());
+        setDefaultCommand(new RollIdleCommand());
     }
     
     public void startRoll()
