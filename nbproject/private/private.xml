@@ -2,6 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/home/fluffypony/workspace/2014/NR-2014-CMD/src/edu/nr/main/subsystems/Drive/Drive.java</file>
+            <file>file:/home/fluffypony/workspace/2014/NR-2014-CMD/src/edu/nr/main/subsystems/RaspberryPie/RaspberryPie.java</file>
+            <file>file:/home/fluffypony/workspace/2014/NR-2014-CMD/src/edu/nr/main/Robot.java</file>
+            <file>file:/home/fluffypony/workspace/2014/NR-2014-CMD/src/edu/nr/main/subsystems/BottomRollers/BottomRollers.java</file>
+            <file>file:/home/fluffypony/workspace/2014/NR-2014-CMD/src/edu/nr/main/subsystems/BottomRollers/RollCommand.java</file>
+            <file>file:/home/fluffypony/workspace/2014/NR-2014-CMD/src/edu/nr/main/subsystems/BottomRollers/RollIdleCommand.java</file>
+            <file>file:/home/fluffypony/workspace/2014/NR-2014-CMD/src/edu/nr/main/subsystems/BottomRollers/StopRollCommand.java</file>
+        </group>
     </open-files>
 </project-private>
