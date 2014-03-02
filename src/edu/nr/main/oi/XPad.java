@@ -12,9 +12,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  * @author colin
  */
-public class XPad extends Controller
+public class XPad
 {
-
+/*
     public XPad(int port) 
     {
         super(port);
@@ -37,5 +37,5 @@ public class XPad extends Controller
         extraAxis2 = 6;
         extraAxis3 = 7;
     }
-    
+    */
 }
