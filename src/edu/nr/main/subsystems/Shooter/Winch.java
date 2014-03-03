@@ -14,7 +14,7 @@ public class Winch extends Subsystem implements Printable {
     private Winch() {
     }
     
-    protected void init() {
+    public void init() {
         try {
             winch = new CANJaguar(RobotMap.WINCH_JAG);
             if(RobotMap.USING_LINCODER) {
@@ -34,7 +34,7 @@ public class Winch extends Subsystem implements Printable {
         }
     }
     
-    public static final Winch getInstance() {
+    public static Winch getInstance() {
         if(INSTANCE == null) {
             synchronized(Winch.class) {
                 if(INSTANCE == null) {
@@ -49,7 +49,7 @@ public class Winch extends Subsystem implements Printable {
         setDefaultCommand(new TensionIdleCommand());
     }
     
-    protected boolean getLimitSwitch() {
+    public boolean getLimitSwitch() {
         try {
             return winch.getForwardLimitOK();
         } 
@@ -59,7 +59,7 @@ public class Winch extends Subsystem implements Printable {
         return false;
     }
     
-    protected void setWinchSpeed(double speed) {
+    public void setWinchSpeed(double speed) {
         try {
             winch.setX(speed);
         } 
@@ -68,7 +68,7 @@ public class Winch extends Subsystem implements Printable {
         }
     }
     
-    protected void setWinchLimits(double position) {
+    public void setWinchLimits(double position) {
         try {
             winch.configSoftPositionLimits(position, 
                                            RobotMap.WINCH_JAG_REV_SOFT_LIM);
@@ -79,7 +79,7 @@ public class Winch extends Subsystem implements Printable {
         }
     }
     
-    protected double getWinchVoltage() {
+    public double getWinchVoltage() {
         try {
             return winch.getOutputVoltage();
         } 
@@ -89,7 +89,7 @@ public class Winch extends Subsystem implements Printable {
         return -1;
     }
     
-    protected double getLinearEncoderDistance() {
+    public double getLinearEncoderDistance() {
         try {
             return winch.getPosition();
         } 

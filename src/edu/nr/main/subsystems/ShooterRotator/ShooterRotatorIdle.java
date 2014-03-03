@@ -1,38 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package edu.nr.main.subsystems.ShooterRotator;
 
-import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- * @author colin
- */
-public class ShooterRotatorIdle extends Command
-{
-    public ShooterRotatorIdle()
-    {
+public class ShooterRotatorIdle extends Command {
+    private final ShooterRotator rotate = ShooterRotator.getInstance();
+    
+    public ShooterRotatorIdle() {
         super("Shooter Rotator Idle");
-        this.requires(Robot.shooterRotator);
+        requires(rotate);
     }
     
-    protected void initialize() 
-    {
+    protected void initialize() {
         
     }
 
-    protected void execute() 
-    {
-        Robot.shooterRotator.stop();
+    protected void execute() {
+        rotate.stop();
     }
 
-    protected boolean isFinished() 
-    {
+    protected boolean isFinished() {
         return false;
     }
 
@@ -41,5 +27,4 @@ public class ShooterRotatorIdle extends Command
 
     protected void interrupted() {
     }
-    
 }

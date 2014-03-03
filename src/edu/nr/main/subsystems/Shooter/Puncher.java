@@ -14,7 +14,7 @@ public class Puncher extends Subsystem implements Printable {
     private Puncher() {
     }
     
-    public static final Puncher getInstance() {
+    public static Puncher getInstance() {
         if(INSTANCE == null) {
             synchronized(Puncher.class) {
                 if(INSTANCE == null) {
@@ -25,7 +25,7 @@ public class Puncher extends Subsystem implements Printable {
         return INSTANCE;
     }
     
-    protected void init() {
+    public void init() {
         dogGear = new DoubleSolenoid(RobotMap.DOG_GEAR_SOLENOID_DEPLOY, 
                                      RobotMap.DOG_GEAR_SOLENOID_UNDEPLOY);
         dogGear.set(Value.kReverse);

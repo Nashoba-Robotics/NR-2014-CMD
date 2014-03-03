@@ -19,6 +19,7 @@ import edu.nr.main.subsystems.Drive.Drive;
 import edu.nr.main.subsystems.Flower.Flower;
 import edu.nr.main.subsystems.Compressor.ExternalCompressor;
 import edu.nr.main.subsystems.Shooter.Puncher;
+import edu.nr.main.subsystems.Shooter.Winch;
 import edu.nr.main.subsystems.RaspberryPie.ListenForPieInputCommand;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotator;
 import edu.nr.main.subsystems.Flower.TopArm;
@@ -40,13 +41,13 @@ public class Robot extends IterativeRobot
     public BottomRollers rollers = null;
     public Flower flower = null;
     public Puncher puncher = null;
+    public Winch winch = null;
     public ShooterRotator shooterRotator = null;
     public InternalCompressor intCompressor = null;
     public TopArm topArm = null;
     public ExternalCompressor extCompressor = null;
     public NetworkCameraLights cameraLights = null;
     public RaspberryPie pie = null;
-    public ListenForPieInputCommand lpi = null;
     
     private boolean sensorsStarted = false;
     
@@ -68,10 +69,18 @@ public class Robot extends IterativeRobot
         rollers = BottomRollers.getInstance();
         rollers.init();
         
-        puncher = new Puncher();
-        shooterRotator = new ShooterRotator();
+        puncher = Puncher.getInstance();
+        puncher.init();
+        
+        winch = Winch.getInstance();
+        winch.init();
+        
+        shooterRotator = ShooterRotator.getInstance();
+        shooterRotator.init();
+        
         topArm = TopArm.getInstance();
         topArm.init();
+        
         flower = Flower.getInstance();
         flower.init();
         
@@ -82,7 +91,6 @@ public class Robot extends IterativeRobot
         cameraLights.init();
         
         pie = RaspberryPie.getInstance();
-        lpi = new ListenForPieInputCommand();
         
         SmartDashboard.putNumber("Tensioner Speed", 0);
         SmartDashboard.putData(rollers);
@@ -133,14 +141,12 @@ public class Robot extends IterativeRobot
         System.out.println("TELEOP STARTED");
     }
     
-    public void teleopPeriodic() 
-    {
+    public void teleopPeriodic() {
         SmartDashboard.putBoolean("Pie Connection", pie.isConnectedToPie());
-        if(sensorsStarted)
-        {
+        if(sensorsStarted) {
             Scheduler.getInstance().run();
             SmartDashboard.putNumber("Potentiometer", shooterRotator.getShooterTiltEncClicks());
-            SmartDashboard.putNumber("Linear Encoder", puncher.getLinearEncoderDistance());
+            SmartDashboard.putNumber("Linear Encoder", winch.getLinearEncoderDistance());
             SmartDashboard.putNumber("Encoder 1", drive.getRawEncoder(1));
             SmartDashboard.putNumber("Encoder 2", drive.getRawEncoder(2));
             SmartDashboard.putNumber("Gyro", drive.getGyroAngle());
@@ -148,17 +154,13 @@ public class Robot extends IterativeRobot
             SmartDashboard.putNumber("Ultrasonic Sensor (feet)", drive.getUltrasonicFeet());
             SmartDashboard.putBoolean("Infrared Sensor", topArm.getIRSensor());
             
-            SmartDashboard.putBoolean("Tension Limit Condition", puncher.getLimitSwitch());
+            SmartDashboard.putBoolean("Tension Limit Condition", winch.getLimitSwitch());
         
             SmartDashboard.putString("Pie Message", "");
             if(pie.isConnectedToPie())
-                lpi.start();
+                new ListenForPieInputCommand().start();
         }
     }
-    
-    /**
-     * This function is called periodically during test mode
-     */
     public void testPeriodic() {
         LiveWindow.run();
     }

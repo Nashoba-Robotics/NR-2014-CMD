@@ -1,30 +1,27 @@
 package edu.nr.main.subsystems.ShooterRotator;
 
-import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ShooterRotationCommand extends Command
-{
-    private double speed;
-    private double destination;
-    public ShooterRotationCommand(double speed, double destination)
-    {
-        this.speed = speed;
-        this.destination = destination;
-        this.requires(Robot.shooterRotator);
+public class ShooterRotationCommand extends Command {
+    private double m_speed;
+    private double m_destination;
+    private final ShooterRotator rotate = ShooterRotator.getInstance();
+    
+    public ShooterRotationCommand(double speed, double destination) {
+        m_speed = speed;
+        m_destination = destination;
+        requires(rotate);
     }
     
     protected void initialize() {
     }
 
-    protected void execute()
-    {
-        Robot.shooterRotator.rotate(destination);
+    protected void execute() {
+        rotate.rotate(m_destination);
     }
 
-    protected boolean isFinished()
-    {
-        return Robot.shooterRotator.isAtDestination(destination);
+    protected boolean isFinished() {
+        return rotate.isAtDestination(m_destination);
     }
 
     protected void end() {
@@ -32,5 +29,4 @@ public class ShooterRotationCommand extends Command
 
     protected void interrupted() {
     }
-    
 }

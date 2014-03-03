@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package edu.nr.main.subsystems.ShooterRotator;
 
 import edu.nr.main.RobotMap;
@@ -13,15 +7,22 @@ import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- *
- * @author colin
- */
-public class ShooterRotator extends Subsystem implements Printable
-{
+public class ShooterRotator extends Subsystem implements Printable {
     private CANJaguar rotationJag;
-    public ShooterRotator()
-    {
+    private static ShooterRotator INSTANCE = null;
+    
+    public static final ShooterRotator getInstance() {
+        if(INSTANCE == null) {
+            synchronized(ShooterRotator.class) {
+                if(INSTANCE == null) {
+                    INSTANCE = new ShooterRotator();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+    
+    public void init() {
         try 
         {
             rotationJag = new CANJaguar(RobotMap.SHOOTER_ROTATION_JAG);
@@ -34,37 +35,35 @@ public class ShooterRotator extends Subsystem implements Printable
             ex.printStackTrace();
         }
     }
-    protected void initDefaultCommand() 
-    {
-        this.setDefaultCommand(new ShooterRotatorIdle());
+    
+    private ShooterRotator() {
     }
     
-    public double getShooterTiltEncClicks()
-    {
-        try 
-        {
+    protected void initDefaultCommand() {
+        setDefaultCommand(new ShooterRotatorIdle());
+    }
+    
+    public double getShooterTiltEncClicks() {
+        try {
             return rotationJag.getPosition();
         } 
-        catch (CANTimeoutException ex) 
-        {
+        catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
-        return 2;
+        return -1;
     }
     
     public boolean isAtDestination(double destination) {
         return getShooterTiltEncClicks() == destination;
     }
     
-    public void rotate(double destination)
-    {
+    public void rotate(double destination) {
         double count = 0;
         double p, i, d = 0;
-        try 
-        {
+        try {
             rotationJag.configSoftPositionLimits(destination, 
                                              RobotMap.SHOOTER_ROT_REV_SOFT_LIM);
-            if(rotationJag.getPosition() != destination) {
+            if(!isAtDestination(destination)) {
                 p = rotationJag.getPosition()/destination;
                 i = count * 0.002;
             
@@ -90,8 +89,7 @@ public class ShooterRotator extends Subsystem implements Printable
         }
     }
 
-    public void sendInfo() 
-    {
+    public void sendInfo() {
         SmartDashboard.putData("Shooter Rotator", this);
         SmartDashboard.putData("Shooter Rotator Idle", new ShooterRotatorIdle());
         //SmartDashboard.putData("Shooter Rotation (0.4)", new ShooterRotationCommand(0.4,1));
