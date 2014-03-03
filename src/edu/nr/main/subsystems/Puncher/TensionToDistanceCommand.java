@@ -29,9 +29,7 @@ public class TensionToDistanceCommand extends Command
 
     protected boolean isFinished() 
     {
-        /*double diff = target - Robot.puncher.getLinearEncoderDistance();
-        return diff <=0f;*/
-        return !Robot.puncher.getLimitSwitch();
+        return !Robot.puncher.getForwardLimitOK();
     }
 
     protected void end() {

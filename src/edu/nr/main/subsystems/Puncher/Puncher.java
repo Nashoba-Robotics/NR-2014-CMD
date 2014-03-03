@@ -33,8 +33,7 @@ public class Puncher extends Subsystem implements Printable
         {
             winch = new CANJaguar(RobotMap.WINCH_JAG);
             winch.configEncoderCodesPerRev(250);
-            winch.setPositionReference(CANJaguar.PositionReference.kQuadEncoder);
-            winch.setSpeedReference(CANJaguar.SpeedReference.kEncoder);
+            winch.setPositionReference(CANJaguar.PositionReference.kPotentiometer);
             winch.setSafetyEnabled(false);
             setWinchLimit(5);
         } catch (CANTimeoutException ex) {
@@ -49,7 +48,7 @@ public class Puncher extends Subsystem implements Printable
         this.setDefaultCommand(new TensionIdle());
     }
     
-    public boolean getLimitSwitch()
+    public boolean getForwardLimitOK()
     {
         try {
             return winch.getForwardLimitOK();

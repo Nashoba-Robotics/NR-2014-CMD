@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.nr.main.subsystems.Flower.Flower;
 import edu.nr.main.subsystems.Compressor.OffBoard.OffBoardCompressor;
 import edu.nr.main.subsystems.Puncher.Puncher;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotator;
@@ -49,7 +48,6 @@ public class Robot extends IterativeRobot
     
     public static Drive drive = null;
     public static BottomRollers rollers = null;
-    public static Flower flower = null;
     public static Puncher puncher = null;
     public static ShooterRotator shooterRotator = null;
     public static Compressor compressor;
@@ -76,7 +74,6 @@ public class Robot extends IterativeRobot
         puncher = new Puncher();
         shooterRotator = new ShooterRotator();
         topArm = new TopArm();
-        flower = new Flower();
         extCompressor = new OffBoardCompressor();
         camera = new Camera();
         
@@ -193,7 +190,7 @@ public class Robot extends IterativeRobot
             SmartDashboard.putNumber("Ultrasonic Sensor (feet)", Robot.drive.getUltrasonicFeet());
             SmartDashboard.putBoolean("Infrared Sensor", Robot.topArm.getIRSensor());
             
-            SmartDashboard.putBoolean("Tension Limit Condition", Robot.puncher.getLimitSwitch());
+            SmartDashboard.putBoolean("Tension Limit Condition", Robot.puncher.getForwardLimitOK());
         
             SmartDashboard.putString("Pie Message", "");
             if(connectedToPie)
