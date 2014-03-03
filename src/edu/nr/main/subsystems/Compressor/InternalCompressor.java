@@ -18,27 +18,29 @@ public class InternalCompressor extends CompressorBase implements Printable {
     }
     
     protected void initDefaultCommand() {
-        setDefaultCommand(new InternalCompressorIdle());
+        setDefaultCommand(new InternalCompressorRun());
     }
     
-    protected void start() {
+    public void start() {
         spike.set(Relay.Value.kOn);
     }
     
-    protected void stop() {
+    public void stop() {
         spike.set(Relay.Value.kOff);
     }
     
-    protected void run() {
-        if(!limit.getLimit()) {
-            start();
-        }
-        else {
-            stop();
+    public void run() {
+        if(SmartDashboard.getBoolean("Auto Compressor")) {
+            if(!limit.getLimit()) {
+               start();
+            }
+            else {
+              stop();
+            }
         }
     }
     
-    protected boolean getLimit() {
+    public boolean getLimit() {
         return limit.getLimit();
     }
 

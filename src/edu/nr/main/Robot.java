@@ -35,24 +35,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //10.17.68.15:3200
 
-public class Robot extends IterativeRobot 
-{
-    public Drive drive = null;
-    public BottomRollers rollers = null;
-    public Flower flower = null;
-    public Puncher puncher = null;
-    public Winch winch = null;
-    public ShooterRotator shooterRotator = null;
-    public InternalCompressor intCompressor = null;
-    public TopArm topArm = null;
-    public ExternalCompressor extCompressor = null;
-    public NetworkCameraLights cameraLights = null;
-    public RaspberryPie pie = null;
+public class Robot extends IterativeRobot {
+    private Drive drive = null;
+    private BottomRollers rollers = null;
+    private Flower flower = null;
+    private Puncher puncher = null;
+    private Winch winch = null;
+    private ShooterRotator shooterRotator = null;
+    private InternalCompressor intCompressor = null;
+    private TopArm topArm = null;
+    private ExternalCompressor extCompressor = null;
+    private NetworkCameraLights cameraLights = null;
+    private RaspberryPie pie = null;
     
     private boolean sensorsStarted = false;
     
-    public void robotInit() 
-    {
+    public void robotInit() {
         System.out.println("ROBOT STARTED");
         
         SmartDashboard.putData("Connect to Pie", new ResetPieConnectionCommand());

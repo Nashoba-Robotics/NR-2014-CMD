@@ -16,7 +16,7 @@ import edu.nr.main.subsystems.ShooterRotator.ShooterRotationCommand;
 import edu.nr.main.subsystems.Flower.FlowerCloseCommand;
 import edu.nr.main.subsystems.Flower.TopArmRunCommand;
 import edu.nr.main.subsystems.Flower.TopArmStopCommand;
-import edu.nr.main.subsystems.Flower.FloweBloomCommand;
+import edu.nr.main.subsystems.Flower.FlowerBloomCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -44,7 +44,7 @@ public class OI
         new JoystickButton(stick1, 1).whenPressed(new PunchCommand());
         new JoystickButton(stick1, 2).whenPressed(new ResetDogGearCommand());
         new JoystickButton(stick1, 7).whenPressed(new FlowerCloseCommand());
-        new JoystickButton(stick1, 8).whenPressed(new FloweBloomCommand());
+        new JoystickButton(stick1, 8).whenPressed(new FlowerBloomCommand());
         new JoystickButton(stick1, 11).whenPressed(new TensionCommand());
         new JoystickButton(stick1, 12).whenPressed(new TensionIdleCommand());
         
@@ -83,7 +83,7 @@ public class OI
         //leftBumperButton.whenPressed(new TopArmStopCommand());
         
         leftStickButton.whenPressed(new FlowerCloseCommand());
-        rightStickButton.whenPressed(new FloweBloomCommand());
+        rightStickButton.whenPressed(new FlowerBloomCommand());
         rightBumperButton.whileHeld(new ShooterRotationCommand(0.3, 1));
         leftBumperButton.whileHeld(new ShooterRotationCommand(-0.3, 0));*/
     }

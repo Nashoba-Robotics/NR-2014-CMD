@@ -2,10 +2,10 @@ package edu.nr.main.subsystems.Flower;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class FloweBloomCommand extends Command {
+public class FlowerBloomCommand extends Command {
     private final Flower flower = Flower.getInstance();
     
-    public FloweBloomCommand() {
+    public FlowerBloomCommand() {
         super("Top Arm Up");
         requires(flower);
     }

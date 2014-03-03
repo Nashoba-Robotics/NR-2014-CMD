@@ -63,7 +63,7 @@ public class TopArm extends Subsystem implements Printable {
     public void sendInfo() {
         SmartDashboard.putData(this);
         SmartDashboard.putData(new FlowerCloseCommand());
-        SmartDashboard.putData(new FloweBloomCommand());
+        SmartDashboard.putData(new FlowerBloomCommand());
         SmartDashboard.putData(new TopArmRunCommand());
         SmartDashboard.putData(new TopArmStopCommand());
     }
