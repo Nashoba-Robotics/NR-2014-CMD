@@ -16,11 +16,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveDistanceCommand extends Command
 {
-    private int count;
-    private boolean doneDriving;
+    private int count = 0;
+    private boolean doneDriving = false;
     private float distance, speed;
-    private double initialGyroAngle;
+    private double initialGyroAngle, initialEncoderDistance;
     private double lastEncoderDistance = 0;
+    private boolean goingForward;
     private double x=0, y=0;
     
     private DriveDistanceCommand(){}
@@ -34,18 +35,18 @@ public class DriveDistanceCommand extends Command
     }
     protected void initialize() 
     {
-        doneDriving = false;
-        count = 0;
-        Robot.drive.resetEncs();
-        Robot.drive.resetGyro();
-        Robot.drive.setFirstGear();
+        Robot.drive.setSecondGear();
+        initialEncoderDistance = Robot.drive.getAverageEncoderDistance();
+        
+        goingForward = (distance > 0);
+        
         initialGyroAngle = Robot.drive.getGyroAngle();
     }
 
     protected void execute() 
     {
-        double angle = Robot.drive.getGyroAngle();// - initialGyroAngle;
-        SmartDashboard.putNumber("Gyro", angle);
+        double angle = Robot.drive.getGyroAngle() - initialGyroAngle;
+        SmartDashboard.putNumber("Delta Gyro", angle);
         double turnAngle = 0;
         if(Math.abs(angle) > 0.3)
         {
@@ -55,26 +56,25 @@ public class DriveDistanceCommand extends Command
                 turnAngle = Math.min(-0.5, -angle*0.05);
         }
         
-        double ave = Robot.drive.getAverageEncoderDistance();
-        SmartDashboard.putNumber("Encoder Ave", ave);
-        /*Position calculations
-        double delta_x_r = (ave-lastEncoderDistance);
-        double deltax = delta_x_r * Math.cos(-angle);
-        double deltay = delta_x_r * Math.sin(-angle);
-        x += deltax;
-        y += deltay;*/
+        double ave = Robot.drive.getAverageEncoderDistance() - initialEncoderDistance;
+        SmartDashboard.putNumber("Encoder Delta", ave);
         
         count++;
-        double err = distance - ave;
+        
+        //Do the math in posotive
+        double err = Math.abs(distance - ave);
 
-        double proportionalStopDistance = distance / 4 * 3;
+        double proportionalStopDistance = 4;
         double proportionalSpeed = ((1/(proportionalStopDistance)) * err) * speed;
         double integralSpeed = count * speed/Math.abs(speed) * 0.002;
         double newSpeed = Math.min(speed, proportionalSpeed + integralSpeed);
+        
+        newSpeed *= ((goingForward)?1:-1); // Reverse the speed if we are going backwards
+        
         SmartDashboard.putNumber("TurnAngle", turnAngle);
         SmartDashboard.putNumber("I Value", integralSpeed);
         SmartDashboard.putNumber("New Speed", newSpeed);
-        Robot.drive.drive(-newSpeed, turnAngle);
+        Robot.drive.drive(newSpeed, turnAngle);
 
         
         /*SmartDashboard.putNumber("Encoder 1", val1);
@@ -92,9 +92,13 @@ public class DriveDistanceCommand extends Command
 
     protected boolean isFinished() 
     {
-        if((Robot.drive.getAverageEncoderDistance() > distance));
+        if(goingForward)
+            return (Robot.drive.getAverageEncoderDistance() - initialEncoderDistance >= 0);
+        else
+            return (Robot.drive.getAverageEncoderDistance() - initialEncoderDistance <= 0);
+        /*if((Robot.drive.getAverageEncoderDistance() > distance));
             //System.out.println("Should Finish");
-        return (Robot.drive.getAverageEncoderDistance() > distance);
+        return (Robot.drive.getAverageEncoderDistance() > distance);*/
     }
 
     protected void end() 
