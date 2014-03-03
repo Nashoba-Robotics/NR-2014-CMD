@@ -29,7 +29,7 @@ public class CheckHotGoalCommand extends Command
             }
             else
             {
-               new AutonomousPunchCommand(4).start();
+               new AutonomousPunchCommand(5).start();
             }
         }
         catch(Throwable t)

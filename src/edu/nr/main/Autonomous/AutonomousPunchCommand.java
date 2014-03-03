@@ -6,6 +6,8 @@
 
 package edu.nr.main.Autonomous;
 
+import edu.nr.main.Robot;
+import edu.nr.main.subsystems.Puncher.PunchCommand;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -30,7 +32,9 @@ public class AutonomousPunchCommand extends Command
     {
         if((System.currentTimeMillis()/1000f) - startTime > delay)
         {
-            System.out.println("SHOOT THE BALL");
+            //UNCOMMENT FOR ACTUAL TESTING
+            //new PunchCommand().start();
+            System.out.println("AUTONOMOUS SHOOT THE BALL");
             done = true;
         }
     }
