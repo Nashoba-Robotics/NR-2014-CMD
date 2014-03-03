@@ -8,10 +8,10 @@ import edu.nr.main.subsystems.BottomRollers.StopRollCommand;
 import edu.nr.main.subsystems.Drive.DriveIdleCommand;
 import edu.nr.main.subsystems.Drive.DriveJoystickCommand;
 import edu.nr.main.subsystems.Drive.ShiftCommand;
-import edu.nr.main.subsystems.Puncher.PunchCommand;
-import edu.nr.main.subsystems.Puncher.ResetDogEarCommand;
-import edu.nr.main.subsystems.Puncher.TensionCommand;
-import edu.nr.main.subsystems.Puncher.TensionIdle;
+import edu.nr.main.subsystems.Shooter.PunchCommand;
+import edu.nr.main.subsystems.Shooter.ResetDogGearCommand;
+import edu.nr.main.subsystems.Shooter.TensionCommand;
+import edu.nr.main.subsystems.Shooter.TensionIdleCommand;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotationCommand;
 import edu.nr.main.subsystems.Flower.FlowerCloseCommand;
 import edu.nr.main.subsystems.Flower.TopArmRunCommand;
@@ -42,11 +42,11 @@ public class OI
         new JoystickButton(stick1, 9).whileHeld(new ShooterRotationCommand(0.5f, 1));
         new JoystickButton(stick1, 10).whileHeld(new ShooterRotationCommand(-0.5f, 1));
         new JoystickButton(stick1, 1).whenPressed(new PunchCommand());
-        new JoystickButton(stick1, 2).whenPressed(new ResetDogEarCommand());
+        new JoystickButton(stick1, 2).whenPressed(new ResetDogGearCommand());
         new JoystickButton(stick1, 7).whenPressed(new FlowerCloseCommand());
         new JoystickButton(stick1, 8).whenPressed(new FloweBloomCommand());
         new JoystickButton(stick1, 11).whenPressed(new TensionCommand());
-        new JoystickButton(stick1, 12).whenPressed(new TensionIdle());
+        new JoystickButton(stick1, 12).whenPressed(new TensionIdleCommand());
         
         //yButton = new JoystickButton(stic k1, 5);
         
@@ -77,7 +77,7 @@ public class OI
         backButton.whenPressed(new DriveIdleCommand());
         bButton.whenPressed(new StopRollCommand());
         
-        yButton.whenPressed(new ResetDogEarCommand());
+        yButton.whenPressed(new ResetDogGearCommand());
         
         //rightBumperButton.whenPressed(new TopArmRunCommand());
         //leftBumperButton.whenPressed(new TopArmStopCommand());

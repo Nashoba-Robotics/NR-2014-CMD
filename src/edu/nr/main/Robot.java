@@ -18,7 +18,7 @@ import edu.nr.main.subsystems.Compressor.InternalCompressor;
 import edu.nr.main.subsystems.Drive.Drive;
 import edu.nr.main.subsystems.Flower.Flower;
 import edu.nr.main.subsystems.Compressor.ExternalCompressor;
-import edu.nr.main.subsystems.Puncher.Puncher;
+import edu.nr.main.subsystems.Shooter.Puncher;
 import edu.nr.main.subsystems.RaspberryPie.ListenForPieInputCommand;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotator;
 import edu.nr.main.subsystems.Flower.TopArm;

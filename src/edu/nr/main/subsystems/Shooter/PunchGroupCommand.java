@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package edu.nr.main.subsystems.Puncher;
+package edu.nr.main.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 

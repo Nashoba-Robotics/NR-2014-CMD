@@ -47,6 +47,7 @@ public class RobotMap
     
     public static final boolean USING_LINCODER = false;
     public static final double WINCH_JAG_REV_SOFT_LIM = 0.0;
+    public static final double WINCH_REGULAR_SPEED = 0.7d;
     public static final double SHOOTER_ROT_REV_SOFT_LIM = 0.3;
     public static final int POT_TURNS = 1;
     public static final int LINCODER_CLICKS = 250;
