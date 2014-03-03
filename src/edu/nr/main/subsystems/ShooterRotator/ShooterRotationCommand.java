@@ -16,11 +16,9 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ShooterRotationCommand extends Command
 {
     private double speed;
-    private double destination;
-    public ShooterRotationCommand(double speed, double destination)
+    public ShooterRotationCommand(double speed)
     {
         this.speed = speed;
-        this.destination = destination;
         this.requires(Robot.shooterRotator);
     }
     
