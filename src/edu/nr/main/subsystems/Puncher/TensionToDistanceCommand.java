@@ -4,36 +4,32 @@
  * and open the template in the editor.
  */
 
-package edu.nr.main.subsystems.ShooterRotator;
+package edu.nr.main.subsystems.Puncher;
 
 import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  * @author colin
  */
-public class ShooterRotatorIdle extends Command
+public class TensionToDistanceCommand extends Command
 {
-    public ShooterRotatorIdle()
-    {
-        super("Shooter Rotator Idle");
-        this.requires(Robot.shooterRotator);
-    }
-    
+
     protected void initialize() 
     {
-        
+        Robot.puncher.setWinchLimit((float) SmartDashboard.getNumber("Tension Distance"));
     }
 
     protected void execute() 
     {
-        Robot.shooterRotator.rotate(0);
+        Robot.puncher.setTentionerSpeed(Robot.puncher.TENSIONER_REGULAR_SPEED);
     }
 
     protected boolean isFinished() 
     {
-        return false;
+        return !Robot.puncher.getForwardLimitOK();
     }
 
     protected void end() {

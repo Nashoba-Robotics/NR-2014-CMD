@@ -6,7 +6,7 @@
 
 package edu.nr.main.Autonomous;
 
-import edu.nr.main.subsystems.NetworkCameraLights.NetworkCameraLightsOnCommand;
+import edu.nr.main.subsystems.Camera.CameraOnCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
@@ -18,7 +18,7 @@ public class AutonomousCommand extends CommandGroup
 {
     public AutonomousCommand()
     {
-        this.addParallel(new NetworkCameraLightsOnCommand());
+        this.addParallel(new CameraOnCommand());
         this.addSequential(new WaitCommand(1));
         this.addSequential(new CheckHotGoalCommand());
     }

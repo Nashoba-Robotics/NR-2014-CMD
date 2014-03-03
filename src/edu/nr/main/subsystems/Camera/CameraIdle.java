@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package edu.nr.main.subsystems.ShooterRotator;
+package edu.nr.main.subsystems.Camera;
 
 import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -13,22 +13,16 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  * @author colin
  */
-public class ShooterRotatorIdle extends Command
+public class CameraIdle extends Command
 {
-    public ShooterRotatorIdle()
+    public CameraIdle()
     {
-        super("Shooter Rotator Idle");
-        this.requires(Robot.shooterRotator);
+        this.requires(Robot.camera);
     }
-    
-    protected void initialize() 
-    {
-        
+    protected void initialize() {
     }
 
-    protected void execute() 
-    {
-        Robot.shooterRotator.rotate(0);
+    protected void execute() {
     }
 
     protected boolean isFinished() 

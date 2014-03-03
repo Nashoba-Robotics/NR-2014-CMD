@@ -7,15 +7,15 @@ import edu.nr.main.subsystems.BottomRollers.StopRollCommand;
 import edu.nr.main.subsystems.Drive.DriveIdleCommand;
 import edu.nr.main.subsystems.Drive.DriveJoystickCommand;
 import edu.nr.main.subsystems.Drive.ShiftCommand;
-import edu.nr.main.subsystems.Shooter.PunchCommand;
-import edu.nr.main.subsystems.Shooter.ResetDogGearCommand;
-import edu.nr.main.subsystems.Shooter.TensionCommand;
-import edu.nr.main.subsystems.Shooter.TensionIdleCommand;
+import edu.nr.main.subsystems.Puncher.PunchCommand;
+import edu.nr.main.subsystems.Puncher.ResetDogEarCommand;
+import edu.nr.main.subsystems.Puncher.TensionCommand;
+import edu.nr.main.subsystems.Puncher.TensionIdle;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotationCommand;
-import edu.nr.main.subsystems.Flower.FlowerCloseCommand;
-import edu.nr.main.subsystems.Flower.TopArmRunCommand;
-import edu.nr.main.subsystems.Flower.TopArmStopCommand;
-import edu.nr.main.subsystems.Flower.FlowerBloomCommand;
+import edu.nr.main.subsystems.TopArm.TopArmDownCommand;
+import edu.nr.main.subsystems.TopArm.TopArmRunCommand;
+import edu.nr.main.subsystems.TopArm.TopArmStopCommand;
+import edu.nr.main.subsystems.TopArm.TopArmUpCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
@@ -41,11 +41,11 @@ public class OI
         new JoystickButton(stick1, 9).whileHeld(new ShooterRotationCommand(0.5f, 1));
         new JoystickButton(stick1, 10).whileHeld(new ShooterRotationCommand(-0.5f, 1));
         new JoystickButton(stick1, 1).whenPressed(new PunchCommand());
-        new JoystickButton(stick1, 2).whenPressed(new ResetDogGearCommand());
-        new JoystickButton(stick1, 7).whenPressed(new FlowerCloseCommand());
-        new JoystickButton(stick1, 8).whenPressed(new FlowerBloomCommand());
+        new JoystickButton(stick1, 2).whenPressed(new ResetDogEarCommand());
+        new JoystickButton(stick1, 7).whenPressed(new TopArmDownCommand());
+        new JoystickButton(stick1, 8).whenPressed(new TopArmUpCommand());
         new JoystickButton(stick1, 11).whenPressed(new TensionCommand());
-        new JoystickButton(stick1, 12).whenPressed(new TensionIdleCommand());
+        new JoystickButton(stick1, 12).whenPressed(new TensionIdle());
         
         //yButton = new JoystickButton(stic k1, 5);
         
@@ -76,13 +76,13 @@ public class OI
         backButton.whenPressed(new DriveIdleCommand());
         bButton.whenPressed(new StopRollCommand());
         
-        yButton.whenPressed(new ResetDogGearCommand());
+        yButton.whenPressed(new ResetDogEarCommand());
         
         //rightBumperButton.whenPressed(new TopArmRunCommand());
         //leftBumperButton.whenPressed(new TopArmStopCommand());
         
-        leftStickButton.whenPressed(new FlowerCloseCommand());
-        rightStickButton.whenPressed(new FlowerBloomCommand());
+        leftStickButton.whenPressed(new TopArmDownCommand());
+        rightStickButton.whenPressed(new TopArmUpCommand());
         rightBumperButton.whileHeld(new ShooterRotationCommand(0.3, 1));
         leftBumperButton.whileHeld(new ShooterRotationCommand(-0.3, 0));*/
     }

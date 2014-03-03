@@ -1,3 +1,5 @@
+
+
 package edu.nr.main.subsystems.Drive;
 
 import edu.nr.main.RobotMap;
@@ -16,18 +18,14 @@ import edu.wpi.first.wpilibj.Ultrasonic;
 
 public class Drive extends Subsystem implements Printable
 {
-    private static Drive INSTANCE = null;
     private ADXL345_I2C accel;
     private RobotDrive drive = null;
     private Gyro gyro;
     private Encoder e1, e2;
     private DoubleSolenoid shifter;
-    private Ultrasonic sonic;
-    
-    private Drive() {
-    }
-    
-    public void init() {
+    Ultrasonic sonic;
+    public Drive()
+    {
         drive = new RobotDrive(new Talon(1),new Talon(2),new Talon(3),new Talon(4));
         drive.setSafetyEnabled(false);
 
@@ -35,6 +33,7 @@ public class Drive extends Subsystem implements Printable
         e1 = new Encoder(RobotMap.ENCODER_1_A, RobotMap.ENCODER_1_B, false, CounterBase.EncodingType.k4X);
         e2 = new Encoder(RobotMap.ENCODER_2_A, RobotMap.ENCODER_2_B, false, CounterBase.EncodingType.k4X);
         
+        //A calculated constant to convert from encoder ticks to feet on 4 inch diameter wheels
         e1.setDistancePerPulse(0.0349065850388889/12);
         e2.setDistancePerPulse(0.0349065850388889/12);
         startEncoders();
@@ -106,7 +105,8 @@ public class Drive extends Subsystem implements Printable
     
     public double getAverageEncoderDistance()
     {
-        return (e1.getDistance() + e2.getDistance())/2.0f;
+        //average is multiplied by 34/32 to correct for encoder error
+        return ((e1.getDistance() + e2.getDistance())/2.0f)* (34d/32d);
     }
     
     public double getGyroRate()
@@ -143,17 +143,6 @@ public class Drive extends Subsystem implements Printable
         SmartDashboard.putData("Shift First Gear", new ShiftCommand(true));
         SmartDashboard.putData("Shift Second Gear", new ShiftCommand(false));
         SmartDashboard.putData("Drive Distance", new DriveDistanceCommand(2f, .6f));
-    }
-    
-    public static Drive getInstance() {
-        if(INSTANCE == null) {
-            synchronized(Drive.class) {
-                if(INSTANCE == null) {
-                    INSTANCE = new Drive();
-                }
-            }
-        }
-        return INSTANCE;
     }
 }
 

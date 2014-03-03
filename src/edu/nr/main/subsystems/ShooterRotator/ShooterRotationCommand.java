@@ -1,27 +1,44 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package edu.nr.main.subsystems.ShooterRotator;
 
+import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ShooterRotationCommand extends Command {
-    private double m_speed;
-    private double m_destination;
-    private final ShooterRotator rotate = ShooterRotator.getInstance();
-    
-    public ShooterRotationCommand(double speed, double destination) {
-        m_speed = speed;
-        m_destination = destination;
-        requires(rotate);
+/**
+ *
+ * @author colin
+ */
+public class ShooterRotationCommand extends Command
+{
+    private double speed;
+    private double destination;
+    public ShooterRotationCommand(double speed, double destination)
+    {
+        this.speed = speed;
+        this.destination = destination;
+        this.requires(Robot.shooterRotator);
     }
     
     protected void initialize() {
     }
 
-    protected void execute() {
-        rotate.rotate(m_destination);
+    protected void execute()
+    {
+        /*double err = destination - Robot.shooterRotator.getRotation();
+        double proportionalStopDistance = 0.2;
+        double proportionalSpeed = ((1/proportionalStopDistance)*err)*speed;
+        double finalSpeed = Math.min(speed, proportionalSpeed);*/
+        Robot.shooterRotator.rotate(speed);
     }
 
-    protected boolean isFinished() {
-        return rotate.isAtDestination(m_destination);
+    protected boolean isFinished()
+    {
+        return true;
     }
 
     protected void end() {
@@ -29,4 +46,5 @@ public class ShooterRotationCommand extends Command {
 
     protected void interrupted() {
     }
+    
 }

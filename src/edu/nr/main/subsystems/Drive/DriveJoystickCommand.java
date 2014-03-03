@@ -1,35 +1,45 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package edu.nr.main.subsystems.Drive;
 
 import edu.nr.main.oi.OI;
+import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class DriveJoystickCommand extends Command {
-    private final Drive drv = Drive.getInstance();
-    
-    public DriveJoystickCommand() {
-        requires(drv);
+/**
+ *
+ * @author colin
+ */
+public class DriveJoystickCommand extends Command
+{
+    public DriveJoystickCommand()
+    {
+        this.requires(Robot.drive);
     }
     
-    double x = 0, 
-           y = 0, 
-           lastEncoderDistance = 0;
-    
-    protected void initialize() {
+    double x = 0, y = 0, lastEncoderDistance = 0;
+    protected void initialize() 
+    {
         x = 0;
         y = 0;
         lastEncoderDistance = 0;
-        drv.resetGyro();
+        Robot.drive.resetGyro();
     }
     
-    protected void execute() {
+    protected void execute()
+    {
         double ySpeed = OI.getJoy1Y();
         double zSpeed = OI.getJoy1Z();
         
-        double angle = drv.getGyroAngle();
+        double angle = Robot.drive.getGyroAngle();
         angle = angle * (Math.PI / 180);
         
-        double ave = drv.getAverageEncoderDistance() * (34d/32d);// * (34d/33d);
+        double ave = Robot.drive.getAverageEncoderDistance();// * (34d/33d);
         double delta_x_r = (ave-lastEncoderDistance);
         double deltax = delta_x_r * Math.cos(-angle);
         double deltay = delta_x_r * Math.sin(-angle);
@@ -44,8 +54,10 @@ public class DriveJoystickCommand extends Command {
         
         //SmartDashboard.putNumber("Y axis", ySpeed);
         //SmartDashboard.putNumber("Z axis", zSpeed);
-        SmartDashboard.putNumber("Encoder 1", drv.getRawEncoder(1));
-        SmartDashboard.putNumber("Encoder 2", drv.getRawEncoder(2));
+        SmartDashboard.putNumber("Encoder 1", Robot.drive.getRawEncoder(1));
+        SmartDashboard.putNumber("Encoder 2", Robot.drive.getRawEncoder(2));
+        
+        //Snap to value: corrects for joystick error when it is close to 0 while it isn't being touched
         if(ySpeed < 0.05 && ySpeed > -0.05)
             ySpeed = 0;
         if(zSpeed < 0.05 && zSpeed > -0.05)
@@ -55,7 +67,7 @@ public class DriveJoystickCommand extends Command {
         zSpeed = (zSpeed/3) * 2;
         ySpeed = (ySpeed/4) * 3;
         
-        drv.drive(ySpeed, zSpeed);
+        Robot.drive.drive(ySpeed, zSpeed);
     }
 
     protected boolean isFinished() 

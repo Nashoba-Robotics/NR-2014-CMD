@@ -4,36 +4,34 @@
  * and open the template in the editor.
  */
 
-package edu.nr.main.subsystems.ShooterRotator;
+package edu.nr.main.subsystems.Puncher;
 
 import edu.nr.main.Robot;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  * @author colin
  */
-public class ShooterRotatorIdle extends Command
+public class ResetDogEarCommand extends Command
 {
-    public ShooterRotatorIdle()
+    public ResetDogEarCommand()
     {
-        super("Shooter Rotator Idle");
-        this.requires(Robot.shooterRotator);
+        super("Reset Dog Ear");
+        this.requires(Robot.puncher);
     }
-    
-    protected void initialize() 
-    {
-        
+    protected void initialize() {
     }
 
     protected void execute() 
     {
-        Robot.shooterRotator.rotate(0);
+        Robot.puncher.resetDogEar();
     }
 
-    protected boolean isFinished() 
+    protected boolean isFinished()
     {
-        return false;
+        return true;
     }
 
     protected void end() {

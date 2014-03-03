@@ -1,29 +1,39 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package edu.nr.main.subsystems.Drive;
 
+import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ShiftCommand extends Command {
-    private final Drive drv = Drive.getInstance();
-    private final boolean m_direction;
-    
-    private final boolean FIRST = true;
-    private final boolean SECOND = false;
-    
-    public ShiftCommand(boolean direction) {
-        m_direction = direction;
+/**
+ *
+ * @author colin
+ */
+public class ShiftCommand extends Command
+{
+    private boolean direction;
+    public ShiftCommand(boolean direction)
+    {
+        this.direction = direction;
     }
-    
-    protected void initialize() {
+    protected void initialize() 
+    {
     }
 
-    protected void execute() {
-        if(m_direction == FIRST)
-            drv.setFirstGear();
+    protected void execute() 
+    {
+        if(direction)
+            Robot.drive.setFirstGear();
         else
-            drv.setSecondGear();
+            Robot.drive.setSecondGear();
     }
 
-    protected boolean isFinished() {
+    protected boolean isFinished() 
+    {
         return true;
     }
 
@@ -32,4 +42,5 @@ public class ShiftCommand extends Command {
 
     protected void interrupted() {
     }
+    
 }
