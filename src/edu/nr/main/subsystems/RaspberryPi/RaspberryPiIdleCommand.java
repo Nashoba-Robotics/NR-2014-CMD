@@ -1,19 +1,19 @@
-package edu.nr.main.subsystems.RaspberryPie;
+package edu.nr.main.subsystems.RaspberryPi;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class RaspberryPieIdleCommand extends Command {
+public class RaspberryPiIdleCommand extends Command {
     
-    public RaspberryPieIdleCommand() {
+    public RaspberryPiIdleCommand() {
         super("Raspberry Pie Do Nothing");
-        requires(RaspberryPie.getInstance());
+        requires(RaspberryPi.getInstance());
     }
 
     protected void initialize() {
     }
 
     protected void execute() {
-        RaspberryPie.getInstance().idle();
+        RaspberryPi.getInstance().idle();
     }
 
     protected boolean isFinished() {

@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.nr.main.subsystems.RaspberryPie;
+package edu.nr.main.subsystems.RaspberryPi;
 
 import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  * @author fluffypony
  */
-public class ListenForPieInputCommand extends Command {
+public class ListenForPiInputCommand extends Command {
     
-    public ListenForPieInputCommand() {
+    public ListenForPiInputCommand() {
         super("Listen for Input from the Pie");
-        requires(RaspberryPie.getInstance());
+        requires(RaspberryPi.getInstance());
     }
 
     // Called just before this Command runs the first time
@@ -23,7 +23,7 @@ public class ListenForPieInputCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        RaspberryPie.getInstance().listenForPieInput();
+        RaspberryPi.getInstance().listenForPieInput();
     }
 
     // Make this return true when this Command no longer needs to run execute()

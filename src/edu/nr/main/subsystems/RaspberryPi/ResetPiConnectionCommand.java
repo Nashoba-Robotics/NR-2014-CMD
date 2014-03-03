@@ -1,12 +1,12 @@
-package edu.nr.main.subsystems.RaspberryPie;
+package edu.nr.main.subsystems.RaspberryPi;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ResetPieConnectionCommand extends Command
+public class ResetPiConnectionCommand extends Command
 {
-    public ResetPieConnectionCommand() {
+    public ResetPiConnectionCommand() {
         super("Reset Connection w/Raspberry Pie");
-        requires(RaspberryPie.getInstance());
+        requires(RaspberryPi.getInstance());
     }
 
     protected void initialize() {
@@ -14,7 +14,7 @@ public class ResetPieConnectionCommand extends Command
 
     protected void execute() 
     {
-        RaspberryPie.getInstance().connectToPie();
+        RaspberryPi.getInstance().connectToPie();
     }
 
     protected boolean isFinished() 

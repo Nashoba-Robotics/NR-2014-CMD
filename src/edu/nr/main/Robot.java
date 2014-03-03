@@ -8,7 +8,7 @@
 package edu.nr.main;
 
 /** OI **/
-import edu.nr.main.subsystems.RaspberryPie.ResetPieConnectionCommand;
+import edu.nr.main.subsystems.RaspberryPi.ResetPiConnectionCommand;
 import edu.nr.main.oi.OI;
 
 /** Subsystems **/
@@ -20,10 +20,10 @@ import edu.nr.main.subsystems.Flower.Flower;
 import edu.nr.main.subsystems.Compressor.ExternalCompressor;
 import edu.nr.main.subsystems.Shooter.Puncher;
 import edu.nr.main.subsystems.Shooter.Winch;
-import edu.nr.main.subsystems.RaspberryPie.ListenForPieInputCommand;
+import edu.nr.main.subsystems.RaspberryPi.ListenForPiInputCommand;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotator;
 import edu.nr.main.subsystems.Flower.TopArm;
-import edu.nr.main.subsystems.RaspberryPie.RaspberryPie;
+import edu.nr.main.subsystems.RaspberryPi.RaspberryPi;
 
 /** WPILibJ stuff **/
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -46,14 +46,14 @@ public class Robot extends IterativeRobot {
     private TopArm topArm = null;
     private ExternalCompressor extCompressor = null;
     private NetworkCameraLights cameraLights = null;
-    private RaspberryPie pie = null;
+    private RaspberryPi pie = null;
     
     private boolean sensorsStarted = false;
     
     public void robotInit() {
         System.out.println("ROBOT STARTED");
         
-        SmartDashboard.putData("Connect to Pie", new ResetPieConnectionCommand());
+        SmartDashboard.putData("Connect to Pie", new ResetPiConnectionCommand());
         SmartDashboard.putBoolean("Auto Compressor", false);
         SmartDashboard.putNumber("Tension Distance", 0);
         SmartDashboard.putNumber("Drive Distance", 10);
@@ -88,7 +88,7 @@ public class Robot extends IterativeRobot {
         cameraLights = NetworkCameraLights.getInstance();
         cameraLights.init();
         
-        pie = RaspberryPie.getInstance();
+        pie = RaspberryPi.getInstance();
         
         SmartDashboard.putNumber("Tensioner Speed", 0);
         SmartDashboard.putData(rollers);
@@ -156,7 +156,7 @@ public class Robot extends IterativeRobot {
         
             SmartDashboard.putString("Pie Message", "");
             if(pie.isConnectedToPie())
-                new ListenForPieInputCommand().start();
+                new ListenForPiInputCommand().start();
         }
     }
     public void testPeriodic() {

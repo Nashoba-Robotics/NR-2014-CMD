@@ -3,6 +3,7 @@ package edu.nr.main.Autonomous;
 import edu.nr.main.RobotMap;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException;
 
 
 public class CheckHotGoalCommand extends Command
@@ -17,7 +18,8 @@ public class CheckHotGoalCommand extends Command
     {
         try
         {
-            if(realmTable.getNumber("isHot") == 1 && (realmTable.getNumber("isVisible") == 1))
+            if( (realmTable.getNumber("isHot") == 1) && 
+                (realmTable.getNumber("isVisible") == 1))
             {
                 new AutonomousPunchCommand(0).start();
             }
@@ -26,9 +28,9 @@ public class CheckHotGoalCommand extends Command
                new AutonomousPunchCommand(4).start();
             }
         }
-        catch(Throwable t)
+        catch(TableKeyNotDefinedException e)
         {
-            System.err.println("ERROR DURING AUTONOMOUS");
+            System.err.println("ERROR DURING CHECK HOT GOAL");
         }
     }
 

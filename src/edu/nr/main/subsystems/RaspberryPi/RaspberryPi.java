@@ -1,4 +1,4 @@
-package edu.nr.main.subsystems.RaspberryPie;
+package edu.nr.main.subsystems.RaspberryPi;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -8,15 +8,15 @@ import com.sun.squawk.util.SquawkVector;
 import javax.microedition.io.Connector;
 import javax.microedition.io.SocketConnection;
 
-public class RaspberryPie extends Subsystem {
+public class RaspberryPi extends Subsystem {
     public void initDefaultCommand() {
-        setDefaultCommand(new RaspberryPieIdleCommand());
+        setDefaultCommand(new RaspberryPiIdleCommand());
     }
     
-    private RaspberryPie() {
+    private RaspberryPi() {
     }
     
-    private static RaspberryPie INSTANCE = null;
+    private static RaspberryPi INSTANCE = null;
     private Thread t = null;
     private SocketConnection pieConnection = null;
     private InputStream pieInput = null;
@@ -96,11 +96,11 @@ public class RaspberryPie extends Subsystem {
         t.start();
     }
     
-    public static RaspberryPie getInstance() {
+    public static RaspberryPi getInstance() {
         if(INSTANCE == null) {
-            synchronized(RaspberryPie.class) {
+            synchronized(RaspberryPi.class) {
                 if(INSTANCE == null) {
-                    INSTANCE = new RaspberryPie();
+                    INSTANCE = new RaspberryPi();
                 }
             }
         }
