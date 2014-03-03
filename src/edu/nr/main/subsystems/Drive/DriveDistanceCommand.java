@@ -1,38 +1,50 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package edu.nr.main.subsystems.Drive;
 
+import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class DriveDistanceCommand extends Command {
-    private final Drive drv = Drive.getInstance();
+/**
+ *
+ * @author colin
+ */
+public class DriveDistanceCommand extends Command
+{
     private int count;
     private boolean doneDriving;
-    private float m_distance, m_speed;
+    private float distance, speed;
     private double initialGyroAngle;
     private double lastEncoderDistance = 0;
     private double x=0, y=0;
     
-    private DriveDistanceCommand() {
-    }
+    private DriveDistanceCommand(){}
     
-    public DriveDistanceCommand(float distance, float speed) {
+    public DriveDistanceCommand(float distance, float speed)
+    {
         super("DriveDistanceCommand");
-        m_distance = (float) SmartDashboard.getNumber("Drive Distance");
-        m_speed = speed;
-        requires(drv);
+        this.distance = (float) SmartDashboard.getNumber("Drive Distance");
+        this.speed = speed;
+        this.requires(Robot.drive);
     }
-    
-    protected void initialize() {
+    protected void initialize() 
+    {
         doneDriving = false;
         count = 0;
-        drv.resetEncs();
-        drv.resetGyro();
-        drv.setFirstGear();
-        initialGyroAngle = drv.getGyroAngle();
+        Robot.drive.resetEncs();
+        Robot.drive.resetGyro();
+        Robot.drive.setFirstGear();
+        initialGyroAngle = Robot.drive.getGyroAngle();
     }
 
-    protected void execute() {
-        double angle = drv.getGyroAngle();
+    protected void execute() 
+    {
+        double angle = Robot.drive.getGyroAngle();// - initialGyroAngle;
         SmartDashboard.putNumber("Gyro", angle);
         double turnAngle = 0;
         if(Math.abs(angle) > 0.3)
@@ -43,7 +55,7 @@ public class DriveDistanceCommand extends Command {
                 turnAngle = Math.min(-0.5, -angle*0.05);
         }
         
-        double ave = drv.getAverageEncoderDistance();
+        double ave = Robot.drive.getAverageEncoderDistance();
         SmartDashboard.putNumber("Encoder Ave", ave);
         /*Position calculations
         double delta_x_r = (ave-lastEncoderDistance);
@@ -53,16 +65,16 @@ public class DriveDistanceCommand extends Command {
         y += deltay;*/
         
         count++;
-        double err = m_distance - ave;
+        double err = distance - ave;
 
-        double proportionalStopDistance = m_distance / 4 * 3;
-        double proportionalSpeed = ((1/(proportionalStopDistance)) * err) * m_speed;
-        double integralSpeed = count * m_speed/Math.abs(m_speed) * 0.002;
-        double newSpeed = Math.min(m_speed, proportionalSpeed + integralSpeed);
+        double proportionalStopDistance = distance / 4 * 3;
+        double proportionalSpeed = ((1/(proportionalStopDistance)) * err) * speed;
+        double integralSpeed = count * speed/Math.abs(speed) * 0.002;
+        double newSpeed = Math.min(speed, proportionalSpeed + integralSpeed);
         SmartDashboard.putNumber("TurnAngle", turnAngle);
         SmartDashboard.putNumber("I Value", integralSpeed);
         SmartDashboard.putNumber("New Speed", newSpeed);
-        drv.drive(-newSpeed, turnAngle);
+        Robot.drive.drive(-newSpeed, turnAngle);
 
         
         /*SmartDashboard.putNumber("Encoder 1", val1);
@@ -78,15 +90,20 @@ public class DriveDistanceCommand extends Command {
         lastEncoderDistance = ave;
     }
 
-    protected boolean isFinished() {
-        return drv.getAverageEncoderDistance() > m_distance;
+    protected boolean isFinished() 
+    {
+        if((Robot.drive.getAverageEncoderDistance() > distance));
+            //System.out.println("Should Finish");
+        return (Robot.drive.getAverageEncoderDistance() > distance);
     }
 
-    protected void end() {
-        drv.drive(0, 0);
+    protected void end() 
+    {
+        Robot.drive.drive(0, 0);
     }
 
-    protected void interrupted() {
-        drv.drive(0, 0);
+    protected void interrupted() 
+    {
+        Robot.drive.drive(0, 0);
     }
 }

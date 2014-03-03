@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package edu.nr.main.subsystems.ShooterRotator;
+package edu.nr.main.subsystems.TopArm;
 
 import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -13,27 +13,29 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  * @author colin
  */
-public class ShooterRotatorIdle extends Command
+public class DelayedStopIntakeCommand extends Command
 {
-    public ShooterRotatorIdle()
-    {
-        super("Shooter Rotator Idle");
-        this.requires(Robot.shooterRotator);
-    }
-    
+    int init;
+    boolean done = false;
     protected void initialize() 
     {
-        
+        init = (int)(System.currentTimeMillis()/1000f);
     }
 
     protected void execute() 
     {
-        Robot.shooterRotator.rotate(0);
+        int current = (int)(System.currentTimeMillis()/1000f);
+        if(current - init > 0.5)
+        {
+            done = true;
+            Robot.rollers.stopRoll();
+            Robot.topArm.runTopArm(0);
+        }
     }
 
     protected boolean isFinished() 
     {
-        return false;
+        return done;
     }
 
     protected void end() {

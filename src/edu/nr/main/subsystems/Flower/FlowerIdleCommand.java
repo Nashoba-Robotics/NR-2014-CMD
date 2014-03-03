@@ -1,21 +1,35 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package edu.nr.main.subsystems.Flower;
 
+import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class FlowerIdleCommand extends Command {
-    private final Flower flower = Flower.getInstance();
-    
-    public FlowerIdleCommand() {
+/**
+ *
+ * @author colin
+ */
+public class FlowerIdleCommand extends Command
+{
+    public FlowerIdleCommand()
+    {
         super("Flower Idle Command");
-        requires(flower);
+        this.requires(Robot.flower);
     }
     protected void initialize() {
     }
 
-    protected void execute() {
+    protected void execute() 
+    {
+        //Nothing to do here
     }
 
-    protected boolean isFinished() {
+    protected boolean isFinished() 
+    {
         return false;
     }
 
@@ -24,4 +38,5 @@ public class FlowerIdleCommand extends Command {
 
     protected void interrupted() {
     }
+    
 }

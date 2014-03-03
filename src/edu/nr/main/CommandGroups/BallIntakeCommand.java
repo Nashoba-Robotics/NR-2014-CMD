@@ -7,8 +7,8 @@
 package edu.nr.main.CommandGroups;
 
 import edu.nr.main.subsystems.BottomRollers.RollCommand;
-import edu.nr.main.subsystems.Flower.FlowerCloseCommand;
-import edu.nr.main.subsystems.Flower.TopArmRunCommand;
+import edu.nr.main.subsystems.TopArm.TopArmDownCommand;
+import edu.nr.main.subsystems.TopArm.TopArmRunCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -20,7 +20,7 @@ public class BallIntakeCommand extends CommandGroup
     public BallIntakeCommand()
     {
         this.addParallel(new RollCommand());
-        this.addParallel(new FlowerCloseCommand());
+        this.addParallel(new TopArmDownCommand());
         this.addParallel(new TopArmRunCommand());
     }
 }

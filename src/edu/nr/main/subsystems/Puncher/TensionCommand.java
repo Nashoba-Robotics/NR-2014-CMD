@@ -4,31 +4,30 @@
  * and open the template in the editor.
  */
 
-package edu.nr.main.subsystems.ShooterRotator;
+package edu.nr.main.subsystems.Puncher;
 
 import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  * @author colin
  */
-public class ShooterRotatorIdle extends Command
+public class TensionCommand extends Command
 {
-    public ShooterRotatorIdle()
-    {
-        super("Shooter Rotator Idle");
-        this.requires(Robot.shooterRotator);
-    }
-    
-    protected void initialize() 
-    {
+   public TensionCommand()
+   {
+       this.requires(Robot.puncher);
+   }
+   protected void initialize() 
+   {
         
-    }
+   }
 
     protected void execute() 
     {
-        Robot.shooterRotator.rotate(0);
+        Robot.puncher.setTentionerSpeed(Robot.puncher.TENSIONER_REGULAR_SPEED);
     }
 
     protected boolean isFinished() 
@@ -36,10 +35,14 @@ public class ShooterRotatorIdle extends Command
         return false;
     }
 
-    protected void end() {
+    protected void end() 
+    {
+        
     }
 
-    protected void interrupted() {
+    protected void interrupted() 
+    {
+        
     }
     
 }

@@ -1,28 +1,48 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package edu.nr.main.subsystems.Drive;
 
+import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DriveIdleCommand extends Command {
-    private final Drive drv = Drive.getInstance();
-    
-    public DriveIdleCommand() {
-        requires(drv);
+/**
+ *
+ * @author colin
+ */
+public class DriveIdleCommand extends Command
+{
+    public DriveIdleCommand()
+    {
+        this.requires(Robot.drive);
     }
     
-    protected void initialize() {
+    protected void initialize() 
+    {
+        
     }
 
-    protected void execute() {
-        drv.drive(0, 0);
+    protected void execute() 
+    {
+        Robot.drive.drive(0, 0);
     }
 
-    protected boolean isFinished() {
+    protected boolean isFinished() 
+    {
         return false;
     }
 
-    protected void end() {
+    protected void end() 
+    {
+        
     }
 
-    protected void interrupted() {
+    protected void interrupted() 
+    {
+        
     }
+    
 }

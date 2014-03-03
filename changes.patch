@@ -1,0 +1,1432 @@
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/Autonomous/CheckHotGoalCommand.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/Autonomous/CheckHotGoalCommand.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/Autonomous/CheckHotGoalCommand.java	Sun Mar  2 21:11:51 2014
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/Autonomous/CheckHotGoalCommand.java	Sun Mar  2 21:43:53 2014
+@@ -1,12 +1,14 @@
+ package edu.nr.main.Autonomous;
+ 
+-import edu.nr.main.Robot;
++import edu.nr.main.RobotMap;
+ import edu.wpi.first.wpilibj.command.Command;
+-import edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException;
++import edu.wpi.first.wpilibj.networktables.NetworkTable;
+ 
+ 
+ public class CheckHotGoalCommand extends Command
+ {
++    private NetworkTable realmTable = NetworkTable.getTable
++                                               (RobotMap.ROBO_REALM_TABLE_NAME);
+ 
+     protected void initialize() {
+     }
+@@ -15,7 +17,7 @@ public class CheckHotGoalCommand extends
+     {
+         try
+         {
+-            if(Robot.realmTable.getNumber("isHot") == 1 && (Robot.realmTable.getNumber("isVisible") == 1))
++            if(realmTable.getNumber("isHot") == 1 && (realmTable.getNumber("isVisible") == 1))
+             {
+                 new AutonomousPunchCommand(0).start();
+             }
+@@ -24,9 +26,9 @@ public class CheckHotGoalCommand extends
+                new AutonomousPunchCommand(4).start();
+             }
+         }
+-        catch(TableKeyNotDefinedException e)
++        catch(Throwable t)
+         {
+-            System.err.println("ERROR DURING CHECK HOT GOAL");
++            System.err.println("ERROR DURING AUTONOMOUS");
+         }
+     }
+ 
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/Robot.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/Robot.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/Robot.java	Sun Mar  2 21:18:50 2014
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/Robot.java	Sun Mar  2 21:44:03 2014
+@@ -8,6 +8,7 @@
+ package edu.nr.main;
+ 
+ /** OI **/
++import edu.nr.main.subsystems.RaspberryPie.ResetPieConnectionCommand;
+ import edu.nr.main.oi.OI;
+ 
+ /** Subsystems **/
+@@ -19,52 +20,49 @@ import edu.nr.main.subsystems.Flower.Flo
+ import edu.nr.main.subsystems.Compressor.ExternalCompressor;
+ import edu.nr.main.subsystems.Shooter.Puncher;
+ import edu.nr.main.subsystems.Shooter.Winch;
+-import edu.nr.main.subsystems.RaspberryPi.ListenForPieInputCommand;
++import edu.nr.main.subsystems.RaspberryPie.ListenForPieInputCommand;
+ import edu.nr.main.subsystems.ShooterRotator.ShooterRotator;
+ import edu.nr.main.subsystems.Flower.TopArm;
+-import edu.nr.main.subsystems.RaspberryPi.RaspberryPi;
+-import edu.nr.main.subsystems.RaspberryPi.ResetPiConnectionCommand;
++import edu.nr.main.subsystems.RaspberryPie.RaspberryPie;
+ 
+ /** WPILibJ stuff **/
+ import edu.wpi.first.wpilibj.IterativeRobot;
+ import edu.wpi.first.wpilibj.command.Scheduler;
+ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+-import edu.wpi.first.wpilibj.networktables.NetworkTable;
+ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+ 
+ /** Java VM stuff **/
+ 
+ //10.17.68.15:3200
+ 
+-public class Robot extends IterativeRobot 
+-{
+-    public Drive drive = null;
+-    public BottomRollers rollers = null;
+-    public Flower flower = null;
+-    public Puncher puncher = null;
+-    public Winch winch = null;
+-    public ShooterRotator shooterRotator = null;
+-    public InternalCompressor intCompressor = null;
+-    public TopArm topArm = null;
+-    public ExternalCompressor extCompressor = null;
+-    public NetworkCameraLights cameraLights = null;
+-    public RaspberryPi pie = null;
++public class Robot extends IterativeRobot {
++    private Drive drive = null;
++    private BottomRollers rollers = null;
++    private Flower flower = null;
++    private Puncher puncher = null;
++    private Winch winch = null;
++    private ShooterRotator shooterRotator = null;
++    private InternalCompressor intCompressor = null;
++    private TopArm topArm = null;
++    private ExternalCompressor extCompressor = null;
++    private NetworkCameraLights cameraLights = null;
++    private RaspberryPie pie = null;
+     
+     private boolean sensorsStarted = false;
+     
+-    public static NetworkTable realmTable = NetworkTable.getTable(RobotMap.ROBO_REALM_TABLE_NAME);
+-    
+-    public void robotInit() 
+-    {
++    public void robotInit() {
+         System.out.println("ROBOT STARTED");
+         
+-        SmartDashboard.putData("Connect to Pie", new ResetPiConnectionCommand());
++        SmartDashboard.putData("Connect to Pie", new ResetPieConnectionCommand());
+         SmartDashboard.putBoolean("Auto Compressor", false);
+         SmartDashboard.putNumber("Tension Distance", 0);
+         SmartDashboard.putNumber("Drive Distance", 10);
+         
+         drive = Drive.getInstance();
++        drive.init();
++        
+         intCompressor = InternalCompressor.getInstance(); 
++        intCompressor.init(RobotMap.ON_BOARD_COMPRESSOR_RELAY);
+         
+         rollers = BottomRollers.getInstance();
+         rollers.init();
+@@ -82,13 +80,15 @@ public class Robot extends IterativeRobo
+         topArm.init();
+         
+         flower = Flower.getInstance();
++        flower.init();
+         
+         extCompressor = ExternalCompressor.getInstance();
++        extCompressor.init(RobotMap.OFF_BOARD_COMPRESSOR_RELAY);
+         
+         cameraLights = NetworkCameraLights.getInstance();
+         cameraLights.init();
+         
+-        pie = RaspberryPi.getInstance();
++        pie = RaspberryPie.getInstance();
+         
+         SmartDashboard.putNumber("Tensioner Speed", 0);
+         SmartDashboard.putData(rollers);
+@@ -143,7 +143,7 @@ public class Robot extends IterativeRobo
+         SmartDashboard.putBoolean("Pie Connection", pie.isConnectedToPie());
+         if(sensorsStarted) {
+             Scheduler.getInstance().run();
+-            SmartDashboard.putNumber("Potentiometer", shooterRotator.getShooterTiltRotation());
++            SmartDashboard.putNumber("Potentiometer", shooterRotator.getShooterTiltEncClicks());
+             SmartDashboard.putNumber("Linear Encoder", winch.getLinearEncoderDistance());
+             SmartDashboard.putNumber("Encoder 1", drive.getRawEncoder(1));
+             SmartDashboard.putNumber("Encoder 2", drive.getRawEncoder(2));
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/RobotMap.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/RobotMap.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/RobotMap.java	Sun Mar  2 21:11:52 2014
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/RobotMap.java	Sun Mar  2 21:43:53 2014
+@@ -46,10 +46,9 @@ public class RobotMap 
+     public static final int OFF_BOARD_COMPRESSOR_RELAY=2;
+     
+     public static final boolean USING_LINCODER = false;
+-    public static final double WINCH_JAG_REV_SOFT_LIM = -2.0;
++    public static final double WINCH_JAG_REV_SOFT_LIM = 0.0;
+     public static final double WINCH_REGULAR_SPEED = 0.7d;
+-    /* NOTE: this is not a constant! It can change if we want to go to different positions
+-    public static final double SHOOTER_ROT_REV_SOFT_LIM = 0.3;*/
++    public static final double SHOOTER_ROT_REV_SOFT_LIM = 0.3;
+     public static final int POT_TURNS = 1;
+     public static final int LINCODER_CLICKS = 250;
+     
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/oi/OI.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/oi/OI.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/oi/OI.java	Sun Mar  2 20:06:22 2014
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/oi/OI.java	Sun Mar  2 21:44:03 2014
+@@ -16,7 +16,7 @@ import edu.nr.main.subsystems.ShooterRot
+ import edu.nr.main.subsystems.Flower.FlowerCloseCommand;
+ import edu.nr.main.subsystems.Flower.TopArmRunCommand;
+ import edu.nr.main.subsystems.Flower.TopArmStopCommand;
+-import edu.nr.main.subsystems.Flower.FloweBloomCommand;
++import edu.nr.main.subsystems.Flower.FlowerBloomCommand;
+ import edu.wpi.first.wpilibj.Joystick;
+ import edu.wpi.first.wpilibj.buttons.JoystickButton;
+ 
+@@ -44,7 +44,7 @@ public class OI 
+         new JoystickButton(stick1, 1).whenPressed(new PunchCommand());
+         new JoystickButton(stick1, 2).whenPressed(new ResetDogGearCommand());
+         new JoystickButton(stick1, 7).whenPressed(new FlowerCloseCommand());
+-        new JoystickButton(stick1, 8).whenPressed(new FloweBloomCommand());
++        new JoystickButton(stick1, 8).whenPressed(new FlowerBloomCommand());
+         new JoystickButton(stick1, 11).whenPressed(new TensionCommand());
+         new JoystickButton(stick1, 12).whenPressed(new TensionIdleCommand());
+         
+@@ -83,7 +83,7 @@ public class OI 
+         //leftBumperButton.whenPressed(new TopArmStopCommand());
+         
+         leftStickButton.whenPressed(new FlowerCloseCommand());
+-        rightStickButton.whenPressed(new FloweBloomCommand());
++        rightStickButton.whenPressed(new FlowerBloomCommand());
+         rightBumperButton.whileHeld(new ShooterRotationCommand(0.3, 1));
+         leftBumperButton.whileHeld(new ShooterRotationCommand(-0.3, 0));*/
+     }
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/oi/XPad.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/oi/XPad.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/oi/XPad.java	Sun Mar  2 20:11:21 2014
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/oi/XPad.java	Sun Mar  2 21:43:53 2014
+@@ -68,12 +68,8 @@ public class XPad extends Controller {
+         public static final ControllerButtonType kRStick = new ControllerButtonType(rightStickButton);
+     }
+     
+-    public boolean getControllerRawButton(int button) 
+-    {
+-        return getRawButton(button);
+-        /* Seriously? this can be turned into one line
+-        switch(button) 
+-        {
++    public boolean getControllerRawButton(int button) {
++        switch(button) {
+             case ControllerButtonType.aButton: 
+                 return getRawButton(ControllerButtonType.aButton);
+             case ControllerButtonType.bButton: 
+@@ -98,11 +94,10 @@ public class XPad extends Controller {
+                 System.err.println("Not a button!");
+                 return false;
+             }
+-        }*/
++        }
+     }
+     
+-    public double getControllerRawAxis(int axis) 
+-    {
++    public double getControllerRawAxis(int axis) {
+         switch(axis) {
+             case ControllerAxisType.dPadXAxis:
+                 return getRawAxis(ControllerAxisType.dPadXAxis);
+@@ -125,10 +120,7 @@ public class XPad extends Controller {
+         }
+     }
+     
+-    public boolean getControllerButton(ControllerButtonType button) 
+-    {
+-        return getRawButton(button.getValue());
+-        /*
++    public boolean getControllerButton(ControllerButtonType button) {
+         if(button.equals(ControllerButtonType.kA)) {
+             return getRawButton(ControllerButtonType.kA.getValue());
+         }
+@@ -159,7 +151,7 @@ public class XPad extends Controller {
+         else {
+             System.err.println("Not a button!");
+             return false;
+-        }*/
++        }
+     }
+     
+     public double getControllerAxis(ControllerAxisType axis) {
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Compressor/CompressorBase.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Compressor/CompressorBase.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Compressor/CompressorBase.java	Sun Mar  2 20:43:41 2014
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Compressor/CompressorBase.java	Sun Mar  2 21:43:53 2014
+@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Sub
+ 
+ public abstract class CompressorBase extends Subsystem {
+     protected int m_spikePort;
+-    protected Relay spike;
++    protected Relay spike = new Relay(m_spikePort);
+     protected PressureSwitch limit = null;
+     protected void run() {}
+     protected void start() {}
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Compressor/ExternalCompressor.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Compressor/ExternalCompressor.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Compressor/ExternalCompressor.java	Sun Mar  2 20:43:59 2014
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Compressor/ExternalCompressor.java	Sun Mar  2 21:44:03 2014
+@@ -1,41 +1,44 @@
+ package edu.nr.main.subsystems.Compressor;
+ 
+-import edu.nr.main.RobotMap;
+ import edu.wpi.first.wpilibj.Relay;
+ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+ 
+ public class ExternalCompressor extends CompressorBase {
+     private static ExternalCompressor INSTANCE = null;
+-    private ExternalCompressor() 
+-    {
+-        spike = new Relay(RobotMap.OFF_BOARD_COMPRESSOR_RELAY);
++    private ExternalCompressor() {
++        
++    }
++    
++    public void init(int spikePort) {
++        m_spikePort = spikePort;
+         spike.setDirection(Relay.Direction.kForward);
+         
+         limit.init();
+     }
+-    
+     protected void initDefaultCommand() {
+-        setDefaultCommand(new ExternalCompressorIdle());
++        setDefaultCommand(new ExternalCompressorRun());
+     }
+     
+-    protected void run() {
+-        if(!limit.getLimit()) {
+-            start();
+-        }
+-        else {
+-            stop();
+-        }
++    public void run() {
++       if(SmartDashboard.getBoolean("Auto Compressor")) {
++            if(!limit.getLimit()) {
++             start();
++            }
++            else {
++                stop();
++            }
++       }
+     }
+     
+-    protected void start() {
++    public void start() {
+         spike.set(Relay.Value.kOn);
+     }
+     
+-    protected void stop() {
++    public void stop() {
+         spike.set(Relay.Value.kOff);
+     }
+     
+-    protected boolean getLimit() {
++    public boolean getLimit() {
+         return limit.getLimit();
+     }
+     
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Compressor/ExternalCompressorIdle.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Compressor/ExternalCompressorIdle.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Compressor/ExternalCompressorIdle.java	Sun Mar  2 20:53:05 2014
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Compressor/ExternalCompressorIdle.java	Sun Mar  2 21:43:53 2014
+@@ -11,12 +11,11 @@ import edu.wpi.first.wpilibj.command.Com
+  *
+  * @author fluffypony
+  */
+-public class ExternalCompressorIdle extends Command 
+-{
+-    ExternalCompressor compr = ExternalCompressor.getInstance();
+-    public ExternalCompressorIdle() 
+-    {
+-        this.requires(compr);
++public class ExternalCompressorIdle extends Command {
++    
++    public ExternalCompressorIdle() {
++        // Use requires() here to declare subsystem dependencies
++        // eg. requires(chassis);
+     }
+ 
+     // Called just before this Command runs the first time
+@@ -24,9 +23,7 @@ public class ExternalCompressorIdle exte
+     }
+ 
+     // Called repeatedly when this Command is scheduled to run
+-    protected void execute() 
+-    {
+-        compr.run();
++    protected void execute() {
+     }
+ 
+     // Make this return true when this Command no longer needs to run execute()
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Compressor/ExternalCompressorRun.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Compressor/ExternalCompressorRun.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Compressor/ExternalCompressorRun.java	Wed Dec 31 19:00:00 1969
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Compressor/ExternalCompressorRun.java	Sun Mar  2 21:43:53 2014
+@@ -0,0 +1,35 @@
++package edu.nr.main.subsystems.Compressor;
++
++import edu.wpi.first.wpilibj.command.Command;
++
++public class ExternalCompressorRun extends Command {
++    private final ExternalCompressor compr = ExternalCompressor.getInstance();
++    
++    public ExternalCompressorRun() {
++        super("Run External Compressor Routine");
++        requires(compr);
++    }
++
++    // Called just before this Command runs the first time
++    protected void initialize() {
++    }
++
++    // Called repeatedly when this Command is scheduled to run
++    protected void execute() {
++        compr.run();
++    }
++
++    // Make this return true when this Command no longer needs to run execute()
++    protected boolean isFinished() {
++        return compr.getLimit();
++    }
++
++    // Called once after isFinished returns true
++    protected void end() {
++    }
++
++    // Called when another command which requires one or more of the same
++    // subsystems is scheduled to run
++    protected void interrupted() {
++    }
++}
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Compressor/InternalCompressor.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Compressor/InternalCompressor.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Compressor/InternalCompressor.java	Sun Mar  2 20:50:33 2014
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Compressor/InternalCompressor.java	Sun Mar  2 21:44:03 2014
+@@ -1,6 +1,5 @@
+ package edu.nr.main.subsystems.Compressor;
+ 
+-import edu.nr.main.RobotMap;
+ import edu.nr.main.subsystems.Printable;
+ import edu.wpi.first.wpilibj.Relay;
+ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+@@ -8,47 +7,40 @@ import edu.wpi.first.wpilibj.smartdashbo
+ public class InternalCompressor extends CompressorBase implements Printable {
+     private static InternalCompressor INSTANCE = null;
+     
+-    private InternalCompressor() 
+-    {
+-        spike = new Relay(RobotMap.ON_BOARD_COMPRESSOR_RELAY);
+-        spike.setDirection(Relay.Direction.kForward);
+-        
+-        limit.init();
++    private InternalCompressor() {
+     }
+     
+-    public void init()
+-    {
++    public void init(int spikePort) {
++        m_spikePort = spikePort;
++        spike.setDirection(Relay.Direction.kForward);
+         
++        limit.init();
+     }
+     
+-    protected void initDefaultCommand() 
+-    {
+-        setDefaultCommand(new InternalCompressorIdle());
++    protected void initDefaultCommand() {
++        setDefaultCommand(new InternalCompressorRun());
+     }
+     
+-    protected void start() 
+-    {
++    public void start() {
+         spike.set(Relay.Value.kOn);
+     }
+     
+-    protected void stop() 
+-    {
++    public void stop() {
+         spike.set(Relay.Value.kOff);
+     }
+     
+-    protected void run() 
+-    {
+-        if(!limit.getLimit()) 
+-        {
+-            start();
+-        }
+-        else 
+-        {
+-            stop();
++    public void run() {
++        if(SmartDashboard.getBoolean("Auto Compressor")) {
++            if(!limit.getLimit()) {
++               start();
++            }
++            else {
++              stop();
++            }
+         }
+     }
+     
+-    protected boolean getLimit() {
++    public boolean getLimit() {
+         return limit.getLimit();
+     }
+ 
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Compressor/InternalCompressorIdle.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Compressor/InternalCompressorIdle.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Compressor/InternalCompressorIdle.java	Sun Mar  2 20:51:08 2014
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Compressor/InternalCompressorIdle.java	Sun Mar  2 21:43:53 2014
+@@ -13,7 +13,7 @@ public class InternalCompressorIdle exte
+     }
+ 
+     protected void execute() {
+-        compr.run();
++        compr.stop();
+     }
+ 
+     protected boolean isFinished() {
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Compressor/InternalCompressorRun.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Compressor/InternalCompressorRun.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Compressor/InternalCompressorRun.java	Wed Dec 31 19:00:00 1969
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Compressor/InternalCompressorRun.java	Sun Mar  2 21:43:53 2014
+@@ -0,0 +1,35 @@
++package edu.nr.main.subsystems.Compressor;
++
++import edu.wpi.first.wpilibj.command.Command;
++
++public class InternalCompressorRun extends Command {
++    private final InternalCompressor compr = InternalCompressor.getInstance();
++    
++    public InternalCompressorRun() {
++        super("Run Internal Compressor Routine");
++        requires(compr);
++    }
++
++    // Called just before this Command runs the first time
++    protected void initialize() {
++    }
++
++    // Called repeatedly when this Command is scheduled to run
++    protected void execute() {
++        compr.run();
++    }
++
++    // Make this return true when this Command no longer needs to run execute()
++    protected boolean isFinished() {
++        return compr.getLimit();
++    }
++
++    // Called once after isFinished returns true
++    protected void end() {
++    }
++
++    // Called when another command which requires one or more of the same
++    // subsystems is scheduled to run
++    protected void interrupted() {
++    }
++}
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Drive/Drive.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Drive/Drive.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Drive/Drive.java	Sun Mar  2 20:55:36 2014
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Drive/Drive.java	Sun Mar  2 21:43:53 2014
+@@ -24,8 +24,10 @@ public class Drive extends Subsystem imp
+     private DoubleSolenoid shifter;
+     private Ultrasonic sonic;
+     
+-    private Drive() 
+-    {
++    private Drive() {
++    }
++    
++    public void init() {
+         drive = new RobotDrive(new Talon(1),new Talon(2),new Talon(3),new Talon(4));
+         drive.setSafetyEnabled(false);
+ 
+@@ -33,7 +35,7 @@ public class Drive extends Subsystem imp
+         e1 = new Encoder(RobotMap.ENCODER_1_A, RobotMap.ENCODER_1_B, false, CounterBase.EncodingType.k4X);
+         e2 = new Encoder(RobotMap.ENCODER_2_A, RobotMap.ENCODER_2_B, false, CounterBase.EncodingType.k4X);
+         
+-        e1.setDistancePerPulse(0.0349065850388889/12); //Calculated constant to get feet out of the encoders
++        e1.setDistancePerPulse(0.0349065850388889/12);
+         e2.setDistancePerPulse(0.0349065850388889/12);
+         startEncoders();
+         
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Flower/FloweBloomCommand.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Flower/FloweBloomCommand.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Flower/FloweBloomCommand.java	Sun Mar  2 20:06:22 2014
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Flower/FloweBloomCommand.java	Wed Dec 31 19:00:00 1969
+@@ -1,30 +0,0 @@
+-package edu.nr.main.subsystems.Flower;
+-
+-import edu.wpi.first.wpilibj.command.Command;
+-
+-public class FloweBloomCommand extends Command {
+-    private final Flower flower = Flower.getInstance();
+-    
+-    public FloweBloomCommand() {
+-        super("Top Arm Up");
+-        requires(flower);
+-    }
+-    
+-    protected void initialize() {
+-    }
+-
+-    protected void execute()  {
+-        flower.bloom();
+-    }
+-
+-    protected boolean isFinished() {
+-        return true;
+-    }
+-
+-    protected void end() {
+-    }
+-
+-    protected void interrupted() {
+-    }
+-    
+-}
+\ No newline at end of file
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Flower/Flower.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Flower/Flower.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Flower/Flower.java	Sun Mar  2 21:19:37 2014
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Flower/Flower.java	Sun Mar  2 21:43:53 2014
+@@ -15,19 +15,18 @@ public class Flower extends Subsystem im
+         this.setDefaultCommand(new FlowerIdleCommand());
+     }
+     
+-    private Flower() 
+-    {
+-        flowerSol = new DoubleSolenoid(RobotMap.FLOWER_SOLENOID_DEPLOY, RobotMap.FLOWER_SOLENOID_UNDEPLOY);
++    private Flower() {
+     }
+     
+-    public static final Flower getInstance() 
+-    {
+-        if(INSTANCE == null) 
+-        {
+-            synchronized(Flower.class) 
+-            {
+-                if(INSTANCE == null) 
+-                {
++    public void init() {
++        flowerSol = new DoubleSolenoid(RobotMap.FLOWER_SOLENOID_DEPLOY,
++                                        RobotMap.FLOWER_SOLENOID_UNDEPLOY);
++    }
++    
++    public static final Flower getInstance() {
++        if(INSTANCE == null) {
++            synchronized(Flower.class) {
++                if(INSTANCE == null) {
+                     INSTANCE = new Flower();
+                 }
+             }
+@@ -35,13 +34,11 @@ public class Flower extends Subsystem im
+         return INSTANCE;
+     }
+     
+-    public void close() 
+-    {
++    public void close() {
+         flowerSol.set(DoubleSolenoid.Value.kForward);
+     }
+     
+-    public void bloom() 
+-    {
++    public void bloom() {
+         flowerSol.set(DoubleSolenoid.Value.kReverse);
+     }
+ 
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Flower/FlowerBloomCommand.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Flower/FlowerBloomCommand.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Flower/FlowerBloomCommand.java	Wed Dec 31 19:00:00 1969
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Flower/FlowerBloomCommand.java	Sun Mar  2 21:44:03 2014
+@@ -0,0 +1,30 @@
++package edu.nr.main.subsystems.Flower;
++
++import edu.wpi.first.wpilibj.command.Command;
++
++public class FlowerBloomCommand extends Command {
++    private final Flower flower = Flower.getInstance();
++    
++    public FlowerBloomCommand() {
++        super("Top Arm Up");
++        requires(flower);
++    }
++    
++    protected void initialize() {
++    }
++
++    protected void execute()  {
++        flower.bloom();
++    }
++
++    protected boolean isFinished() {
++        return true;
++    }
++
++    protected void end() {
++    }
++
++    protected void interrupted() {
++    }
++    
++}
+\ No newline at end of file
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Flower/GetReadyToIntakeCommand.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Flower/GetReadyToIntakeCommand.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Flower/GetReadyToIntakeCommand.java	Wed Dec 31 19:00:00 1969
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Flower/GetReadyToIntakeCommand.java	Sun Mar  2 21:44:03 2014
+@@ -0,0 +1,35 @@
++package edu.nr.main.subsystems.Flower;
++
++import edu.nr.main.subsystems.BottomRollers.RollCommand;
++import edu.wpi.first.wpilibj.command.Command;
++
++public class GetReadyToIntakeCommand extends Command {
++    
++    public GetReadyToIntakeCommand() {
++        super("Start Ball Intake Command");
++    }
++
++    protected void initialize() {
++    }
++
++    // Called repeatedly when this Command is scheduled to run
++    protected void execute() {
++        new FlowerBloomCommand().start();
++        new TopArmRunCommand().start();
++        new RollCommand().start();
++    }
++
++    // Make this return true when this Command no longer needs to run execute()
++    protected boolean isFinished() {
++        return false;
++    }
++
++    // Called once after isFinished returns true
++    protected void end() {
++    }
++
++    // Called when another command which requires one or more of the same
++    // subsystems is scheduled to run
++    protected void interrupted() {
++    }
++}
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Flower/IntakeCommand.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Flower/IntakeCommand.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Flower/IntakeCommand.java	Sun Mar  2 20:06:22 2014
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Flower/IntakeCommand.java	Wed Dec 31 19:00:00 1969
+@@ -1,46 +0,0 @@
+-package edu.nr.main.subsystems.Flower;
+-
+-import edu.nr.main.subsystems.BottomRollers.BottomRollers;
+-import edu.nr.main.subsystems.BottomRollers.StopRollCommand;
+-import edu.wpi.first.wpilibj.command.Command;
+-
+-public class IntakeCommand extends Command
+-{
+-    private final BottomRollers rollers = BottomRollers.getInstance();
+-    private final Flower flower = Flower.getInstance();
+-    private final TopArm arm = TopArm.getInstance();
+-    private double init;
+-    private boolean done = false;
+-    
+-    public IntakeCommand() {
+-        super("Intake Ball");
+-        requires(rollers);
+-        requires(flower);
+-        requires(arm);
+-    }
+-    
+-    protected void initialize() {
+-        init = System.currentTimeMillis()/1000f;
+-    }
+-
+-    protected void execute() {
+-        new FlowerCloseCommand().start();
+-        double current = System.currentTimeMillis()/1000f;
+-        
+-        if(current - init > 0.5) {
+-            done = true;
+-            new StopRollCommand().start();
+-            new TopArmStopCommand().start();
+-        }
+-    }
+-
+-    protected boolean isFinished() {
+-        return done;
+-    }
+-
+-    protected void end() {
+-    }
+-
+-    protected void interrupted() {
+-    }   
+-}
+\ No newline at end of file
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Flower/SecureBallCommand.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Flower/SecureBallCommand.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Flower/SecureBallCommand.java	Wed Dec 31 19:00:00 1969
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Flower/SecureBallCommand.java	Sun Mar  2 21:44:03 2014
+@@ -0,0 +1,42 @@
++package edu.nr.main.subsystems.Flower;
++
++import edu.nr.main.subsystems.BottomRollers.StopRollCommand;
++import edu.wpi.first.wpilibj.command.Command;
++
++public class SecureBallCommand extends Command {
++    private final TopArm arm = TopArm.getInstance();
++    private double init;
++    private double current;
++    private boolean done = false;
++    
++    public SecureBallCommand() {
++        super("Intake Ball");
++    }
++    
++    protected void initialize() {
++        init = System.currentTimeMillis() / 1000;
++    }
++
++    protected void execute() {
++        new FlowerCloseCommand().start();
++        
++        if(arm.getIRSensor()) {
++            current = System.currentTimeMillis() / 1000;
++            
++            if(current - init > 0.5) {
++                new TopArmStopCommand().start();
++                new StopRollCommand().start();
++            }
++        }
++    }
++
++    protected boolean isFinished() {
++        return done;
++    }
++
++    protected void end() {
++    }
++
++    protected void interrupted() {
++    }   
++}
+\ No newline at end of file
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Flower/TopArm.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Flower/TopArm.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Flower/TopArm.java	Sun Mar  2 20:06:22 2014
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Flower/TopArm.java	Sun Mar  2 21:44:03 2014
+@@ -63,7 +63,7 @@ public class TopArm extends Subsystem im
+     public void sendInfo() {
+         SmartDashboard.putData(this);
+         SmartDashboard.putData(new FlowerCloseCommand());
+-        SmartDashboard.putData(new FloweBloomCommand());
++        SmartDashboard.putData(new FlowerBloomCommand());
+         SmartDashboard.putData(new TopArmRunCommand());
+         SmartDashboard.putData(new TopArmStopCommand());
+     }
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Flower/TopArmIdleCommand.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Flower/TopArmIdleCommand.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Flower/TopArmIdleCommand.java	Sun Mar  2 21:25:27 2014
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Flower/TopArmIdleCommand.java	Sun Mar  2 21:43:53 2014
+@@ -2,13 +2,9 @@ package edu.nr.main.subsystems.Flower;
+ 
+ import edu.wpi.first.wpilibj.command.Command;
+ 
+-public class TopArmIdleCommand extends Command 
+-{
++public class TopArmIdleCommand extends Command {
+     private final TopArm arm = TopArm.getInstance();
+     
+-    boolean startedCounting = false;
+-    long lastTime;
+-    
+     public TopArmIdleCommand() {
+         requires(arm);
+     }
+@@ -17,16 +13,7 @@ public class TopArmIdleCommand extends C
+         
+     }
+ 
+-    protected void execute() 
+-    {
+-        if(arm.isRunning && arm.getIRSensor())
+-        {
+-            new DelayedStopIntakeCommand().start();
+-        }
+-        else
+-        {
+-            startedCounting = false;
+-        }
++    protected void execute() {
+     }
+ 
+     protected boolean isFinished() {
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/RaspberryPi/ListenForPieInputCommand.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/RaspberryPi/ListenForPieInputCommand.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/RaspberryPi/ListenForPieInputCommand.java	Sun Mar  2 21:14:28 2014
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/RaspberryPi/ListenForPieInputCommand.java	Wed Dec 31 19:00:00 1969
+@@ -1,42 +0,0 @@
+-/*
+- * To change this license header, choose License Headers in Project Properties.
+- * To change this template file, choose Tools | Templates
+- * and open the template in the editor.
+- */
+-package edu.nr.main.subsystems.RaspberryPi;
+-
+-import edu.wpi.first.wpilibj.command.Command;
+-/**
+- *
+- * @author fluffypony
+- */
+-public class ListenForPieInputCommand extends Command {
+-    
+-    public ListenForPieInputCommand() {
+-        super("Listen for Input from the Pie");
+-        requires(RaspberryPi.getInstance());
+-    }
+-
+-    // Called just before this Command runs the first time
+-    protected void initialize() {
+-    }
+-
+-    // Called repeatedly when this Command is scheduled to run
+-    protected void execute() {
+-        RaspberryPi.getInstance().listenForPieInput();
+-    }
+-
+-    // Make this return true when this Command no longer needs to run execute()
+-    protected boolean isFinished() {
+-        return false;
+-    }
+-
+-    // Called once after isFinished returns true
+-    protected void end() {
+-    }
+-
+-    // Called when another command which requires one or more of the same
+-    // subsystems is scheduled to run
+-    protected void interrupted() {
+-    }
+-}
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/RaspberryPi/RaspberryPi.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/RaspberryPi/RaspberryPi.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/RaspberryPi/RaspberryPi.java	Sun Mar  2 21:14:28 2014
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/RaspberryPi/RaspberryPi.java	Wed Dec 31 19:00:00 1969
+@@ -1,128 +0,0 @@
+-package edu.nr.main.subsystems.RaspberryPi;
+-
+-import edu.wpi.first.wpilibj.command.Subsystem;
+-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+-import java.io.IOException;
+-import java.io.InputStream;
+-import com.sun.squawk.util.SquawkVector;
+-import javax.microedition.io.Connector;
+-import javax.microedition.io.SocketConnection;
+-
+-public class RaspberryPi extends Subsystem {
+-    public void initDefaultCommand() {
+-        setDefaultCommand(new RaspberryPieIdleCommand());
+-    }
+-    
+-    private RaspberryPi() {
+-    }
+-    
+-    private static RaspberryPi INSTANCE = null;
+-    private Thread t = null;
+-    private SocketConnection pieConnection = null;
+-    private InputStream pieInput = null;
+-    private boolean connectedToPie = false;
+-    private SquawkVector pieBytes = new SquawkVector();
+-    private boolean startedReading = false;
+-    
+-    public void listenForPieInput() 
+-    {
+-        try {
+-            while(pieInput.available() > 0) 
+-            {
+-                byte input = (byte)pieInput.read();
+-                
+-                if(!startedReading)
+-                    if(input == 10)
+-                        startedReading = true;
+-                else {
+-                    if(input == 0) 
+-                    {
+-                        startedReading = false;
+-                        byte[] bytes = new byte[pieBytes.size()];
+-                        
+-                        for(int i = 0; i < bytes.length; i++) 
+-                        {
+-                            bytes[i] = ((Byte)pieBytes.elementAt(i)).byteValue();
+-                        }
+-                        
+-                        String message = new String(bytes);
+-                        SmartDashboard.putString("Pie Message", message);
+-                        pieBytes.removeAllElements();
+-                    }
+-                    else
+-                        pieBytes.addElement(Byte.valueOf(input));
+-                }
+-            }
+-        }
+-        catch (IOException ex) 
+-        {
+-            SmartDashboard.putString("Pie Error", ex.toString());
+-            System.out.println("ERROR TALKING TO PIE");
+-            connectToPie();
+-        }
+-    }
+-    
+-    public void connectToPie() 
+-    {
+-        if(pieConnection != null) 
+-        {    
+-            try {
+-                pieConnection.close();
+-            } 
+-            catch (IOException ex) 
+-            {
+-                ex.printStackTrace();
+-            }
+-        }
+-        pieConnection = null;
+-        connectedToPie = false;
+-        
+-        if(t != null)
+-            t.interrupt();
+-        t = new Thread(new Runnable() 
+-        {
+-            public void run() 
+-            {
+-                while(connectedToPie == false) 
+-                {
+-                    try {
+-                        if(pieConnection != null)
+-                            pieConnection.close();
+-                        
+-                        pieConnection = (SocketConnection) Connector.open("socket://10.17.68.15:1180");
+-                        
+-                        if(pieConnection == null)
+-                            throw new RuntimeException("ERRROR: Didn't actually connect to pie!!!");
+-                        
+-                        pieInput = pieConnection.openInputStream();
+-                        connectedToPie = true;
+-                        System.out.println("[ DBG ] CONNECTED TO PIE");
+-                    }
+-                    catch(IOException e) {
+-                        SmartDashboard.putString("Pie Error", e.toString());
+-                    }
+-                }
+-            }
+-        });
+-        t.start();
+-    }
+-    
+-    public static RaspberryPi getInstance() {
+-        if(INSTANCE == null) {
+-            synchronized(RaspberryPi.class) {
+-                if(INSTANCE == null) {
+-                    INSTANCE = new RaspberryPi();
+-                }
+-            }
+-        }
+-        return INSTANCE;
+-    }
+-    
+-    public boolean isConnectedToPie() {
+-        return connectedToPie;
+-    }
+-    
+-    public void idle() {
+-        return;
+-    }
+-}
+\ No newline at end of file
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/RaspberryPi/RaspberryPieIdleCommand.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/RaspberryPi/RaspberryPieIdleCommand.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/RaspberryPi/RaspberryPieIdleCommand.java	Sun Mar  2 21:14:28 2014
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/RaspberryPi/RaspberryPieIdleCommand.java	Wed Dec 31 19:00:00 1969
+@@ -1,28 +0,0 @@
+-package edu.nr.main.subsystems.RaspberryPi;
+-
+-import edu.wpi.first.wpilibj.command.Command;
+-
+-public class RaspberryPieIdleCommand extends Command {
+-    
+-    public RaspberryPieIdleCommand() {
+-        super("Raspberry Pie Do Nothing");
+-        requires(RaspberryPi.getInstance());
+-    }
+-
+-    protected void initialize() {
+-    }
+-
+-    protected void execute() {
+-        RaspberryPi.getInstance().idle();
+-    }
+-
+-    protected boolean isFinished() {
+-        return false;
+-    }
+-
+-    protected void end() {
+-    }
+-
+-    protected void interrupted() {
+-    }
+-}
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/RaspberryPie/ListenForPieInputCommand.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/RaspberryPie/ListenForPieInputCommand.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/RaspberryPie/ListenForPieInputCommand.java	Wed Dec 31 19:00:00 1969
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/RaspberryPie/ListenForPieInputCommand.java	Sun Mar  2 21:43:53 2014
+@@ -0,0 +1,42 @@
++/*
++ * To change this license header, choose License Headers in Project Properties.
++ * To change this template file, choose Tools | Templates
++ * and open the template in the editor.
++ */
++package edu.nr.main.subsystems.RaspberryPie;
++
++import edu.wpi.first.wpilibj.command.Command;
++/**
++ *
++ * @author fluffypony
++ */
++public class ListenForPieInputCommand extends Command {
++    
++    public ListenForPieInputCommand() {
++        super("Listen for Input from the Pie");
++        requires(RaspberryPie.getInstance());
++    }
++
++    // Called just before this Command runs the first time
++    protected void initialize() {
++    }
++
++    // Called repeatedly when this Command is scheduled to run
++    protected void execute() {
++        RaspberryPie.getInstance().listenForPieInput();
++    }
++
++    // Make this return true when this Command no longer needs to run execute()
++    protected boolean isFinished() {
++        return false;
++    }
++
++    // Called once after isFinished returns true
++    protected void end() {
++    }
++
++    // Called when another command which requires one or more of the same
++    // subsystems is scheduled to run
++    protected void interrupted() {
++    }
++}
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/RaspberryPie/RaspberryPie.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/RaspberryPie/RaspberryPie.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/RaspberryPie/RaspberryPie.java	Wed Dec 31 19:00:00 1969
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/RaspberryPie/RaspberryPie.java	Sun Mar  2 21:43:53 2014
+@@ -0,0 +1,117 @@
++package edu.nr.main.subsystems.RaspberryPie;
++
++import edu.wpi.first.wpilibj.command.Subsystem;
++import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
++import java.io.IOException;
++import java.io.InputStream;
++import com.sun.squawk.util.SquawkVector;
++import javax.microedition.io.Connector;
++import javax.microedition.io.SocketConnection;
++
++public class RaspberryPie extends Subsystem {
++    public void initDefaultCommand() {
++        setDefaultCommand(new RaspberryPieIdleCommand());
++    }
++    
++    private RaspberryPie() {
++    }
++    
++    private static RaspberryPie INSTANCE = null;
++    private Thread t = null;
++    private SocketConnection pieConnection = null;
++    private InputStream pieInput = null;
++    private boolean connectedToPie = false;
++    private SquawkVector pieBytes = new SquawkVector();
++    private boolean startedReading = false;
++    
++    public void listenForPieInput() {
++        try {
++            while(pieInput.available() > 0) {
++                byte input = (byte)pieInput.read();
++                
++                if(!startedReading)
++                    if(input == 10)
++                        startedReading = true;
++                else {
++                    if(input == 0) {
++                        startedReading = false;
++                        byte[] bytes = new byte[pieBytes.size()];
++                        
++                        for(int i = 0; i < bytes.length; i++) {
++                            bytes[i] = ((Byte)pieBytes.elementAt(i)).byteValue();
++                        }
++                        
++                        String message = new String(bytes);
++                        SmartDashboard.putString("Pie Message", message);
++                        pieBytes.removeAllElements();
++                    }
++                    else
++                        pieBytes.addElement(Byte.valueOf(input));
++                }
++            }
++        }
++        catch (IOException ex) {
++            SmartDashboard.putString("Pie Error", ex.toString());
++            System.out.println("ERROR TALKING TO PIE");
++            connectToPie();
++        }
++    }
++    
++    public void connectToPie() {
++        if(pieConnection != null) {    
++            try {
++                pieConnection.close();
++            } 
++            catch (IOException ex) {
++                ex.printStackTrace();
++            }
++        }
++        pieConnection = null;
++        connectedToPie = false;
++        
++        if(t != null)
++            t.interrupt();
++        t = new Thread(new Runnable() {
++            public void run() {
++                while(connectedToPie == false) {
++                    try {
++                        if(pieConnection != null)
++                            pieConnection.close();
++                        
++                        pieConnection = (SocketConnection) Connector.open("socket://10.17.68.15:1180");
++                        
++                        if(pieConnection == null)
++                            throw new RuntimeException("ERRROR: Didn't actually connect to pie!!!");
++                        
++                        pieInput = pieConnection.openInputStream();
++                        connectedToPie = true;
++                        System.out.println("[ DBG ] CONNECTED TO PIE");
++                    }
++                    catch(IOException e) {
++                        SmartDashboard.putString("Pie Error", e.toString());
++                    }
++                }
++            }
++        });
++        t.start();
++    }
++    
++    public static RaspberryPie getInstance() {
++        if(INSTANCE == null) {
++            synchronized(RaspberryPie.class) {
++                if(INSTANCE == null) {
++                    INSTANCE = new RaspberryPie();
++                }
++            }
++        }
++        return INSTANCE;
++    }
++    
++    public boolean isConnectedToPie() {
++        return connectedToPie;
++    }
++    
++    public void idle() {
++        return;
++    }
++}
+\ No newline at end of file
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/RaspberryPie/RaspberryPieIdleCommand.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/RaspberryPie/RaspberryPieIdleCommand.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/RaspberryPie/RaspberryPieIdleCommand.java	Wed Dec 31 19:00:00 1969
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/RaspberryPie/RaspberryPieIdleCommand.java	Sun Mar  2 21:43:53 2014
+@@ -0,0 +1,28 @@
++package edu.nr.main.subsystems.RaspberryPie;
++
++import edu.wpi.first.wpilibj.command.Command;
++
++public class RaspberryPieIdleCommand extends Command {
++    
++    public RaspberryPieIdleCommand() {
++        super("Raspberry Pie Do Nothing");
++        requires(RaspberryPie.getInstance());
++    }
++
++    protected void initialize() {
++    }
++
++    protected void execute() {
++        RaspberryPie.getInstance().idle();
++    }
++
++    protected boolean isFinished() {
++        return false;
++    }
++
++    protected void end() {
++    }
++
++    protected void interrupted() {
++    }
++}
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/RaspberryPie/ResetPieConnectionCommand.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/RaspberryPie/ResetPieConnectionCommand.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/RaspberryPie/ResetPieConnectionCommand.java	Wed Dec 31 19:00:00 1969
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/RaspberryPie/ResetPieConnectionCommand.java	Sun Mar  2 21:43:53 2014
+@@ -0,0 +1,31 @@
++package edu.nr.main.subsystems.RaspberryPie;
++
++import edu.wpi.first.wpilibj.command.Command;
++
++public class ResetPieConnectionCommand extends Command
++{
++    public ResetPieConnectionCommand() {
++        super("Reset Connection w/Raspberry Pie");
++        requires(RaspberryPie.getInstance());
++    }
++
++    protected void initialize() {
++    }
++
++    protected void execute() 
++    {
++        RaspberryPie.getInstance().connectToPie();
++    }
++
++    protected boolean isFinished() 
++    {
++        return true;
++    }
++
++    protected void end() {
++    }
++
++    protected void interrupted() {
++    }
++    
++}
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/ShooterRotator/ShooterRotationCommand.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/ShooterRotator/ShooterRotationCommand.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/ShooterRotator/ShooterRotationCommand.java	Sun Mar  2 21:34:19 2014
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/ShooterRotator/ShooterRotationCommand.java	Sun Mar  2 21:43:53 2014
+@@ -2,39 +2,26 @@ package edu.nr.main.subsystems.ShooterRo
+ 
+ import edu.wpi.first.wpilibj.command.Command;
+ 
+-public class ShooterRotationCommand extends Command 
+-{
++public class ShooterRotationCommand extends Command {
+     private double m_speed;
+     private double m_destination;
+     private final ShooterRotator rotate = ShooterRotator.getInstance();
+-    private boolean forwardDirection;
+     
+-    public ShooterRotationCommand(double speed, double destination) 
+-    {
++    public ShooterRotationCommand(double speed, double destination) {
+         m_speed = speed;
+         m_destination = destination;
+         requires(rotate);
+-        forwardDirection = destination < rotate.getShooterTiltRotation();
+     }
+     
+-    protected void initialize() 
+-    {
+-        
++    protected void initialize() {
+     }
+ 
+-    protected void execute() 
+-    {
++    protected void execute() {
+         rotate.rotate(m_destination);
+     }
+ 
+-    protected boolean isFinished() 
+-    {
+-        if(forwardDirection)
+-            return rotate.getShooterTiltRotation() >= m_destination;
+-        else
+-        {
+-            return rotate.getShooterTiltRotation() <= m_destination;
+-        }
++    protected boolean isFinished() {
++        return rotate.isAtDestination(m_destination);
+     }
+ 
+     protected void end() {
+diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/ShooterRotator/ShooterRotator.java C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/ShooterRotator/ShooterRotator.java
+--- C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/ShooterRotator/ShooterRotator.java	Sun Mar  2 21:31:25 2014
++++ C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/ShooterRotator/ShooterRotator.java	Sun Mar  2 21:43:53 2014
+@@ -43,7 +43,7 @@ public class ShooterRotator extends Subs
+         setDefaultCommand(new ShooterRotatorIdle());
+     }
+     
+-    public double getShooterTiltRotation() {
++    public double getShooterTiltEncClicks() {
+         try {
+             return rotationJag.getPosition();
+         } 
+@@ -53,56 +53,29 @@ public class ShooterRotator extends Subs
+         return -1;
+     }
+     
+-    public boolean isAtDestination(double destination, boolean forwardDirection) 
+-    {
+-        //Need to account for overshooting our destination!
+-        if(forwardDirection)
+-        {
+-            return getShooterTiltRotation() >= destination;
+-        }
+-        else
+-        {
+-            return getShooterTiltRotation() <= destination;
+-        }
++    public boolean isAtDestination(double destination) {
++        return getShooterTiltEncClicks() == destination;
+     }
+     
+-    public void rotate(double destination) 
+-    {
++    public void rotate(double destination) {
+         double count = 0;
+         double p, i, d = 0;
+-        try 
+-        {
++        try {
++            rotationJag.configSoftPositionLimits(destination, 
++                                             RobotMap.SHOOTER_ROT_REV_SOFT_LIM);
++            if(!isAtDestination(destination)) {
++                p = rotationJag.getPosition()/destination;
++                i = count * 0.002;
+             
+-            p = rotationJag.getPosition()/destination;
+-            i = count * 0.002;
+-
+-            //This is on by default? rotationJag.enableControl();
+-            count++;
++                rotationJag.setPID(p, i, d);
++                rotationJag.enableControl();
++                count++;
++            }
++            else {
++                return;
++            }
+         }
+         catch (CANTimeoutException ex) {
+-            ex.printStackTrace();
+-        }
+-    }
+-    
+-    public void setPositionLimits(double forward, double reverse)
+-    {
+-        try 
+-        {
+-            rotationJag.configSoftPositionLimits(forward, reverse);
+-        } 
+-        catch (CANTimeoutException ex) {
+-            ex.printStackTrace();
+-        }
+-    }
+-    
+-    public void setRotationJagPid(double p, double i, double d)
+-    {
+-        try 
+-        {
+-            rotationJag.setPID(p, i, d);
+-        } 
+-        catch (CANTimeoutException ex) 
+-        {
+             ex.printStackTrace();
+         }
+     }
