@@ -11,5 +11,25 @@
             <file>file:/home/fluffypony/workspace/2014/NR-2014-CMD/src/edu/nr/main/subsystems/BottomRollers/RollIdleCommand.java</file>
             <file>file:/home/fluffypony/workspace/2014/NR-2014-CMD/src/edu/nr/main/subsystems/BottomRollers/StopRollCommand.java</file>
         </group>
+        <group name="C++">
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/Puncher.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/ShooterRotator/ShooterRotator.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/PunchGroupCommand.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Compressor/CompressorBase.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/FieldCentric.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Drive/DriveJoystickCommand.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/AccelerationCalc.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/Autonomous/AutonomousCommand.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/oi/OI.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/Autonomous/AutonomousPunchCommand.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/TensionIdle.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/TensionToDistanceCommand.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/ShooterRotator/ShooterRotationCommand.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/Autonomous/CheckHotGoalCommand.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/PunchCommand.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/Robot.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/TensionCommand.java</file>
+            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Drive/DriveDistanceCommand.java</file>
+        </group>
     </open-files>
 </project-private>
