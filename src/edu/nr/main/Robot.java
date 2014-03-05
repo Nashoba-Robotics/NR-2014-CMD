@@ -114,6 +114,8 @@ public class Robot extends IterativeRobot
     public void autonomousPeriodic() 
     {
         Scheduler.getInstance().run();
+        
+        FieldCentric.update();
     }
     
     static Thread t = null;
@@ -176,6 +178,7 @@ public class Robot extends IterativeRobot
     public void teleopPeriodic() 
     {
         SmartDashboard.putBoolean("Pie Connection", connectedToPie);
+        FieldCentric.update();
         if(sensorsStarted)
         {
             Scheduler.getInstance().run();
