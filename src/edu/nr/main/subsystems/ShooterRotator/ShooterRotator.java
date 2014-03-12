@@ -22,6 +22,7 @@ public class ShooterRotator extends Subsystem implements Printable
     private CANJaguar rotationJag;
     public ShooterRotator()
     {
+        SmartDashboard.putNumber("Shooter Rotate Distance", 0);
         try 
         {
             rotationJag = new CANJaguar(RobotMap.SHOOTER_ROTATION_JAG);
@@ -67,6 +68,11 @@ public class ShooterRotator extends Subsystem implements Printable
     {
         SmartDashboard.putData("Shooter Rotator", this);
         SmartDashboard.putData("Shooter Rotator Idle", new ShooterRotatorIdle());
+        SmartDashboard.putData("Rotate vertical", new ShooterRotateTargetCommand(0.7, .267));
+        SmartDashboard.putData("Rotate bottom", new ShooterRotateTargetCommand(0.7, .078));
+        SmartDashboard.putData("Rotate 45", new ShooterRotateTargetCommand(0.7, .162));
+        SmartDashboard.putData("Rotate 40", new ShooterRotateTargetCommand(0.7, .1585));
+        SmartDashboard.putData("Rotate Starting Position", new ShooterRotateTargetCommand(0.7, .257));
         //SmartDashboard.putData("Shooter Rotation (0.4)", new ShooterRotationCommand(0.4,1));
         //SmartDashboard.putData("Shooter Rotation (-0.4)", new ShooterRotationCommand(-0.4,1));
     }

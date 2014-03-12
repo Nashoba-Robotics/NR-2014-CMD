@@ -32,10 +32,10 @@ public class Puncher extends Subsystem implements Printable
         try 
         {
             winch = new CANJaguar(RobotMap.WINCH_JAG);
-            winch.configEncoderCodesPerRev(250);
+            winch.configPotentiometerTurns(1);
             winch.setPositionReference(CANJaguar.PositionReference.kPotentiometer);
             winch.setSafetyEnabled(false);
-            setWinchLimit(5);
+            setWinchLimit(.95f);
         } catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }

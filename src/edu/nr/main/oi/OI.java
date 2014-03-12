@@ -38,8 +38,8 @@ public class OI
         new JoystickButton(stick1, 3).whenPressed(new StopBallIntakeCommand());
         new JoystickButton(stick1, 6).whenPressed(new ShiftCommand(true));
         new JoystickButton(stick1, 4).whenPressed(new ShiftCommand(false));
-        new JoystickButton(stick1, 9).whileHeld(new ShooterRotationCommand(0.5f));
-        new JoystickButton(stick1, 10).whileHeld(new ShooterRotationCommand(-0.5f));
+        new JoystickButton(stick1, 9).whileHeld(new ShooterRotationCommand(-0.7f));
+        new JoystickButton(stick1, 10).whileHeld(new ShooterRotationCommand(0.7f));
         new JoystickButton(stick1, 1).whenPressed(new PunchCommand());
         new JoystickButton(stick1, 2).whenPressed(new ResetDogEarCommand());
         new JoystickButton(stick1, 7).whenPressed(new TopArmDownCommand());

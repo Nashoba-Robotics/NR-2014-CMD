@@ -100,13 +100,15 @@ public class Drive extends Subsystem implements Printable
     
     public double getGyroAngle()
     {
-        return gyro.getAngle();
+        if(gyro != null)
+            return gyro.getAngle();
+        return 0;
     }
     
     public double getAverageEncoderDistance()
     {
         //average is multiplied by 34/32 to correct for encoder error
-        return ((e1.getDistance() + e2.getDistance())/2.0f)* (34d/32d);
+        return e1.getDistance() * 34d/32d;//((e1.getDistance() + e2.getDistance())/2.0f)* (34d/32d);
     }
     
     public double getGyroRate()
@@ -142,7 +144,7 @@ public class Drive extends Subsystem implements Printable
         SmartDashboard.putData("Drive Joystick Command", new DriveJoystickCommand());
         SmartDashboard.putData("Shift First Gear", new ShiftCommand(true));
         SmartDashboard.putData("Shift Second Gear", new ShiftCommand(false));
-        SmartDashboard.putData("Drive Distance", new DriveDistanceCommand(2f, .6f));
+        SmartDashboard.putData("Drive Distance Command", new DriveDistanceCommand(2f, .6f));
     }
 }
 

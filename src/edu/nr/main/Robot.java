@@ -8,6 +8,7 @@
 package edu.nr.main;
 
 
+import edu.nr.main.Autonomous.AutonomousCommand;
 import edu.nr.main.oi.OI;
 import edu.nr.main.subsystems.BottomRollers.BottomRollers;
 import edu.nr.main.subsystems.BottomRollers.ResetPieConnectionCommand;
@@ -65,7 +66,7 @@ public class Robot extends IterativeRobot
     {
         System.out.println("ROBOT STARTED");
         SmartDashboard.putData("Connect to Pie", new ResetPieConnectionCommand());
-        SmartDashboard.putBoolean("Auto Compressor", false);
+        SmartDashboard.putBoolean("Auto Compressor", true);
         SmartDashboard.putNumber("Tension Distance", 0);
         SmartDashboard.putNumber("Drive Distance", 10);
         drive = new Drive();
@@ -108,12 +109,29 @@ public class Robot extends IterativeRobot
         
         System.out.println("ROBOT FINISHED STARTING");
     }
+    
+    AutonomousCommand auton;
+    public void autonomousInit()
+    {
+        auton = new AutonomousCommand();
+        auton.start();
+    }
+    
+    public void disabledInit()
+    {
+        if(auton != null && auton.isRunning())
+            auton.cancel();
+    }
+    
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() 
     {
         Scheduler.getInstance().run();
+        
+        SmartDashboard.putNumber("Encoder 1", Robot.drive.getRawEncoder(1));
+        SmartDashboard.putNumber("Encoder 2", Robot.drive.getRawEncoder(2));
         
         FieldCentric.update();
     }
@@ -165,6 +183,8 @@ public class Robot extends IterativeRobot
 
     public void teleopInit() 
     {
+        if(auton != null)
+            auton.cancel();
         /*SmartDashboard.putData("DriveDistanceCommand", new DriveDistanceCommand(10, 0.8f));
         SmartDashboard.putData("DriveAngleCommand", new DriveAngleCommand(90, 0.6));*/
         OI.init();

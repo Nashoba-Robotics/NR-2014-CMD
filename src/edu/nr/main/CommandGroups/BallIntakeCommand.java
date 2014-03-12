@@ -7,6 +7,7 @@
 package edu.nr.main.CommandGroups;
 
 import edu.nr.main.subsystems.BottomRollers.RollCommand;
+import edu.nr.main.subsystems.ShooterRotator.ShooterRotateTargetCommand;
 import edu.nr.main.subsystems.TopArm.TopArmDownCommand;
 import edu.nr.main.subsystems.TopArm.TopArmRunCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -22,5 +23,6 @@ public class BallIntakeCommand extends CommandGroup
         this.addParallel(new RollCommand());
         this.addParallel(new TopArmDownCommand());
         this.addParallel(new TopArmRunCommand());
+        this.addParallel(new ShooterRotateTargetCommand(0.7, .078));
     }
 }

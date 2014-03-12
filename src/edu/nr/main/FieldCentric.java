@@ -31,7 +31,7 @@ public class FieldCentric
         }
         else if(System.currentTimeMillis() - lastUpdateTime > 200)
         {
-            System.err.println("ERROR: FieldCentric not being called often enough: (" + ((System.currentTimeMillis() - lastUpdateTime)/1000f) + "s)");
+            //System.err.println("ERROR: FieldCentric not being called often enough: (" + ((System.currentTimeMillis() - lastUpdateTime)/1000f) + "s)");
         }
         
         double angle = Robot.drive.getGyroAngle();

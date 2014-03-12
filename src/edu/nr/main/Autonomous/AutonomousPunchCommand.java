@@ -33,8 +33,7 @@ public class AutonomousPunchCommand extends Command
         if((System.currentTimeMillis()/1000f) - startTime > delay)
         {
             //UNCOMMENT FOR ACTUAL TESTING
-            //new PunchCommand().start();
-            System.out.println("AUTONOMOUS SHOOT THE BALL");
+            new PunchCommand().start();
             done = true;
         }
     }

@@ -29,9 +29,9 @@ public class DriveDistanceCommand extends Command
     public DriveDistanceCommand(float distance, float speed)
     {
         super("DriveDistanceCommand");
-        this.distance = (float) SmartDashboard.getNumber("Drive Distance");
         this.speed = speed;
         this.requires(Robot.drive);
+        this.distance = distance;
     }
     protected void initialize() 
     {
@@ -69,12 +69,12 @@ public class DriveDistanceCommand extends Command
         double integralSpeed = count * speed/Math.abs(speed) * 0.002;
         double newSpeed = Math.min(speed, proportionalSpeed + integralSpeed);
         
-        newSpeed *= ((goingForward)?1:-1); // Reverse the speed if we are going backwards
+        newSpeed *= ((goingForward)?-1:1); // Reverse the speed if we are going backwards
         
         SmartDashboard.putNumber("TurnAngle", turnAngle);
         SmartDashboard.putNumber("I Value", integralSpeed);
         SmartDashboard.putNumber("New Speed", newSpeed);
-        Robot.drive.drive(newSpeed, turnAngle);
+        Robot.drive.drive(newSpeed, 0);
 
         
         /*SmartDashboard.putNumber("Encoder 1", val1);
@@ -93,9 +93,9 @@ public class DriveDistanceCommand extends Command
     protected boolean isFinished() 
     {
         if(goingForward)
-            return (Robot.drive.getAverageEncoderDistance() - initialEncoderDistance >= 0);
+            return (Robot.drive.getAverageEncoderDistance() - initialEncoderDistance >= distance);
         else
-            return (Robot.drive.getAverageEncoderDistance() - initialEncoderDistance <= 0);
+            return (Robot.drive.getAverageEncoderDistance() - initialEncoderDistance <= distance);
         /*if((Robot.drive.getAverageEncoderDistance() > distance));
             //System.out.println("Should Finish");
         return (Robot.drive.getAverageEncoderDistance() > distance);*/
