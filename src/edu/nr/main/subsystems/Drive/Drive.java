@@ -108,7 +108,7 @@ public class Drive extends Subsystem implements Printable
     public double getAverageEncoderDistance()
     {
         //average is multiplied by 34/32 to correct for encoder error
-        return e2.getDistance();//((e1.getDistance() + e2.getDistance())/2.0f);
+        return ((e1.getDistance() + e2.getDistance())/2.0f);
     }
     
     public double getGyroRate()
