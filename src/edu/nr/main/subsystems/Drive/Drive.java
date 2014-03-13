@@ -78,7 +78,7 @@ public class Drive extends Subsystem implements Printable
 
     public void initDefaultCommand()
     {
-        setDefaultCommand(new DriveIdleCommand());
+        setDefaultCommand(new DriveJoystickCommand());
     }
     
     public void drive(double speed, double angle)
@@ -145,6 +145,7 @@ public class Drive extends Subsystem implements Printable
         SmartDashboard.putData("Shift First Gear", new ShiftCommand(true));
         SmartDashboard.putData("Shift Second Gear", new ShiftCommand(false));
         SmartDashboard.putData("Drive Distance Command", new DriveDistanceCommand(2f, .6f));
+        SmartDashboard.putData("Drive to Ultrasonic Command", new DriveToUltrasonicDistance(5f));
     }
 }
 

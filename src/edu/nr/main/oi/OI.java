@@ -6,6 +6,7 @@ import edu.nr.main.subsystems.BottomRollers.RollCommand;
 import edu.nr.main.subsystems.BottomRollers.StopRollCommand;
 import edu.nr.main.subsystems.Drive.DriveIdleCommand;
 import edu.nr.main.subsystems.Drive.DriveJoystickCommand;
+import edu.nr.main.subsystems.Drive.DriveToUltrasonicDistance;
 import edu.nr.main.subsystems.Drive.ShiftCommand;
 import edu.nr.main.subsystems.Puncher.PunchCommand;
 import edu.nr.main.subsystems.Puncher.PunchGroupCommand;
@@ -42,7 +43,7 @@ public class OI
         stick2 = new Joystick(2);
         new JoystickButton(stick1, 6).whenPressed(new ShiftCommand(true));
         new JoystickButton(stick1, 4).whenPressed(new ShiftCommand(false));
- 
+        new JoystickButton(stick1, 3).whenPressed(new DriveToUltrasonicDistance(5f));
         
         new JoystickButton(stick1, 9).whileHeld(new ShooterRotationCommand(-0.7f));
         new JoystickButton(stick1, 10).whileHeld(new ShooterRotationCommand(0.7f));
