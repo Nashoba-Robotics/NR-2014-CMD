@@ -42,8 +42,8 @@ public class DriveJoystickCommand extends Command
             zSpeed = 0;
         
         //Cut the speeds down because they are really fast
-        zSpeed = zSpeed * 2 / 3;
-        ySpeed = ySpeed * 3 / 4;
+        zSpeed = zSpeed * 2f / 3f;
+        ySpeed = ySpeed * 7f / 8f;
         
         Robot.drive.drive(ySpeed, zSpeed);
     }

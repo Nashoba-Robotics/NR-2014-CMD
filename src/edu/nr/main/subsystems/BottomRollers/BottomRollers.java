@@ -77,7 +77,8 @@ public class BottomRollers extends Subsystem implements Printable
             {
                 System.err.println("Error: Couldn't talk to shooter jag \n" + ex.toString());
             }
-            victor.set(-0.37);//SmartDashboard.getNumber("Victor Speed"));//speed);
+            victor.set(
+                    0.37);//SmartDashboard.getNumber("Victor Speed"));//speed);
         }
         
         public void stop()

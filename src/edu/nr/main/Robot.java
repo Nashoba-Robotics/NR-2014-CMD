@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.nr.main.subsystems.Compressor.OffBoard.OffBoardCompressor;
+import edu.nr.main.subsystems.Drive.DriveJoystickCommand;
 import edu.nr.main.subsystems.Puncher.Puncher;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotator;
 import edu.nr.main.subsystems.TopArm.TopArm;
@@ -189,6 +190,7 @@ public class Robot extends IterativeRobot
         SmartDashboard.putData("DriveAngleCommand", new DriveAngleCommand(90, 0.6));*/
         OI.init();
         System.out.println("TELEOP STARTED");
+        new DriveJoystickCommand().start();
     }
 
     /**

@@ -6,7 +6,9 @@
 
 package edu.nr.main.subsystems.Puncher;
 
+import edu.nr.main.subsystems.TopArm.TopArmUpCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
@@ -16,6 +18,11 @@ public class PunchGroupCommand extends CommandGroup
 {
     public PunchGroupCommand()
     {
-        //Talk to Mr. Carpenter about how to go about doing this (sometimes the puncher takes a while before it actually punches)
+        this.addSequential(new TopArmUpCommand());
+        this.addSequential(new WaitCommand(0.5));
+        this.addSequential(new PunchCommand());
+        this.addSequential(new WaitCommand(3));
+        this.addSequential(new ResetDogEarCommand());
+        this.addSequential(new TensionToDistanceCommandActual(0.862f));
     }
 }

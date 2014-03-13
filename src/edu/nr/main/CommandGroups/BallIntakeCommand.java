@@ -23,6 +23,6 @@ public class BallIntakeCommand extends CommandGroup
         this.addParallel(new RollCommand());
         this.addParallel(new TopArmDownCommand());
         this.addParallel(new TopArmRunCommand());
-        this.addParallel(new ShooterRotateTargetCommand(0.7, .078));
+        this.addParallel(new ShooterRotateTargetCommand(.078));
     }
 }

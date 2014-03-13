@@ -8,13 +8,18 @@ import edu.nr.main.subsystems.Drive.DriveIdleCommand;
 import edu.nr.main.subsystems.Drive.DriveJoystickCommand;
 import edu.nr.main.subsystems.Drive.ShiftCommand;
 import edu.nr.main.subsystems.Puncher.PunchCommand;
+import edu.nr.main.subsystems.Puncher.PunchGroupCommand;
 import edu.nr.main.subsystems.Puncher.ResetDogEarCommand;
 import edu.nr.main.subsystems.Puncher.TensionCommand;
 import edu.nr.main.subsystems.Puncher.TensionIdle;
+import edu.nr.main.subsystems.Puncher.TensionToDistanceCommand;
+import edu.nr.main.subsystems.Puncher.TensionToDistanceCommandActual;
+import edu.nr.main.subsystems.ShooterRotator.ShooterRotateTargetCommand;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotationCommand;
 import edu.nr.main.subsystems.TopArm.TopArmDownCommand;
 import edu.nr.main.subsystems.TopArm.TopArmRunCommand;
 import edu.nr.main.subsystems.TopArm.TopArmStopCommand;
+import edu.nr.main.subsystems.TopArm.TopArmToggleCommand;
 import edu.nr.main.subsystems.TopArm.TopArmUpCommand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -25,7 +30,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI 
 {
-    private static Joystick stick1;
+    private static Joystick stick1, stick2;
     private static JoystickButton startButton, bButton,
             leftBumperButton, rightBumperButton, aButton,
             xButton, rightStickButton, leftStickButton, yButton,
@@ -34,18 +39,26 @@ public class OI
     public static void init()
     {
         stick1 = new Joystick(1);
-        new JoystickButton(stick1, 5).whenPressed(new BallIntakeCommand());
-        new JoystickButton(stick1, 3).whenPressed(new StopBallIntakeCommand());
+        stick2 = new Joystick(2);
         new JoystickButton(stick1, 6).whenPressed(new ShiftCommand(true));
         new JoystickButton(stick1, 4).whenPressed(new ShiftCommand(false));
+ 
+        
         new JoystickButton(stick1, 9).whileHeld(new ShooterRotationCommand(-0.7f));
         new JoystickButton(stick1, 10).whileHeld(new ShooterRotationCommand(0.7f));
-        new JoystickButton(stick1, 1).whenPressed(new PunchCommand());
-        new JoystickButton(stick1, 2).whenPressed(new ResetDogEarCommand());
-        new JoystickButton(stick1, 7).whenPressed(new TopArmDownCommand());
-        new JoystickButton(stick1, 8).whenPressed(new TopArmUpCommand());
-        new JoystickButton(stick1, 11).whenPressed(new TensionCommand());
-        new JoystickButton(stick1, 12).whenPressed(new TensionIdle());
+        //new JoystickButton(stick2, 2).whenPressed(new ResetDogEarCommand());
+        
+        
+        //new JoystickButton(stick2, 12).whenPressed(new TensionIdle());
+        
+        new JoystickButton(stick2, 3).whenPressed(new TensionToDistanceCommandActual(0.96f));
+        new JoystickButton(stick2, 1).whenPressed(new PunchGroupCommand());
+        new JoystickButton(stick2, 7).whenPressed(new TopArmToggleCommand());
+        new JoystickButton(stick2, 2).whenPressed(new BallIntakeCommand());
+        new JoystickButton(stick2, 4).whenPressed(new StopBallIntakeCommand());
+        new JoystickButton(stick2, 5).whenPressed(new ShooterRotateTargetCommand(.155f));
+        new JoystickButton(stick2, 6).whenPressed(new ShooterRotateTargetCommand(.078f));
+        new JoystickButton(stick2, 10).whenPressed(new ShooterRotateTargetCommand(0.17)); //Close up shot
         
         //yButton = new JoystickButton(stic k1, 5);
         

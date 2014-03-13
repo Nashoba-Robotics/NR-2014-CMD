@@ -11,6 +11,7 @@ import edu.nr.main.subsystems.Drive.DriveDistanceCommand;
 import edu.nr.main.subsystems.Drive.ResetEncs;
 import edu.nr.main.subsystems.Drive.ShiftCommand;
 import edu.nr.main.subsystems.Puncher.PunchCommand;
+import edu.nr.main.subsystems.Puncher.PunchGroupCommand;
 import edu.nr.main.subsystems.Puncher.ResetDogEarCommand;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotateTargetCommand;
 import edu.nr.main.subsystems.TopArm.TopArmUpCommand;
@@ -33,6 +34,6 @@ public class AutonomousCommand extends CommandGroup
         
         this.addSequential(new WaitCommand(0.25));
         //this.addSequential(new CheckHotGoalCommand());
-        this.addSequential(new PunchCommand());
+        this.addSequential(new PunchGroupCommand());
     }
 }

@@ -47,6 +47,11 @@ public class TopArm extends Subsystem implements Printable
         setDefaultCommand(new TopArmIdleCommand());
     }
     
+    public boolean isDeployed()
+    {
+        return (solenoid.get() == DoubleSolenoid.Value.kForward);
+    }
+    
     public void deploy()
     {
         solenoid.set(DoubleSolenoid.Value.kForward);

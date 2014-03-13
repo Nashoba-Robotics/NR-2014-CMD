@@ -20,9 +20,9 @@ public class ShooterRotateTargetCommand extends Command
     private double destination;
     boolean goingForward;
     
-    public ShooterRotateTargetCommand(double speed, double destination)
+    public ShooterRotateTargetCommand(double destination)
     {
-        this.speed = speed;
+        this.speed = 0.7;
         this.destination = destination;
         this.requires(Robot.shooterRotator);
     }
@@ -37,7 +37,7 @@ public class ShooterRotateTargetCommand extends Command
     {
         /*Do all of the calculations in posotive, then apply negative sign at the end if we are going in reverse
         double err = Math.abs(destination - Robot.shooterRotator.getRotation());
-        double proportionalStopDistance = 0.1;
+        double proportionalStopDistance = 0.03;
         double proportionalSpeed = ((1/proportionalStopDistance)*err)*speed;
         double finalSpeed = Math.min(speed, proportionalSpeed);
         double integralSpeed = count * 0.0002;

@@ -119,6 +119,7 @@ public class Puncher extends Subsystem implements Printable
         SmartDashboard.putData("Tension Command (defined Speed)", new TensionCommand());
         SmartDashboard.putData("TensionIdle", new TensionIdle());
         SmartDashboard.putData("Punch Command", new PunchCommand());
+        SmartDashboard.putData("Punch Group Command", new PunchGroupCommand());
         SmartDashboard.putData("Tension to Distance", new TensionToDistanceCommand());
     }
 }

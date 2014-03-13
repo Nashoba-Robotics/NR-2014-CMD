@@ -25,7 +25,7 @@ public class AutonomousInitialGroup extends CommandGroup
         this.addParallel(new CameraOnCommand());
         this.addParallel(new ResetDogEarCommand());
         this.addParallel(new TensionToDistanceCommandActual(0.96f));
-        this.addParallel(new ShooterRotateTargetCommand(0.7, .162));
+        this.addParallel(new ShooterRotateTargetCommand(.162));
         this.addParallel(new DriveDistanceCommand(7, .6f));
     }
 }

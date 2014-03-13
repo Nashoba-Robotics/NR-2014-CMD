@@ -4,33 +4,35 @@
  * and open the template in the editor.
  */
 
-package edu.nr.main.subsystems.Compressor.OffBoard;
+package edu.nr.main.subsystems.TopArm;
 
 import edu.nr.main.Robot;
-import edu.nr.main.subsystems.Compressor.CompressorBase;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
- * @author colin
+ * @author Robotics
  */
-public class ExtCompressorIdle extends Command
-{
-    public ExtCompressorIdle()
-    {
-        this.requires(Robot.extCompressor);
-    }
+public class TopArmToggleCommand extends Command{
+
     protected void initialize() {
     }
 
     protected void execute() 
     {
+        if(Robot.topArm.isDeployed())
+        {
+            Robot.topArm.undeploy();
+        }
+        else
+        {
+            Robot.topArm.deploy();
+        }
     }
 
-    protected boolean isFinished() 
+    protected boolean isFinished()
     {
-        return false;
+        return true;
     }
 
     protected void end() {
