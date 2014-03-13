@@ -4,10 +4,12 @@ import edu.nr.main.CommandGroups.BallIntakeCommand;
 import edu.nr.main.CommandGroups.StopBallIntakeCommand;
 import edu.nr.main.subsystems.BottomRollers.RollCommand;
 import edu.nr.main.subsystems.BottomRollers.StopRollCommand;
+import edu.nr.main.subsystems.CancelAllCommand;
 import edu.nr.main.subsystems.Drive.DriveIdleCommand;
 import edu.nr.main.subsystems.Drive.DriveJoystickCommand;
 import edu.nr.main.subsystems.Drive.DriveToUltrasonicDistance;
 import edu.nr.main.subsystems.Drive.ShiftCommand;
+import edu.nr.main.subsystems.Drive.UltrasonicGroupShot;
 import edu.nr.main.subsystems.Puncher.PunchCommand;
 import edu.nr.main.subsystems.Puncher.PunchGroupCommand;
 import edu.nr.main.subsystems.Puncher.ResetDogEarCommand;
@@ -17,6 +19,7 @@ import edu.nr.main.subsystems.Puncher.TensionToDistanceCommand;
 import edu.nr.main.subsystems.Puncher.TensionToDistanceCommandActual;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotateTargetCommand;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotationCommand;
+import edu.nr.main.subsystems.ShooterRotator.ShooterRotator;
 import edu.nr.main.subsystems.TopArm.TopArmDownCommand;
 import edu.nr.main.subsystems.TopArm.TopArmRunCommand;
 import edu.nr.main.subsystems.TopArm.TopArmStopCommand;
@@ -43,7 +46,8 @@ public class OI
         stick2 = new Joystick(2);
         new JoystickButton(stick1, 6).whenPressed(new ShiftCommand(true));
         new JoystickButton(stick1, 4).whenPressed(new ShiftCommand(false));
-        new JoystickButton(stick1, 3).whenPressed(new DriveToUltrasonicDistance(5f));
+        //new JoystickButton(stick1, 3).whenPressed(new UltrasonicGroupShot());
+        new JoystickButton(stick1, 7).whenPressed(new CancelAllCommand());
         
         new JoystickButton(stick1, 9).whileHeld(new ShooterRotationCommand(-0.7f));
         new JoystickButton(stick1, 10).whileHeld(new ShooterRotationCommand(0.7f));
@@ -52,14 +56,21 @@ public class OI
         
         //new JoystickButton(stick2, 12).whenPressed(new TensionIdle());
         
+        new JoystickButton(stick2, 11).whileHeld(new ShooterRotationCommand(-0.7f));
+        new JoystickButton(stick2, 10).whileHeld(new ShooterRotationCommand(0.7f));
         new JoystickButton(stick2, 3).whenPressed(new TensionToDistanceCommandActual(0.96f));
         new JoystickButton(stick2, 1).whenPressed(new PunchGroupCommand());
-        new JoystickButton(stick2, 7).whenPressed(new TopArmToggleCommand());
+        new JoystickButton(stick2, 8).whenPressed(new TopArmDownCommand());
+        new JoystickButton(stick2, 9).whenPressed(new TopArmUpCommand());
+        new JoystickButton(stick2, 7).whenPressed(new ResetDogEarCommand());
+        
         new JoystickButton(stick2, 2).whenPressed(new BallIntakeCommand());
         new JoystickButton(stick2, 4).whenPressed(new StopBallIntakeCommand());
-        new JoystickButton(stick2, 5).whenPressed(new ShooterRotateTargetCommand(.155f));
-        new JoystickButton(stick2, 6).whenPressed(new ShooterRotateTargetCommand(.078f));
-        new JoystickButton(stick2, 10).whenPressed(new ShooterRotateTargetCommand(0.17)); //Close up shot
+        new JoystickButton(stick2, 5).whenPressed(new ShooterRotateTargetCommand(ShooterRotator.AUTONOMOUS));
+        new JoystickButton(stick2, 6).whenPressed(new ShooterRotateTargetCommand(ShooterRotator.STARTING_POSITION));
+        //new JoystickButton(stick2, 6).whenPressed(new ShooterRotateTargetCommand(.32));
+        //new JoystickButton(stick2, 10).whenPressed(new ShooterRotateTargetCommand(0.17)); //Close up shot
+        //new JoystickButton(stick2, 8).whenPressed(new TopArmUndeploy());
         
         //yButton = new JoystickButton(stic k1, 5);
         

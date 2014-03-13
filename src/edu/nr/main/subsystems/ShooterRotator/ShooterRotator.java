@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class ShooterRotator extends Subsystem implements Printable
 {
+    //public static final double BOTTOM_POSITION = 0.078, FORTY_FIVE = 0.162, NINETY = 0.267, STARTING_POSITION = 0.257, FORTY=.1585, AUTONOMOUS = 0.146;
+    public static final double STARTING_POSITION = .241, AUTONOMOUS = 0.158;
     private CANJaguar rotationJag;
     public ShooterRotator()
     {
@@ -62,6 +64,9 @@ public class ShooterRotator extends Subsystem implements Printable
         catch (CANTimeoutException ex) {
             ex.printStackTrace();
         }
+        
+        
+        
     }
 
     public void sendInfo() 
@@ -72,7 +77,7 @@ public class ShooterRotator extends Subsystem implements Printable
         SmartDashboard.putData("Rotate bottom", new ShooterRotateTargetCommand(.078));
         SmartDashboard.putData("Rotate 45", new ShooterRotateTargetCommand(.162));
         SmartDashboard.putData("Rotate 40", new ShooterRotateTargetCommand(.1585));
-        SmartDashboard.putData("Rotate Starting Position", new ShooterRotateTargetCommand(.257));
+        SmartDashboard.putData("Rotate Starting Position", new ShooterRotateTargetCommand(STARTING_POSITION));
         //SmartDashboard.putData("Shooter Rotation (0.4)", new ShooterRotationCommand(0.4,1));
         //SmartDashboa
     }

@@ -7,6 +7,7 @@
 
 package edu.nr.main.subsystems.BottomRollers;
 
+import edu.nr.main.Robot;
 import edu.nr.main.RobotMap;
 import edu.nr.main.subsystems.Printable;
 import edu.wpi.first.wpilibj.CANJaguar;
@@ -88,7 +89,8 @@ public class BottomRollers extends Subsystem implements Printable
                 jag1.setX(0);//SmartDashboard.getNumber("Jag Speed"));//speed+0.2);
             } catch (CANTimeoutException ex) 
             {
-                System.err.println("Error: Couldn't talk to shooter jag \n" + ex.toString());
+                Robot.canExceptions++;
+                //System.err.println("Error: Couldn't talk to shooter jag \n" + ex.toString());
             }
             victor.set(0);//SmartDashboard.getNumber("Victor Speed"));//speed);
         }

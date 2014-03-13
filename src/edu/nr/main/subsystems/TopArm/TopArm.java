@@ -6,6 +6,7 @@
 
 package edu.nr.main.subsystems.TopArm;
 
+import edu.nr.main.Robot;
 import edu.nr.main.RobotMap;
 import edu.nr.main.subsystems.Printable;
 import edu.wpi.first.wpilibj.CANJaguar;
@@ -23,7 +24,7 @@ public class TopArm extends Subsystem implements Printable
 {
     private DoubleSolenoid solenoid;
     CANJaguar jag;
-    DigitalInput ir;
+    //DigitalInput ir;
     
     public TopArm()
     {
@@ -33,14 +34,14 @@ public class TopArm extends Subsystem implements Printable
         } catch (CANTimeoutException ex) {
             System.err.println("Error: couldn't create top arm jag!!");
         }
-        ir = new DigitalInput(10);
+        //ir = new DigitalInput(10);
     }
     
-    public boolean getIRSensor()
+    /*public boolean getIRSensor()
     {
         //Must be inverted because the sensor reports the opposite
         return (!ir.get());
-    }
+    }*/
     
     protected void initDefaultCommand()
     {
@@ -69,7 +70,8 @@ public class TopArm extends Subsystem implements Printable
         try {
             jag.setX(-speed);
         } catch (CANTimeoutException ex) {
-            System.out.println("ERROR: Couldn't set top arm jag speed");
+                Robot.canExceptions++;
+//System.out.println("ERROR: Couldn't set top arm jag speed");
         }
     }
     

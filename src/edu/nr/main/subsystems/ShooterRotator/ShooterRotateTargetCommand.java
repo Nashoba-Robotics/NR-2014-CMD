@@ -8,7 +8,6 @@ package edu.nr.main.subsystems.ShooterRotator;
 
 import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -19,6 +18,7 @@ public class ShooterRotateTargetCommand extends Command
     private double speed;
     private double destination;
     boolean goingForward;
+    private long startTime;
     
     public ShooterRotateTargetCommand(double destination)
     {
@@ -29,29 +29,36 @@ public class ShooterRotateTargetCommand extends Command
     
     protected void initialize() 
     {
+        startTime = System.currentTimeMillis();
+        
         goingForward = (Robot.shooterRotator.getRotation() - destination) < 0;
     }
 
     int count = 0;
     protected void execute()
     {
-        /*Do all of the calculations in posotive, then apply negative sign at the end if we are going in reverse
+        //Do all of the calculations in posotive, then apply negative sign at the end if we are going in reverse
         double err = Math.abs(destination - Robot.shooterRotator.getRotation());
         double proportionalStopDistance = 0.03;
         double proportionalSpeed = ((1/proportionalStopDistance)*err)*speed;
         double finalSpeed = Math.min(speed, proportionalSpeed);
-        double integralSpeed = count * 0.0002;
+        double integralSpeed = count * 0.002;
         
         finalSpeed += integralSpeed;
         finalSpeed *= ((goingForward)?1:-1); //If we are going in reverse, reverse the speed
         Robot.shooterRotator.rotate(finalSpeed);
         
-        count++;*/
-        Robot.shooterRotator.rotate((goingForward)?speed:-speed);
+        count++;
+        //Robot.shooterRotator.rotate((goingForward)?speed:-speed);
     }
 
     protected boolean isFinished()
     {
+        if(System.currentTimeMillis() - startTime > 5000)
+        {
+            return true;
+        }
+        
         if(goingForward)
         {
             //System.out.println("Quitting: " + Robot.shooterRotator.getRotation() + " forward");

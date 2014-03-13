@@ -108,7 +108,7 @@ public class Drive extends Subsystem implements Printable
     public double getAverageEncoderDistance()
     {
         //average is multiplied by 34/32 to correct for encoder error
-        return ((e1.getDistance() + e2.getDistance())/2.0f);
+        return e2.getDistance();//((e1.getDistance() + e2.getDistance())/2.0f);
     }
     
     public double getGyroRate()
@@ -133,7 +133,9 @@ public class Drive extends Subsystem implements Printable
         }
         else
         {
-            throw new RuntimeException("Error: Invalid encoder value");
+            //System.out.println("Error with encoder");
+            return 0;
+            //throw new RuntimeException("Error: Invalid encoder value");
         }
     }
 
@@ -146,6 +148,7 @@ public class Drive extends Subsystem implements Printable
         SmartDashboard.putData("Shift Second Gear", new ShiftCommand(false));
         SmartDashboard.putData("Drive Distance Command", new DriveDistanceCommand(2f, .6f));
         SmartDashboard.putData("Drive to Ultrasonic Command", new DriveToUltrasonicDistance(5f));
+        SmartDashboard.putData("Reset Encoders", new ResetEncs());
     }
 }
 

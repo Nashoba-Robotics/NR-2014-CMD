@@ -6,6 +6,7 @@
 
 package edu.nr.main.subsystems.Puncher;
 
+import edu.nr.main.Robot;
 import edu.nr.main.RobotMap;
 import edu.nr.main.subsystems.Printable;
 import edu.wpi.first.wpilibj.CANJaguar;
@@ -36,8 +37,10 @@ public class Puncher extends Subsystem implements Printable
             winch.setPositionReference(CANJaguar.PositionReference.kPotentiometer);
             winch.setSafetyEnabled(false);
             setWinchLimit(.95f);
-        } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+        } catch (CANTimeoutException ex) 
+        {
+            Robot.canExceptions++;
+            //ex.printStackTrace();
         }
         dogEar = new DoubleSolenoid(RobotMap.DOG_EAR_SOLENOID_DEPLOY, RobotMap.DOG_EAR_SOLENOID_UNDEPLOY);
         dogEar.set(Value.kReverse);
@@ -52,8 +55,10 @@ public class Puncher extends Subsystem implements Printable
     {
         try {
             return winch.getForwardLimitOK();
-        } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+        } catch (CANTimeoutException ex) 
+        {
+            Robot.canExceptions++;
+            //ex.printStackTrace();
         }
         return false;
     }
@@ -73,7 +78,8 @@ public class Puncher extends Subsystem implements Printable
         try {
             winch.setX(speed);
         } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+            Robot.canExceptions++;
+            //ex.printStackTrace();
         }
     }
     
@@ -82,7 +88,8 @@ public class Puncher extends Subsystem implements Printable
         try {
             winch.configSoftPositionLimits(position, -2);
         } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+            Robot.canExceptions++;
+        //ex.printStackTrace();
         }
     }
     
@@ -91,7 +98,9 @@ public class Puncher extends Subsystem implements Printable
         try {
             return winch.getOutputVoltage();
         } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+            
+            Robot.canExceptions++;
+            //ex.printStackTrace();
         }
         return -1;
     }
@@ -102,9 +111,10 @@ public class Puncher extends Subsystem implements Printable
             return winch.getPosition();
         } catch (CANTimeoutException ex) 
         {
+            Robot.canExceptions++;
             ex.printStackTrace();
         }
-        throw new RuntimeException("Error: Couldn't get winch position");
+        return 1;
     }
     
     /*public void setDogEar(Value value)

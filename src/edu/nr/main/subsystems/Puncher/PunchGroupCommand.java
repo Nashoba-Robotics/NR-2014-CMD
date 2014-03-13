@@ -6,6 +6,9 @@
 
 package edu.nr.main.subsystems.Puncher;
 
+import edu.nr.main.subsystems.ShooterRotator.ShooterRotateTargetCommand;
+import edu.nr.main.subsystems.ShooterRotator.ShooterRotator;
+import edu.nr.main.subsystems.TopArm.TopArmDownCommand;
 import edu.nr.main.subsystems.TopArm.TopArmUpCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
@@ -19,10 +22,12 @@ public class PunchGroupCommand extends CommandGroup
     public PunchGroupCommand()
     {
         this.addSequential(new TopArmUpCommand());
-        this.addSequential(new WaitCommand(0.5));
+        this.addSequential(new WaitCommand(0.25));
         this.addSequential(new PunchCommand());
-        this.addSequential(new WaitCommand(3));
+        this.addSequential(new WaitCommand(2));
         this.addSequential(new ResetDogEarCommand());
+        this.addParallel(new TopArmDownCommand());
+        this.addParallel(new ShooterRotateTargetCommand(ShooterRotator.STARTING_POSITION));
         this.addSequential(new TensionToDistanceCommandActual(0.862f));
     }
 }

@@ -4,11 +4,8 @@
  * and open the template in the editor.
  */
 
-package edu.nr.main.Autonomous;
+package edu.nr.main.subsystems.Drive;
 
-import edu.nr.main.subsystems.Camera.CameraOnCommand;
-import edu.nr.main.subsystems.Drive.DriveDistanceCommand;
-import edu.nr.main.subsystems.Puncher.ResetDogEarCommand;
 import edu.nr.main.subsystems.Puncher.TensionToDistanceCommandActual;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotateTargetCommand;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotator;
@@ -19,14 +16,13 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  *
  * @author Robotics
  */
-public class AutonomousInitialGroup extends CommandGroup
+public class PrepareUltrasonicShot extends CommandGroup
 {
-    public AutonomousInitialGroup()
+    public PrepareUltrasonicShot()
     {
-        this.addParallel(new CameraOnCommand());
-        this.addParallel(new ResetDogEarCommand());
-        this.addParallel(new TensionToDistanceCommandActual(0.96f));
+        this.addParallel(new TopArmUpCommand());
+        this.addParallel(new DriveToUltrasonicDistance(5));
         this.addParallel(new ShooterRotateTargetCommand(ShooterRotator.AUTONOMOUS));
-        this.addParallel(new DriveDistanceCommand(7, .6f));
+        this.addParallel(new TensionToDistanceCommandActual(0.96f));
     }
 }

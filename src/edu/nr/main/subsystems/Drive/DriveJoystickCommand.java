@@ -44,17 +44,17 @@ public class DriveJoystickCommand extends Command
         //START NEW CODE
         //Cut the speeds down because they are really fast
         //Try squaring it to get more fine control at first
-        zSpeed = ((zSpeed*zSpeed) * (Math.abs(zSpeed)/zSpeed));// * 2f / 3f;
+        //zSpeed = ((zSpeed*zSpeed) * (Math.abs(zSpeed)/zSpeed));// * 2f / 3f;
         
         //For a steeper curve:
         //zSpeed = (Math.abs(zSpeed) / zSpeed) * Math.sqrt(Math.abs(zSpeed * zSpeed * zSpeed));
         
-        ySpeed = (Math.abs(ySpeed) / ySpeed) * Math.sqrt(Math.abs(ySpeed * ySpeed * ySpeed));
+        //ySpeed = (Math.abs(ySpeed) / ySpeed) * Math.sqrt(Math.abs(ySpeed * ySpeed * ySpeed));
         //END NEW CODE
         
-        /*START OLD CODE
-        ySpeed *= (7f / 8f);
-        zSpeed *= 2f / 3f;*/
+        //START OLD CODE
+        //ySpeed *= (7f / 8f);
+        zSpeed *= 3f / 4f;
         
         Robot.drive.drive(ySpeed, zSpeed);
     }

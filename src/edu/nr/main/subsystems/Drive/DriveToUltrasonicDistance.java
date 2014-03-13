@@ -7,6 +7,7 @@
 package edu.nr.main.subsystems.Drive;
 
 import edu.nr.main.Robot;
+import edu.nr.main.subsystems.Puncher.PunchGroupCommand;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -20,24 +21,34 @@ public class DriveToUltrasonicDistance extends Command
     public DriveToUltrasonicDistance(float target)
     {
         this.target = target;
+        this.requires(Robot.drive);
     }
     
     protected void initialize() 
     {
-        this.requires(Robot.drive);
         goingForward = (Robot.drive.getUltrasonicFeet() > target);
     }
 
     float speed = 0.8f;
     protected void execute() 
     {
+        goingForward = Robot.drive.getUltrasonicFeet() > target;
         double err = Math.abs(target - Robot.drive.getUltrasonicFeet());
+        
+        //if(err < 3)
+        //    Robot.topArm.undeploy();
+        if(Robot.drive.getUltrasonicFeet() < 8)
+        {
+            new PunchGroupCommand().start();
+        }
 
         double proportionalStopDistance = 3;
         double proportionalSpeed = ((1/(proportionalStopDistance)) * err) * speed;
         double newSpeed = Math.min(speed, proportionalSpeed);
         
         newSpeed *= ((goingForward)?-1:1); // Reverse the speed if we are going backwards NOTE: The drive train is reversed
+        
+        Robot.drive.drive(newSpeed, 0);
     }
 
     protected boolean isFinished() 

@@ -24,6 +24,7 @@ public class TensionToDistanceCommandActual extends Command
     protected void initialize() 
     {
         Robot.puncher.setWinchLimit(dist);
+        Robot.puncher.resetDogEar();
     }
 
     protected void execute() 

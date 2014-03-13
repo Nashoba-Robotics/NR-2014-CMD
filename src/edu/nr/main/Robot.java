@@ -13,6 +13,7 @@ import edu.nr.main.oi.OI;
 import edu.nr.main.subsystems.BottomRollers.BottomRollers;
 import edu.nr.main.subsystems.BottomRollers.ResetPieConnectionCommand;
 import edu.nr.main.subsystems.Camera.Camera;
+import edu.nr.main.subsystems.CancelAllCommand;
 import edu.nr.main.subsystems.Compressor.OnBoard.Compressor;
 import edu.nr.main.subsystems.Drive.Drive;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -57,6 +58,8 @@ public class Robot extends IterativeRobot
     public static OffBoardCompressor extCompressor;
     public static Camera camera;
     
+    public static int canExceptions = 0;
+    
     static SocketConnection pieConnection;
     static InputStream pieInput;
     
@@ -80,6 +83,7 @@ public class Robot extends IterativeRobot
         camera = new Camera();
         
         SmartDashboard.putNumber("Tensioner Speed", 0);
+        SmartDashboard.putData(new CancelAllCommand());
         SmartDashboard.putData(rollers);
         
         topArm.sendInfo();
@@ -91,7 +95,7 @@ public class Robot extends IterativeRobot
         extCompressor.sendInfo();
         camera.sendInfo();
         
-        connectToPie();
+        //connectToPie();
         
         new Thread(new Runnable()
         {
@@ -133,6 +137,7 @@ public class Robot extends IterativeRobot
         
         SmartDashboard.putNumber("Encoder 1", Robot.drive.getRawEncoder(1));
         SmartDashboard.putNumber("Encoder 2", Robot.drive.getRawEncoder(2));
+        SmartDashboard.putNumber("Potentiometer",Robot.shooterRotator.getRotation());
         
         FieldCentric.update();
     }
@@ -166,8 +171,8 @@ public class Robot extends IterativeRobot
                         if(pieConnection != null)
                             pieConnection.close();
                         pieConnection = (SocketConnection) Connector.open("socket://10.17.68.15:1180");
-                        if(pieConnection == null)
-                            throw new RuntimeException("ERRROR: Didn't actually connect to pie!!!");
+                        if(pieConnection == null);
+                            //throw new RuntimeException("ERRROR: Didn't actually connect to pie!!!");
                         pieInput = pieConnection.openInputStream();
                         connectedToPie = true;
                         System.out.println("[ DBG ] CONNECTED TO PIE");
@@ -189,6 +194,8 @@ public class Robot extends IterativeRobot
         /*SmartDashboard.putData("DriveDistanceCommand", new DriveDistanceCommand(10, 0.8f));
         SmartDashboard.putData("DriveAngleCommand", new DriveAngleCommand(90, 0.6));*/
         OI.init();
+        
+        Robot.puncher.resetDogEar();
         System.out.println("TELEOP STARTED");
         new DriveJoystickCommand().start();
     }
@@ -204,7 +211,7 @@ public class Robot extends IterativeRobot
         if(sensorsStarted)
         {
             Scheduler.getInstance().run();
-            SmartDashboard.putNumber("Potentiometer",Robot.shooterRotator.getRotation());
+            
             SmartDashboard.putNumber("Linear Encoder", Robot.puncher.getLinearEncoderDistance());
             SmartDashboard.putNumber("Encoder 1", Robot.drive.getRawEncoder(1));
             SmartDashboard.putNumber("Encoder 2", Robot.drive.getRawEncoder(2));
@@ -213,13 +220,15 @@ public class Robot extends IterativeRobot
             SmartDashboard.putNumber("Accel x", Robot.drive.getAccel(ADXL345_I2C.Axes.kX));
             SmartDashboard.putNumber("Accel z", Robot.drive.getAccel(ADXL345_I2C.Axes.kZ));
             SmartDashboard.putNumber("Ultrasonic Sensor (feet)", Robot.drive.getUltrasonicFeet());
-            SmartDashboard.putBoolean("Infrared Sensor", Robot.topArm.getIRSensor());
+            SmartDashboard.putNumber("Potentiometer",Robot.shooterRotator.getRotation());
+            SmartDashboard.putNumber("CAN Exceptions", canExceptions);
+            //SmartDashboard.putBoolean("Infrared Sensor", Robot.topArm.getIRSensor());
             
             SmartDashboard.putBoolean("Tension Limit Condition", Robot.puncher.getForwardLimitOK());
         
             SmartDashboard.putString("Pie Message", "");
-            if(connectedToPie)
-                listenForPieInput();
+            //if(connectedToPie)
+              //  listenForPieInput();
         }
     }
     

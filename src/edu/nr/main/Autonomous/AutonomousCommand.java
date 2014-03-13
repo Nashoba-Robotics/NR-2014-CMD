@@ -32,7 +32,7 @@ public class AutonomousCommand extends CommandGroup
         this.addSequential(new AutonomousInitialGroup());
         this.addParallel(new TopArmUpCommand());
         
-        this.addSequential(new WaitCommand(0.25));
+        this.addSequential(new WaitCommand(2));
         //this.addSequential(new CheckHotGoalCommand());
         this.addSequential(new PunchGroupCommand());
     }

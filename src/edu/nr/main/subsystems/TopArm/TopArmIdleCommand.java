@@ -28,7 +28,7 @@ public class TopArmIdleCommand extends Command
 
     protected void execute() 
     {
-        if(Robot.topArm.isRunning && Robot.topArm.getIRSensor())
+        /*if(Robot.topArm.isRunning && Robot.topArm.getIRSensor())
         {
             if(!startedCounting)
             {
@@ -43,7 +43,7 @@ public class TopArmIdleCommand extends Command
         else if(!Robot.topArm.getIRSensor())
         {
             startedCounting = false;
-        }
+        }*/
     }
 
     protected boolean isFinished() 
