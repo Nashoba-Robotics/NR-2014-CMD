@@ -95,6 +95,8 @@ public class Robot extends IterativeRobot
         extCompressor.sendInfo();
         camera.sendInfo();
         
+        OI.init();
+        
         //connectToPie();
         
         new Thread(new Runnable()
@@ -193,7 +195,6 @@ public class Robot extends IterativeRobot
             auton.cancel();
         /*SmartDashboard.putData("DriveDistanceCommand", new DriveDistanceCommand(10, 0.8f));
         SmartDashboard.putData("DriveAngleCommand", new DriveAngleCommand(90, 0.6));*/
-        OI.init();
         
         Robot.puncher.resetDogEar();
         System.out.println("TELEOP STARTED");

@@ -19,7 +19,6 @@ public class ResetDogEarCommand extends Command
     public ResetDogEarCommand()
     {
         super("Reset Dog Ear");
-        this.requires(Robot.puncher);
     }
     protected void initialize() {
     }

@@ -48,7 +48,8 @@ public class OI
         new JoystickButton(stick1, 4).whenPressed(new ShiftCommand(false));
         //new JoystickButton(stick1, 3).whenPressed(new UltrasonicGroupShot());
         new JoystickButton(stick1, 7).whenPressed(new CancelAllCommand());
-        
+        new JoystickButton(stick1, 5).whenPressed(new StopBallIntakeCommand());
+        new JoystickButton(stick1, 3).whenPressed(new BallIntakeCommand());
         new JoystickButton(stick1, 9).whileHeld(new ShooterRotationCommand(-0.7f));
         new JoystickButton(stick1, 10).whileHeld(new ShooterRotationCommand(0.7f));
         //new JoystickButton(stick2, 2).whenPressed(new ResetDogEarCommand());
@@ -56,16 +57,14 @@ public class OI
         
         //new JoystickButton(stick2, 12).whenPressed(new TensionIdle());
         
-        new JoystickButton(stick2, 11).whileHeld(new ShooterRotationCommand(-0.7f));
-        new JoystickButton(stick2, 10).whileHeld(new ShooterRotationCommand(0.7f));
+        //new JoystickButton(stick2, 11).whileHeld(new ShooterRotationCommand(-0.7f));
+        //new JoystickButton(stick2, 10).whileHeld(new ShooterRotationCommand(0.7f));
         new JoystickButton(stick2, 3).whenPressed(new TensionToDistanceCommandActual(0.96f));
-        new JoystickButton(stick2, 1).whenPressed(new PunchGroupCommand());
+        new JoystickButton(stick2, 4).whenPressed(new PunchGroupCommand());
         new JoystickButton(stick2, 8).whenPressed(new TopArmDownCommand());
         new JoystickButton(stick2, 9).whenPressed(new TopArmUpCommand());
         new JoystickButton(stick2, 7).whenPressed(new ResetDogEarCommand());
         
-        new JoystickButton(stick2, 2).whenPressed(new BallIntakeCommand());
-        new JoystickButton(stick2, 4).whenPressed(new StopBallIntakeCommand());
         new JoystickButton(stick2, 5).whenPressed(new ShooterRotateTargetCommand(ShooterRotator.AUTONOMOUS));
         new JoystickButton(stick2, 6).whenPressed(new ShooterRotateTargetCommand(ShooterRotator.STARTING_POSITION));
         //new JoystickButton(stick2, 6).whenPressed(new ShooterRotateTargetCommand(.32));

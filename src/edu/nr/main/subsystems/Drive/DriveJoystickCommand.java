@@ -54,7 +54,7 @@ public class DriveJoystickCommand extends Command
         
         //START OLD CODE
         //ySpeed *= (7f / 8f);
-        zSpeed *= 3f / 4f;
+        //zSpeed *= 3f / 4f;
         
         Robot.drive.drive(ySpeed, zSpeed);
     }

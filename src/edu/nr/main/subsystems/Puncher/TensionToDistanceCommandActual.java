@@ -19,12 +19,14 @@ public class TensionToDistanceCommandActual extends Command
     private float dist;
     public TensionToDistanceCommandActual(float distance)
     {
+        this.requires(Robot.puncher);
         dist = distance;
     }
     protected void initialize() 
     {
         Robot.puncher.setWinchLimit(dist);
         Robot.puncher.resetDogEar();
+        Robot.puncher.initCAN();
     }
 
     protected void execute() 

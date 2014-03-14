@@ -16,8 +16,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class TensionToDistanceCommand extends Command
 {
+    public TensionToDistanceCommand()
+    {
+        this.requires(Robot.puncher);
+    }
+    
     protected void initialize() 
     {
+        Robot.puncher.initCAN();
         Robot.puncher.setWinchLimit((float) SmartDashboard.getNumber("Tension Distance"));
     }
 

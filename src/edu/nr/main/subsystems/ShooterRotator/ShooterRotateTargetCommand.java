@@ -8,6 +8,7 @@ package edu.nr.main.subsystems.ShooterRotator;
 
 import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -29,6 +30,8 @@ public class ShooterRotateTargetCommand extends Command
     
     protected void initialize() 
     {
+        Robot.shooterRotator.initCAN();
+        
         startTime = System.currentTimeMillis();
         
         goingForward = (Robot.shooterRotator.getRotation() - destination) < 0;
@@ -39,14 +42,18 @@ public class ShooterRotateTargetCommand extends Command
     {
         //Do all of the calculations in posotive, then apply negative sign at the end if we are going in reverse
         double err = Math.abs(destination - Robot.shooterRotator.getRotation());
-        double proportionalStopDistance = 0.03;
-        double proportionalSpeed = ((1/proportionalStopDistance)*err)*speed;
+        double proportionalStopDistance = 20;
+        double proportionalSpeed = .8*((1/proportionalStopDistance)*err)*speed;
         double finalSpeed = Math.min(speed, proportionalSpeed);
         double integralSpeed = count * 0.002;
         
         finalSpeed += integralSpeed;
         finalSpeed *= ((goingForward)?1:-1); //If we are going in reverse, reverse the speed
         Robot.shooterRotator.rotate(finalSpeed);
+        
+        SmartDashboard.putNumber("Integral", integralSpeed);
+        SmartDashboard.putNumber("Proportional", proportionalSpeed);
+        SmartDashboard.putNumber("err", err);
         
         count++;
         //Robot.shooterRotator.rotate((goingForward)?speed:-speed);

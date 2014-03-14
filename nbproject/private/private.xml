@@ -23,26 +23,34 @@
             <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Drive/DriveDistanceCommand.java</file>
         </group>
         <group>
-            <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/TensionToDistanceCommand.java</file>
             <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/TensionToDistanceCommandActual.java</file>
             <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/Autonomous/AutonomousInitialGroup.java</file>
             <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/ShooterRotator/ShooterRotationCommand.java</file>
             <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/BottomRollers/BottomRollers.java</file>
+            <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/Drive/DriveJoystickCommand.java</file>
+            <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/TopArm/TopArm.java</file>
+            <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/Autonomous/AutonomousCommand.java</file>
+            <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/CommandGroups/StopBallIntakeCommand.java</file>
+            <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/Compressor/OnBoard/Compressor.java</file>
+            <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/Robot.java</file>
+            <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/oi/OI.java</file>
+            <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/RobotMap.java</file>
+            <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/Compressor/CompressorBase.java</file>
+            <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/ShooterRotator/ShooterRotator.java</file>
+            <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/TensionToDistanceCommand.java</file>
+            <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/PunchCommand.java</file>
+            <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/Puncher.java</file>
             <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/PunchGroupCommand.java</file>
+            <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/ShooterRotator/ShooterRotatorIdle.java</file>
             <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/Autonomous/AutonomousPunchCommand.java</file>
             <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/Drive/DriveToUltrasonicDistance.java</file>
-            <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/Drive/DriveJoystickCommand.java</file>
             <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/Drive/Drive.java</file>
-            <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/TopArm/TopArm.java</file>
             <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/ShooterRotator/ShooterRotateTargetCommand.java</file>
             <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/TensionCommand.java</file>
-            <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/Autonomous/AutonomousCommand.java</file>
-            <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/Robot.java</file>
             <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/Drive/UltrasonicGroupShot.java</file>
+            <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/ResetDogEarCommand.java</file>
             <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/Drive/DriveDistanceCommand.java</file>
-            <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/oi/OI.java</file>
             <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/Drive/PrepareUltrasonicShot.java</file>
-            <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/ShooterRotator/ShooterRotator.java</file>
         </group>
     </open-files>
 </project-private>

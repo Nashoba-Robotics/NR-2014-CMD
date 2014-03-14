@@ -6,8 +6,10 @@
 
 package edu.nr.main.subsystems.ShooterRotator;
 
+import edu.nr.main.Robot;
 import edu.nr.main.RobotMap;
 import edu.nr.main.subsystems.Printable;
+import edu.wpi.first.wpilibj.AnalogChannel;
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -20,23 +22,36 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ShooterRotator extends Subsystem implements Printable
 {
     //public static final double BOTTOM_POSITION = 0.078, FORTY_FIVE = 0.162, NINETY = 0.267, STARTING_POSITION = 0.257, FORTY=.1585, AUTONOMOUS = 0.146;
-    public static final double STARTING_POSITION = .241, AUTONOMOUS = 0.158;
+    public static final double STARTING_POSITION = 418, AUTONOMOUS = 263;
     private CANJaguar rotationJag;
+    AnalogChannel pot;
     public ShooterRotator()
     {
+        pot = new AnalogChannel(2);
         SmartDashboard.putNumber("Shooter Rotate Distance", 0);
         try 
         {
             rotationJag = new CANJaguar(RobotMap.SHOOTER_ROTATION_JAG);
-            rotationJag.configNeutralMode(CANJaguar.NeutralMode.kBrake);
+            /*rotationJag.configNeutralMode(CANJaguar.NeutralMode.kBrake);
             rotationJag.setPositionReference(CANJaguar.PositionReference.kPotentiometer);
-            rotationJag.configPotentiometerTurns(1);
+            rotationJag.configPotentiometerTurns(1);*/
         } 
         catch (CANTimeoutException ex) 
         {
-            ex.printStackTrace();
+            Robot.canExceptions++;
         }
     }
+    public void initCAN()
+    {
+        try {
+            rotationJag.configNeutralMode(CANJaguar.NeutralMode.kBrake);
+            rotationJag.setPositionReference(CANJaguar.PositionReference.kPotentiometer);
+            rotationJag.configPotentiometerTurns(1);
+        } catch (CANTimeoutException ex) {
+            Robot.canExceptions++;
+        }
+    }
+    
     protected void initDefaultCommand() 
     {
         this.setDefaultCommand(new ShooterRotatorIdle());
@@ -44,15 +59,16 @@ public class ShooterRotator extends Subsystem implements Printable
     
     public double getRotation()
     {
-        try 
+        /*try 
         {
             return rotationJag.getPosition();
         } 
         catch (CANTimeoutException ex) 
         {
-            ex.printStackTrace();
+            Robot.canExceptions++;
         }
-        return 2;
+        return 2;*/
+        return pot.getValue();
     }
     
     public void rotate(double speed)
@@ -62,7 +78,8 @@ public class ShooterRotator extends Subsystem implements Printable
             rotationJag.setX(speed);
         }
         catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+            Robot.canExceptions++;
+            
         }
         
         

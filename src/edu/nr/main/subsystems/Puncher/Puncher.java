@@ -46,6 +46,20 @@ public class Puncher extends Subsystem implements Printable
         dogEar.set(Value.kReverse);
     }
     
+    public void initCAN()
+    {
+        try
+        {
+            winch.configPotentiometerTurns(1);
+            winch.setPositionReference(CANJaguar.PositionReference.kPotentiometer);
+            winch.setSafetyEnabled(false);
+        }
+        catch(CANTimeoutException e)
+        {
+            Robot.canExceptions++;
+        }
+    }
+    
     protected void initDefaultCommand()
     {
         this.setDefaultCommand(new TensionIdle());

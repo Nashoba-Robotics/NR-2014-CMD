@@ -24,10 +24,10 @@ public class PunchGroupCommand extends CommandGroup
         this.addSequential(new TopArmUpCommand());
         this.addSequential(new WaitCommand(0.25));
         this.addSequential(new PunchCommand());
-        this.addSequential(new WaitCommand(2));
-        this.addSequential(new ResetDogEarCommand());
-        this.addParallel(new TopArmDownCommand());
-        this.addParallel(new ShooterRotateTargetCommand(ShooterRotator.STARTING_POSITION));
-        this.addSequential(new TensionToDistanceCommandActual(0.862f));
+        //this.addSequential(new WaitCommand(2));
+        //this.addSequential(new ResetDogEarCommand());
+        //this.addParallel(new TopArmDownCommand());
+        //this.addParallel(new ShooterRotateTargetCommand(ShooterRotator.STARTING_POSITION));
+        //this.addSequential(new TensionToDistanceCommandActual(0.862f));
     }
 }
