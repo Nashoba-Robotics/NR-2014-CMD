@@ -8,6 +8,7 @@ package edu.nr.main.Autonomous;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException;
 
 /**
  *
@@ -29,12 +30,13 @@ public class CheckHotGoalCommand extends Command
             }
             else
             {
-               new AutonomousPunchCommand(5).start();
+               new AutonomousPunchCommand(4).start();
             }
         }
-        catch(Throwable t)
+        catch(TableKeyNotDefinedException t)
         {
             System.err.println("ERROR DURING AUTONOMOUS");
+            new AutonomousPunchCommand(0).start();
         }
     }
 

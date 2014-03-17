@@ -11,14 +11,12 @@ package edu.nr.main;
 import edu.nr.main.Autonomous.AutonomousCommand;
 import edu.nr.main.oi.OI;
 import edu.nr.main.subsystems.BottomRollers.BottomRollers;
-import edu.nr.main.subsystems.BottomRollers.ResetPieConnectionCommand;
 import edu.nr.main.subsystems.Camera.Camera;
 import edu.nr.main.subsystems.CancelAllCommand;
 import edu.nr.main.subsystems.Compressor.OnBoard.Compressor;
 import edu.nr.main.subsystems.Drive.Drive;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.nr.main.subsystems.Compressor.OffBoard.OffBoardCompressor;
 import edu.nr.main.subsystems.Drive.DriveJoystickCommand;
@@ -69,7 +67,6 @@ public class Robot extends IterativeRobot
     public void robotInit() 
     {
         System.out.println("ROBOT STARTED");
-        SmartDashboard.putData("Connect to Pie", new ResetPieConnectionCommand());
         SmartDashboard.putBoolean("Auto Compressor", true);
         SmartDashboard.putNumber("Tension Distance", 0);
         SmartDashboard.putNumber("Drive Distance", 10);
@@ -84,8 +81,8 @@ public class Robot extends IterativeRobot
         
         SmartDashboard.putNumber("Tensioner Speed", 0);
         SmartDashboard.putData(new CancelAllCommand());
-        SmartDashboard.putData(rollers);
         
+        //Sends a bunch of commands and objects to smartdashboard related to each subsystem
         topArm.sendInfo();
         puncher.sendInfo();
         drive.sendInfo();
@@ -104,7 +101,7 @@ public class Robot extends IterativeRobot
             public void run() 
             {
                 try {
-                    Thread.sleep(3000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
@@ -144,8 +141,7 @@ public class Robot extends IterativeRobot
         FieldCentric.update();
     }
     
-    static Thread t = null;
-    
+    /*static Thread t = null;
     static public void connectToPie()
     {
         if(pieConnection != null)
@@ -187,7 +183,7 @@ public class Robot extends IterativeRobot
             }
         });
         t.start();
-    }
+    }*/
 
     public void teleopInit() 
     {
@@ -233,7 +229,7 @@ public class Robot extends IterativeRobot
         }
     }
     
-    static Vector pieBytes = new Vector();
+    /*static Vector pieBytes = new Vector();
     static boolean startedReading = false;
     static void listenForPieInput()
     {
@@ -276,12 +272,5 @@ public class Robot extends IterativeRobot
             System.out.println("ERROR TALKING TO PIE");
             connectToPie();
         }
-    }
-    
-    /**
-     * This function is called periodically during test mode
-     */
-    public void testPeriodic() {
-        LiveWindow.run();
-    }
+    }*/
 }

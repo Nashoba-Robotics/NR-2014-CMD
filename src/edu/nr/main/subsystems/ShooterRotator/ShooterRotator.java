@@ -32,9 +32,7 @@ public class ShooterRotator extends Subsystem implements Printable
         try 
         {
             rotationJag = new CANJaguar(RobotMap.SHOOTER_ROTATION_JAG);
-            /*rotationJag.configNeutralMode(CANJaguar.NeutralMode.kBrake);
-            rotationJag.setPositionReference(CANJaguar.PositionReference.kPotentiometer);
-            rotationJag.configPotentiometerTurns(1);*/
+            rotationJag.configNeutralMode(CANJaguar.NeutralMode.kBrake);
         } 
         catch (CANTimeoutException ex) 
         {
@@ -45,8 +43,6 @@ public class ShooterRotator extends Subsystem implements Printable
     {
         try {
             rotationJag.configNeutralMode(CANJaguar.NeutralMode.kBrake);
-            rotationJag.setPositionReference(CANJaguar.PositionReference.kPotentiometer);
-            rotationJag.configPotentiometerTurns(1);
         } catch (CANTimeoutException ex) {
             Robot.canExceptions++;
         }
@@ -59,15 +55,6 @@ public class ShooterRotator extends Subsystem implements Printable
     
     public double getRotation()
     {
-        /*try 
-        {
-            return rotationJag.getPosition();
-        } 
-        catch (CANTimeoutException ex) 
-        {
-            Robot.canExceptions++;
-        }
-        return 2;*/
         return pot.getValue();
     }
     
@@ -79,11 +66,7 @@ public class ShooterRotator extends Subsystem implements Printable
         }
         catch (CANTimeoutException ex) {
             Robot.canExceptions++;
-            
         }
-        
-        
-        
     }
 
     public void sendInfo() 
@@ -95,7 +78,5 @@ public class ShooterRotator extends Subsystem implements Printable
         SmartDashboard.putData("Rotate 45", new ShooterRotateTargetCommand(.162));
         SmartDashboard.putData("Rotate 40", new ShooterRotateTargetCommand(.1585));
         SmartDashboard.putData("Rotate Starting Position", new ShooterRotateTargetCommand(STARTING_POSITION));
-        //SmartDashboard.putData("Shooter Rotation (0.4)", new ShooterRotationCommand(0.4,1));
-        //SmartDashboa
     }
 }

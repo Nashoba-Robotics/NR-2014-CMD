@@ -6,6 +6,7 @@
 
 package edu.nr.main.subsystems.Puncher;
 
+import edu.nr.main.Robot;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotateTargetCommand;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotator;
 import edu.nr.main.subsystems.TopArm.TopArmDownCommand;
@@ -21,9 +22,9 @@ public class PunchGroupCommand extends CommandGroup
 {
     public PunchGroupCommand()
     {
-        this.addSequential(new TopArmUpCommand());
-        this.addSequential(new WaitCommand(0.25));
         this.addSequential(new PunchCommand());
+        this.addSequential(new WaitCommand(1));
+        this.addSequential(new TensionToDistanceCommandActual(Puncher.TENSIONER_SHOOTING_TENSION));
         //this.addSequential(new WaitCommand(2));
         //this.addSequential(new ResetDogEarCommand());
         //this.addParallel(new TopArmDownCommand());

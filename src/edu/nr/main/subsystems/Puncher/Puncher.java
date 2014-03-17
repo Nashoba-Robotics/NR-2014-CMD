@@ -23,10 +23,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Puncher extends Subsystem implements Printable
 {
-
     private CANJaguar winch;
     private DoubleSolenoid dogEar;
-    public final float TENSIONER_REGULAR_SPEED = 0.7f;
+    public static final float TENSIONER_REGULAR_SPEED = 0.7f;
+    public static final float TENSIONER_SHOOTING_TENSION = 0.96f;
     
     public Puncher() 
     {

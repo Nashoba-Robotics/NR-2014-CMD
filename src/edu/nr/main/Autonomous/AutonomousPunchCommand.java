@@ -6,47 +6,19 @@
 
 package edu.nr.main.Autonomous;
 
-import edu.nr.main.Robot;
-import edu.nr.main.subsystems.Puncher.PunchCommand;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.nr.main.subsystems.Puncher.PunchGroupCommand;
+import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
  * @author colin
  */
-public class AutonomousPunchCommand extends Command
+public class AutonomousPunchCommand extends CommandGroup
 {
-    private int delay;
-    private float startTime;
-    private boolean done = false;
     public AutonomousPunchCommand(int delay)
     {
-        this.delay = delay;
+        this.addSequential(new WaitCommand(delay));
+        this.addSequential(new PunchGroupCommand());
     }
-    protected void initialize()
-    {
-        startTime = (System.currentTimeMillis() / 1000f);
-    }
-
-    protected void execute() 
-    {
-        if((System.currentTimeMillis()/1000f) - startTime > delay)
-        {
-            //UNCOMMENT FOR ACTUAL TESTING
-            new PunchCommand().start();
-            done = true;
-        }
-    }
-
-    protected boolean isFinished() 
-    {
-        return done;
-    }
-
-    protected void end() {
-    }
-
-    protected void interrupted() {
-    }
-    
 }

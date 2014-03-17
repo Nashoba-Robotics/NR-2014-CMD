@@ -8,7 +8,6 @@ package edu.nr.main.subsystems.Puncher;
 
 import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -24,14 +23,14 @@ public class TensionToDistanceCommandActual extends Command
     }
     protected void initialize() 
     {
+        Robot.puncher.initCAN();
         Robot.puncher.setWinchLimit(dist);
         Robot.puncher.resetDogEar();
-        Robot.puncher.initCAN();
     }
 
     protected void execute() 
     {
-        Robot.puncher.setTentionerSpeed(Robot.puncher.TENSIONER_REGULAR_SPEED);
+        Robot.puncher.setTentionerSpeed(Puncher.TENSIONER_REGULAR_SPEED);
     }
 
     protected boolean isFinished() 
