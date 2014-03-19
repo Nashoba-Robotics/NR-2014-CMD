@@ -2,26 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group name="C++">
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/Puncher.java</file>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/ShooterRotator/ShooterRotator.java</file>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/PunchGroupCommand.java</file>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Compressor/CompressorBase.java</file>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/FieldCentric.java</file>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Drive/DriveJoystickCommand.java</file>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/AccelerationCalc.java</file>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/Autonomous/AutonomousCommand.java</file>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/oi/OI.java</file>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/Autonomous/AutonomousPunchCommand.java</file>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/TensionIdle.java</file>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/TensionToDistanceCommand.java</file>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/ShooterRotator/ShooterRotationCommand.java</file>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/Autonomous/CheckHotGoalCommand.java</file>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/PunchCommand.java</file>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/Robot.java</file>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/TensionCommand.java</file>
-            <file>file:/C:/Users/colin/workspace/NetBeans/NR-2014-CMD/src/edu/nr/main/subsystems/Drive/DriveDistanceCommand.java</file>
-        </group>
         <group>
             <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/Puncher/TensionToDistanceCommandActual.java</file>
             <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/Autonomous/AutonomousInitialGroup.java</file>
@@ -52,5 +32,6 @@
             <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/Drive/DriveDistanceCommand.java</file>
             <file>file:/C:/Users/Robotics/Documents/GitHub/NR-2014-CMD/src/edu/nr/main/subsystems/Drive/PrepareUltrasonicShot.java</file>
         </group>
+        <group name="C++"/>
     </open-files>
 </project-private>

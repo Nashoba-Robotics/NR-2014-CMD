@@ -10,6 +10,8 @@ import edu.nr.main.Robot;
 import edu.nr.main.RobotMap;
 import edu.nr.main.subsystems.Printable;
 import edu.wpi.first.wpilibj.CANJaguar;
+import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -22,8 +24,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class TopArm extends Subsystem implements Printable
 {
     private DoubleSolenoid solenoid;
-    CANJaguar jag;
-    //ArmIR ir;
+    private CANJaguar jag;
+    private ArmIR ir;
     
     public TopArm()
     {
@@ -33,14 +35,15 @@ public class TopArm extends Subsystem implements Printable
         } catch (CANTimeoutException ex) {
             System.err.println("Error: couldn't create top arm jag!!");
         }
-        //ir = new ArmIR.getInstance();
+        
+        ir = new ArmIR(RobotMap.TOP_ARM_IR_SENSOR);
     }
     
-    /*public boolean getIRSensor()
+    public boolean getIRSensor()
     {
         //Must be inverted because the sensor reports the opposite
-        return ir.get();
-    }*/
+        return (!ir.get());
+    }
     
     protected void initDefaultCommand()
     {
@@ -86,5 +89,23 @@ public class TopArm extends Subsystem implements Printable
         SmartDashboard.putData(new TopArmUpCommand());
         SmartDashboard.putData(new TopArmRunCommand());
         SmartDashboard.putData(new TopArmStopCommand());
+    }
+}
+
+class ArmIR
+{
+    private Counter counter;
+    private DigitalInput input;
+    
+    public ArmIR(int channel)
+    {
+        input = new DigitalInput(channel);
+        counter = new Counter(input);
+        counter.setMaxPeriod(.25);
+    }
+    
+    public boolean get()
+    {
+        return (input.get() && counter.getStopped());
     }
 }

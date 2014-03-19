@@ -219,6 +219,7 @@ public class Robot extends IterativeRobot
             SmartDashboard.putNumber("Ultrasonic Sensor (feet)", Robot.drive.getUltrasonicFeet());
             SmartDashboard.putNumber("Potentiometer",Robot.shooterRotator.getRotation());
             SmartDashboard.putNumber("CAN Exceptions", canExceptions);
+            SmartDashboard.putNumber("Encoder Velocit", drive.getEncoderRate());
             //SmartDashboard.putBoolean("Infrared Sensor", Robot.topArm.getIRSensor());
             
             SmartDashboard.putBoolean("Tension Limit Condition", Robot.puncher.getForwardLimitOK());

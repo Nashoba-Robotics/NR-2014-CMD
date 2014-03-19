@@ -54,12 +54,6 @@ public class Drive extends Subsystem implements Printable
         return (sonic.getRangeInches() / 12d);
     }
     
-    // Velocity measured in feet per second
-    public double getVelocity()
-    {
-        return (e1.getRate() + e2.getRate())/2;
-    }
-    
     public void initGyroAccel()
     {
         accel = new ADXL345_I2C(1, DataFormat_Range.k2G);
@@ -143,6 +137,12 @@ public class Drive extends Subsystem implements Printable
             return 0;
             //throw new RuntimeException("Error: Invalid encoder value");
         }
+    }
+    
+    //Rate in ft/sec
+    public double getEncoderRate()
+    {
+        return (e1.getRate() + e2.getRate())/2;
     }
 
     public void sendInfo() 

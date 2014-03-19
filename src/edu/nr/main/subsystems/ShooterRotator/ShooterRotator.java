@@ -24,10 +24,10 @@ public class ShooterRotator extends Subsystem implements Printable
     //public static final double BOTTOM_POSITION = 0.078, FORTY_FIVE = 0.162, NINETY = 0.267, STARTING_POSITION = 0.257, FORTY=.1585, AUTONOMOUS = 0.146;
     public static final double STARTING_POSITION = 418, AUTONOMOUS = 263;
     private CANJaguar rotationJag;
-    RotaryPot pot;
+    ShooterPotentiometer pot;
     public ShooterRotator()
     {
-        pot = RotaryPot.getInstance();
+        pot = new ShooterPotentiometer(2);
         SmartDashboard.putNumber("Shooter Rotate Distance", 0);
         try 
         {
@@ -53,14 +53,9 @@ public class ShooterRotator extends Subsystem implements Printable
         this.setDefaultCommand(new ShooterRotatorIdle());
     }
     
-    public double getAngle()
-    {
-        return pot.getAngle();
-    }
-    
     public double getRotation()
     {
-        return pot.getRaw();
+        return pot.getAngle();
     }
     
     public void rotate(double speed)
@@ -83,5 +78,18 @@ public class ShooterRotator extends Subsystem implements Printable
         SmartDashboard.putData("Rotate 45", new ShooterRotateTargetCommand(.162));
         SmartDashboard.putData("Rotate 40", new ShooterRotateTargetCommand(.1585));
         SmartDashboard.putData("Rotate Starting Position", new ShooterRotateTargetCommand(STARTING_POSITION));
+    }
+}
+
+class ShooterPotentiometer extends AnalogChannel
+{
+    public ShooterPotentiometer(int channel)
+    {
+        super(channel);
+    }
+    private final double FACTOR = 1;
+    public double getAngle()
+    {
+        return this.getValue() * FACTOR;
     }
 }
