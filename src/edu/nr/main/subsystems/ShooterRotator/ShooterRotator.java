@@ -24,10 +24,10 @@ public class ShooterRotator extends Subsystem implements Printable
     //public static final double BOTTOM_POSITION = 0.078, FORTY_FIVE = 0.162, NINETY = 0.267, STARTING_POSITION = 0.257, FORTY=.1585, AUTONOMOUS = 0.146;
     public static final double STARTING_POSITION = 418, AUTONOMOUS = 263;
     private CANJaguar rotationJag;
-    AnalogChannel pot;
+    RotaryPot pot;
     public ShooterRotator()
     {
-        pot = new AnalogChannel(2);
+        pot = RotaryPot.getInstance();
         SmartDashboard.putNumber("Shooter Rotate Distance", 0);
         try 
         {
@@ -53,9 +53,14 @@ public class ShooterRotator extends Subsystem implements Printable
         this.setDefaultCommand(new ShooterRotatorIdle());
     }
     
+    public double getAngle()
+    {
+        return pot.getAngle();
+    }
+    
     public double getRotation()
     {
-        return pot.getValue();
+        return pot.getRaw();
     }
     
     public void rotate(double speed)

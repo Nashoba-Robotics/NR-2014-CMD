@@ -10,7 +10,6 @@ import edu.nr.main.Robot;
 import edu.nr.main.RobotMap;
 import edu.nr.main.subsystems.Printable;
 import edu.wpi.first.wpilibj.CANJaguar;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -24,7 +23,7 @@ public class TopArm extends Subsystem implements Printable
 {
     private DoubleSolenoid solenoid;
     CANJaguar jag;
-    //DigitalInput ir;
+    //ArmIR ir;
     
     public TopArm()
     {
@@ -34,13 +33,13 @@ public class TopArm extends Subsystem implements Printable
         } catch (CANTimeoutException ex) {
             System.err.println("Error: couldn't create top arm jag!!");
         }
-        //ir = new DigitalInput(10);
+        //ir = new ArmIR.getInstance();
     }
     
     /*public boolean getIRSensor()
     {
         //Must be inverted because the sensor reports the opposite
-        return (!ir.get());
+        return ir.get();
     }*/
     
     protected void initDefaultCommand()

@@ -43,4 +43,6 @@ public class RobotMap
     public static final int SHIFTER_ENGAGE = 1;
     public static final int SHIFTER_DISENGAGE = 2;
     public static final int OFF_BOARD_COMPRESSOR_RELAY=2;
+    
+    public static final int ROTARY_POT_CHANNEL = 2;
 }
