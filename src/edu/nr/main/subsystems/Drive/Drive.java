@@ -54,6 +54,11 @@ public class Drive extends Subsystem implements Printable
         return (sonic.getRangeInches() / 12d);
     }
     
+    public double getVelocity()
+    {
+        return (e1.getRate() + e2.getRate())/2;
+    }
+    
     public void initGyroAccel()
     {
         accel = new ADXL345_I2C(1, DataFormat_Range.k2G);
