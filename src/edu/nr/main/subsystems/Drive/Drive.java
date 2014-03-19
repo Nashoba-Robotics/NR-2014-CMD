@@ -54,6 +54,7 @@ public class Drive extends Subsystem implements Printable
         return (sonic.getRangeInches() / 12d);
     }
     
+    // Velocity measured in feet per second
     public double getVelocity()
     {
         return (e1.getRate() + e2.getRate())/2;
