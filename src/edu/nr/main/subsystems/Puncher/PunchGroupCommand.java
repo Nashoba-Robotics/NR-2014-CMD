@@ -9,6 +9,7 @@ package edu.nr.main.subsystems.Puncher;
 import edu.nr.main.Robot;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotateTargetCommand;
 import edu.nr.main.subsystems.ShooterRotator.ShooterRotator;
+import edu.nr.main.subsystems.TopArm.DelayedTopArmCommand;
 import edu.nr.main.subsystems.TopArm.TopArmDownCommand;
 import edu.nr.main.subsystems.TopArm.TopArmUpCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -21,7 +22,9 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 public class PunchGroupCommand extends CommandGroup
 {
     public PunchGroupCommand()
-    {
+    { 
+        this.addSequential(new ShooterRotateTargetCommand(ShooterRotator.AUTONOMOUS_ANGLE));
+        this.addSequential(new DelayedTopArmCommand());
         this.addSequential(new PunchCommand());
         this.addSequential(new WaitCommand(1));
         this.addSequential(new TensionToDistanceCommandActual(Puncher.TENSIONER_SHOOTING_TENSION));

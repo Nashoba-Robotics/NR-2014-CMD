@@ -18,12 +18,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Camera extends Subsystem implements Printable
 {
-    DigitalOutput light1, light2;
+    //DigitalOutput light1, light2;
     
     public Camera()
     {
-        light1 = new DigitalOutput(RobotMap.CAMERA_LIGHT_1);
-        light2 = new DigitalOutput(RobotMap.CAMERA_LIGHT_2);
+        //light1 = new DigitalOutput(RobotMap.CAMERA_LIGHT_1);
+        //light2 = new DigitalOutput(RobotMap.CAMERA_LIGHT_2);
     }
     
     protected void initDefaultCommand() 
@@ -33,24 +33,24 @@ public class Camera extends Subsystem implements Printable
     
     public void turnAllOn()
     {
-        light1.set(true);
-        light2.set(true);
+        //light1.set(true);
+        //light2.set(true);
     }
     
     public void turnAllOff()
     {
-        light1.set(false);
-        light2.set(false);
+        //light1.set(false);
+        //light2.set(false);
     }
     
     public void setInner(boolean value)
     {
-        light1.set(value);
+        //light1.set(value);
     }
     
     public void setOuter(boolean value)
     {
-        light2.set(value);
+        //light2.set(value);
     }
 
     public void sendInfo() 

@@ -16,13 +16,15 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
  * @author colin
  */
 public class ShooterRotator extends Subsystem implements Printable
 {
-    //public static final double BOTTOM_POSITION = 0.078, FORTY_FIVE = 0.162, NINETY = 0.267, STARTING_POSITION = 0.257, FORTY=.1585, AUTONOMOUS = 0.146;
-    public static final double STARTING_POSITION = 418, AUTONOMOUS = 263;
+    //public static final double BOTTOM_POSITION = 0.078, FORTY_FIVE = 0.162, NINETY = 0.267, STARTING_POSITION = 0.257, FORTY=.1585, AUTONOMOUS_ANGLE = 0.146;
+    public static final double STARTING_POSITION = 85.4, AUTONOMOUS_ANGLE = 42.5;
+            ;
+    public static final double REGULAR_SPEED = 0.9;
+    public static final double LOWER_LIMIT = -16.7, UPPER_LIMIT = STARTING_POSITION;
     private CANJaguar rotationJag;
     ShooterPotentiometer pot;
     public ShooterRotator()
@@ -62,7 +64,7 @@ public class ShooterRotator extends Subsystem implements Printable
     {
         try 
         {
-            rotationJag.setX(speed);
+            rotationJag.setX(-speed);
         }
         catch (CANTimeoutException ex) {
             Robot.canExceptions++;
@@ -87,9 +89,15 @@ class ShooterPotentiometer extends AnalogChannel
     {
         super(channel);
     }
-    private final double FACTOR = 1;
+    private final double FACTOR = .2888192405, OFFSET = -47.9963;
+    //private final double FACTOR = 3.4622266289, OFFSET = 166.1860728346;
     public double getAngle()
     {
-        return this.getValue() * FACTOR;
+        return (this.getValue() * FACTOR + OFFSET);
+    }
+    
+    public double getRawAngle()
+    {
+        return this.getValue();
     }
 }

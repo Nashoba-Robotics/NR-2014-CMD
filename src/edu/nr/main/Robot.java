@@ -220,6 +220,8 @@ public class Robot extends IterativeRobot
             SmartDashboard.putNumber("Potentiometer",Robot.shooterRotator.getRotation());
             SmartDashboard.putNumber("CAN Exceptions", canExceptions);
             SmartDashboard.putNumber("Encoder Velocit", drive.getEncoderRate());
+            SmartDashboard.putNumber("Winch Voltage", puncher.getWinchVoltage());
+            SmartDashboard.putNumber("Winch Current", puncher.getWinchCurrent());
             //SmartDashboard.putBoolean("Infrared Sensor", Robot.topArm.getIRSensor());
             
             SmartDashboard.putBoolean("Tension Limit Condition", Robot.puncher.getForwardLimitOK());

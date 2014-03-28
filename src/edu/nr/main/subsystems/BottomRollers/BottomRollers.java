@@ -73,13 +73,13 @@ public class BottomRollers extends Subsystem implements Printable
         {
             try 
             {
-                jag1.setX(0.8);//SmartDashboard.getNumber("Jag Speed"));//speed+0.2);
+                jag1.setX(0.7);//SmartDashboard.getNumber("Jag Speed"));//speed+0.2);
             } catch (CANTimeoutException ex) 
             {
                 System.err.println("Error: Couldn't talk to shooter jag \n" + ex.toString());
             }
             victor.set(
-                    0.37);//SmartDashboard.getNumber("Victor Speed"));//speed);
+                    0.5);//SmartDashboard.getNumber("Victor Speed"));//speed);
         }
         
         public void stop()

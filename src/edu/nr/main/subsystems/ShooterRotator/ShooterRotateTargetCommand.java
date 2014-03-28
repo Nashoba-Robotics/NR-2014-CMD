@@ -23,7 +23,7 @@ public class ShooterRotateTargetCommand extends Command
     
     public ShooterRotateTargetCommand(double destination)
     {
-        this.speed = 0.7;
+        this.speed = ShooterRotator.REGULAR_SPEED;
         this.destination = destination;
         this.requires(Robot.shooterRotator);
     }
@@ -42,10 +42,10 @@ public class ShooterRotateTargetCommand extends Command
     {
         //Do all of the calculations in posotive, then apply negative sign at the end if we are going in reverse
         double err = Math.abs(destination - Robot.shooterRotator.getRotation());
-        double proportionalStopDistance = 20;
-        double proportionalSpeed = .8*((1/proportionalStopDistance)*err)*speed;
+        double proportionalStopDistance = 10;
+        double proportionalSpeed = ((1/proportionalStopDistance)*err)*speed;
         double finalSpeed = Math.min(speed, proportionalSpeed);
-        double integralSpeed = count * 0.002;
+        double integralSpeed = count * 0.004;
         
         finalSpeed += integralSpeed;
         finalSpeed *= ((goingForward)?1:-1); //If we are going in reverse, reverse the speed

@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class TensionToDistanceCommandActual extends Command
 {
     private float dist;
+    float start;
     public TensionToDistanceCommandActual(float distance)
     {
         this.requires(Robot.puncher);
@@ -26,6 +27,7 @@ public class TensionToDistanceCommandActual extends Command
         Robot.puncher.initCAN();
         Robot.puncher.setWinchLimit(dist);
         Robot.puncher.resetDogEar();
+        start = System.currentTimeMillis();
     }
 
     protected void execute() 
@@ -35,6 +37,9 @@ public class TensionToDistanceCommandActual extends Command
 
     protected boolean isFinished() 
     {
+        if(System.currentTimeMillis() - start > 8000)
+            return true;
+        
         return !Robot.puncher.getForwardLimitOK();
     }
 

@@ -22,7 +22,7 @@ public class PrepareUltrasonicShot extends CommandGroup
     {
         this.addParallel(new TopArmUpCommand());
         this.addParallel(new DriveToUltrasonicDistance(5));
-        this.addParallel(new ShooterRotateTargetCommand(ShooterRotator.AUTONOMOUS));
+        this.addParallel(new ShooterRotateTargetCommand(ShooterRotator.AUTONOMOUS_ANGLE));
         this.addParallel(new TensionToDistanceCommandActual(0.96f));
     }
 }

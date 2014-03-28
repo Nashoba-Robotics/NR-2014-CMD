@@ -25,8 +25,8 @@ public class Puncher extends Subsystem implements Printable
 {
     private CANJaguar winch;
     private DoubleSolenoid dogEar;
-    public static final float TENSIONER_REGULAR_SPEED = 0.7f;
-    public static final float TENSIONER_SHOOTING_TENSION = 0.96f;
+    public static final float TENSIONER_REGULAR_SPEED = .9f;
+    public static final float TENSIONER_SHOOTING_TENSION = 0.98f;
     
     public Puncher() 
     {
@@ -111,6 +111,18 @@ public class Puncher extends Subsystem implements Printable
     {
         try {
             return winch.getOutputVoltage();
+        } catch (CANTimeoutException ex) {
+            
+            Robot.canExceptions++;
+            //ex.printStackTrace();
+        }
+        return -1;
+    }
+    
+    public double getWinchCurrent()
+    {
+        try {
+            return winch.getOutputCurrent();
         } catch (CANTimeoutException ex) {
             
             Robot.canExceptions++;

@@ -25,13 +25,36 @@ public class ShooterRotationCommand extends Command
     protected void initialize() {
     }
 
+    
     protected void execute()
     {
         /*double err = destination - Robot.shooterRotator.getRotation();
         double proportionalStopDistance = 0.2;
         double proportionalSpeed = ((1/proportionalStopDistance)*err)*speed;
         double finalSpeed = Math.min(speed, proportionalSpeed);*/
-        Robot.shooterRotator.rotate(speed);
+        if(speed < 0)
+        {
+            if(Robot.shooterRotator.getRotation() > ShooterRotator.LOWER_LIMIT)
+            {
+                Robot.shooterRotator.rotate(speed);
+            }
+            else
+            {
+                Robot.shooterRotator.rotate(0);
+            }
+        }
+        else
+        {
+            if(Robot.shooterRotator.getRotation() < ShooterRotator.UPPER_LIMIT)
+            {
+                Robot.shooterRotator.rotate(speed);
+            }
+            else
+            {
+                Robot.shooterRotator.rotate(0);
+            }
+        }
+        //Robot.shooterRotator.rotate(speed);
     }
 
     protected boolean isFinished()

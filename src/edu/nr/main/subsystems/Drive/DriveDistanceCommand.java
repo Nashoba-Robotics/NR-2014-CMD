@@ -48,13 +48,11 @@ public class DriveDistanceCommand extends Command
         double angle = Robot.drive.getGyroAngle() - initialGyroAngle;
         SmartDashboard.putNumber("Delta Gyro", angle);
         double turnAngle = 0;
-        if(Math.abs(angle) > 0.3)
-        {
-            if(angle < 0)
-                turnAngle = Math.min(0.5, -angle*0.05);
-            else
-                turnAngle = Math.min(-0.5, -angle*0.05);
-        }
+        
+        if(angle < 0)
+            turnAngle = Math.min(0.1, -angle*0.05);
+        else
+            turnAngle = Math.max(-0.1, -angle*0.05);
         
         double ave = Robot.drive.getAverageEncoderDistance() - initialEncoderDistance;
         SmartDashboard.putNumber("Encoder Delta", ave);
@@ -74,7 +72,8 @@ public class DriveDistanceCommand extends Command
         SmartDashboard.putNumber("TurnAngle", turnAngle);
         SmartDashboard.putNumber("I Value", integralSpeed);
         SmartDashboard.putNumber("New Speed", newSpeed);
-        Robot.drive.drive(newSpeed, 0);
+        Robot.drive.drive(newSpeed, turnAngle);
+        SmartDashboard.putNumber("turn Angle", turnAngle);
 
         
         /*SmartDashboard.putNumber("Encoder 1", val1);
