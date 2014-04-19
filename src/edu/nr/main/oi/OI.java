@@ -10,6 +10,7 @@ import edu.nr.main.subsystems.ShooterRotator.*;
 import edu.nr.main.subsystems.TopArm.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -23,7 +24,25 @@ public class OI
     {
         stick1 = new Joystick(1);
         stick2 = new Joystick(2);
-        new JoystickButton(stick1, 6).whenPressed(new ShiftCommand(true));
+        
+        new JoystickButton(stick1, 7).whenPressed(new ShiftCommand(true));
+        new JoystickButton(stick1, 8).whenPressed(new ShiftCommand(false));
+        new JoystickButton(stick1, 10).whenPressed(new CancelAllCommand());
+        new JoystickButton(stick1, 2).whenPressed(new StopBallIntakeCommand());
+        new JoystickButton(stick1, 1).whenPressed(new BallIntakeCommand());
+
+        new JoystickButton(stick1, 5).whileHeld(new ShooterRotationCommand(-ShooterRotator.REGULAR_SPEED));
+        new JoystickButton(stick1, 6).whileHeld(new ShooterRotationCommand(ShooterRotator.REGULAR_SPEED));
+        
+        
+        new JoystickButton(stick2, 4).whenPressed(new TensionToDistanceCommandActual(Puncher.TENSIONER_SHOOTING_TENSION));
+        new JoystickButton(stick2, 3).whenPressed(new PunchGroupCommand());
+        new JoystickButton(stick2, 5).whenPressed(new TopArmDownCommand());
+        new JoystickButton(stick2, 6).whenPressed(new TopArmUpCommand());
+        
+        //new JoystickButton(stick2, 2).whenPressed(new ResetDogEarCommand());
+        
+        /*new JoystickButton(stick1, 6).whenPressed(new ShiftCommand(true));
         new JoystickButton(stick1, 4).whenPressed(new ShiftCommand(false));
         new JoystickButton(stick1, 7).whenPressed(new CancelAllCommand());
         new JoystickButton(stick1, 5).whenPressed(new StopBallIntakeCommand());
@@ -45,12 +64,13 @@ public class OI
         new JoystickButton(stick2, 7).whenPressed(new ResetDogEarCommand());
         
         new JoystickButton(stick2, 5).whenPressed(new ShooterRotateTargetCommand(ShooterRotator.AUTONOMOUS_ANGLE));
-        new JoystickButton(stick2, 6).whenPressed(new ShooterRotateTargetCommand(ShooterRotator.STARTING_POSITION));
+        new JoystickButton(stick2, 6).whenPressed(new ShooterRotateTargetCommand(ShooterRotator.STARTING_POSITION));*/
     }
     
     public static double getJoy1Z()
     {
-        return stick1.getAxis(Joystick.AxisType.kZ);
+        SmartDashboard.putNumber("Z Axis", stick1.getRawAxis(1));
+        return stick1.getRawAxis(4);
         //return stick1.getRawAxis(stick1.rightStickXAxis);
     }
     

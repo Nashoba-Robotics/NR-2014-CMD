@@ -83,7 +83,7 @@ public class Drive extends Subsystem implements Printable
     
     public void drive(double speed, double angle)
     {
-        drive.arcadeDrive(speed, angle);
+        drive.arcadeDrive(speed*.75f, angle*.75f);
     }
     
     public void resetEncs()

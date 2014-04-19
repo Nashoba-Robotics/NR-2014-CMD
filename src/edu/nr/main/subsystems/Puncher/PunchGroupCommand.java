@@ -23,7 +23,7 @@ public class PunchGroupCommand extends CommandGroup
 {
     public PunchGroupCommand()
     { 
-        this.addSequential(new ShooterRotateTargetCommand(ShooterRotator.AUTONOMOUS_ANGLE));
+        //this.addSequential(new ShooterRotateTargetCommand(ShooterRotator.AUTONOMOUS_ANGLE));
         this.addSequential(new DelayedTopArmCommand());
         this.addSequential(new PunchCommand());
         this.addSequential(new WaitCommand(1));
