@@ -1,7 +1,10 @@
 package edu.nr.main.oi;
 
+import edu.nr.main.Autonomous.AutonomousCommand;
 import edu.nr.main.CommandGroups.BallIntakeCommand;
 import edu.nr.main.CommandGroups.StopBallIntakeCommand;
+import edu.nr.main.Robot;
+
 import edu.nr.main.subsystems.BottomRollers.*;
 import edu.nr.main.subsystems.CancelAllCommand;
 import edu.nr.main.subsystems.Drive.*;
@@ -25,20 +28,24 @@ public class OI
         stick1 = new Joystick(1);
         stick2 = new Joystick(2);
         
-        new JoystickButton(stick1, 7).whenPressed(new ShiftCommand(true));
-        new JoystickButton(stick1, 8).whenPressed(new ShiftCommand(false));
-        new JoystickButton(stick1, 10).whenPressed(new CancelAllCommand());
-        new JoystickButton(stick1, 2).whenPressed(new StopBallIntakeCommand());
-        new JoystickButton(stick1, 1).whenPressed(new BallIntakeCommand());
+        
+        new JoystickButton(stick1, 5).whenPressed(new ShiftCommand(true));
+        
+       new JoystickButton(stick1, 3).whenPressed(new ShiftCommand(false));
+        
+        new JoystickButton(stick2, 7).whenPressed(new StopBallIntakeCommand());
+        new JoystickButton(stick2, 6).whenPressed(new BallIntakeCommand());
 
-        new JoystickButton(stick1, 5).whileHeld(new ShooterRotationCommand(-ShooterRotator.REGULAR_SPEED));
-        new JoystickButton(stick1, 6).whileHeld(new ShooterRotationCommand(ShooterRotator.REGULAR_SPEED));
+        new JoystickButton(stick2, 11).whileHeld(new ShooterRotationCommand(-ShooterRotator.REGULAR_SPEED));
+        new JoystickButton(stick2, 10).whileHeld(new ShooterRotationCommand(ShooterRotator.REGULAR_SPEED));
         
         
-        new JoystickButton(stick2, 4).whenPressed(new TensionToDistanceCommandActual(Puncher.TENSIONER_SHOOTING_TENSION));
-        new JoystickButton(stick2, 3).whenPressed(new PunchGroupCommand());
-        new JoystickButton(stick2, 5).whenPressed(new TopArmDownCommand());
-        new JoystickButton(stick2, 6).whenPressed(new TopArmUpCommand());
+        new JoystickButton(stick2, 2).whenPressed(new ShooterRotateTargetCommand(ShooterRotator.AUTONOMOUS_ANGLE));
+        new JoystickButton(stick2, 1).whenPressed(new PunchGroupCommand());
+        new JoystickButton(stick2, 9).whenPressed(new TopArmDownCommand());
+        new JoystickButton(stick2, 8).whenPressed(new TopArmUpCommand());
+        new JoystickButton(stick2, 11).whenPressed(new ResetDogEarCommand());
+        new JoystickButton(stick2, 3).whenPressed(new AutonomousCommand());
         
         //new JoystickButton(stick2, 2).whenPressed(new ResetDogEarCommand());
         
@@ -69,8 +76,9 @@ public class OI
     
     public static double getJoy1Z()
     {
-        SmartDashboard.putNumber("Z Axis", stick1.getRawAxis(1));
-        return stick1.getRawAxis(4);
+        SmartDashboard.putNumber("Z Axis", stick1.getAxis(Joystick.AxisType.kZ));
+        SmartDashboard.putBoolean("Top Arm Deployes", Robot.topArm.isDeployed());
+        return stick1.getAxis(Joystick.AxisType.kZ);
         //return stick1.getRawAxis(stick1.rightStickXAxis);
     }
     

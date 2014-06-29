@@ -83,7 +83,7 @@ public class Drive extends Subsystem implements Printable
     
     public void drive(double speed, double angle)
     {
-        drive.arcadeDrive(speed*.75f, angle*.75f);
+        drive.arcadeDrive(speed, angle);
     }
     
     public void resetEncs()
@@ -108,7 +108,8 @@ public class Drive extends Subsystem implements Printable
     public double getAverageEncoderDistance()
     {
         //average is multiplied by 34/32 to correct for encoder error
-        return ((e1.getDistance() + e2.getDistance())/2.0f);
+        //return ((e1.getDistance() + e2.getDistance())/2.0f);
+        return e1.getDistance();
     }
     
     public double getGyroRate()

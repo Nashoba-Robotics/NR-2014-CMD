@@ -26,7 +26,7 @@ public class Puncher extends Subsystem implements Printable
     private CANJaguar winch;
     private DoubleSolenoid dogEar;
     public static final float TENSIONER_REGULAR_SPEED = .9f;
-    public static final float TENSIONER_SHOOTING_TENSION = 0.98f;
+    public static final float TENSIONER_SHOOTING_TENSION = 0.98f;//0.98f;
     
     public Puncher() 
     {

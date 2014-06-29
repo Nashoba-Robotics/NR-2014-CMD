@@ -101,7 +101,7 @@ public class Robot extends IterativeRobot
             public void run() 
             {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(250);
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }

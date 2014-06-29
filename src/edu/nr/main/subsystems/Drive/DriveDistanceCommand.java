@@ -35,6 +35,7 @@ public class DriveDistanceCommand extends Command
     }
     protected void initialize() 
     {
+        this.setTimeout(1.5);
         Robot.drive.setSecondGear();
         initialEncoderDistance = Robot.drive.getAverageEncoderDistance();
         
@@ -45,6 +46,7 @@ public class DriveDistanceCommand extends Command
 
     protected void execute() 
     {
+        if(!this.isTimedOut()) {
         double angle = Robot.drive.getGyroAngle() - initialGyroAngle;
         SmartDashboard.putNumber("Delta Gyro", angle);
         double turnAngle = 0;
@@ -68,6 +70,7 @@ public class DriveDistanceCommand extends Command
         double newSpeed = Math.min(speed, proportionalSpeed + integralSpeed);
         
         newSpeed *= ((goingForward)?-1:1); // Reverse the speed if we are going backwards
+        newSpeed = -0.7;
         
         SmartDashboard.putNumber("TurnAngle", turnAngle);
         SmartDashboard.putNumber("I Value", integralSpeed);
@@ -87,17 +90,24 @@ public class DriveDistanceCommand extends Command
         SmartDashboard.putNumber("Count", count);*/
         
         lastEncoderDistance = ave;
+        }
+        else {
+            Robot.drive.drive(0, 0);
+        }
     }
 
     protected boolean isFinished() 
     {
+        /*
         if(goingForward)
             return (Robot.drive.getAverageEncoderDistance() - initialEncoderDistance >= distance);
         else
-            return (Robot.drive.getAverageEncoderDistance() - initialEncoderDistance <= distance);
-        /*if((Robot.drive.getAverageEncoderDistance() > distance));
-            //System.out.println("Should Finish");
-        return (Robot.drive.getAverageEncoderDistance() > distance);*/
+            return (Robot.drive.getAverageEncoderDistance() - initialEncoderDistance <= distance); */
+        //if((Robot.drive.getAverageEncoderDistance() > distance));
+            //System.out.println("Should Finish"); 
+        
+        //return (Robot.drive.getAverageEncoderDistance() > distance);
+        return this.isTimedOut();
     }
 
     protected void end() 

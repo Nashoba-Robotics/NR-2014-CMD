@@ -8,6 +8,7 @@ package edu.nr.main.Autonomous;
 
 import edu.nr.main.subsystems.Camera.CameraOnCommand;
 import edu.nr.main.subsystems.Drive.DriveDistanceCommand;
+import edu.nr.main.subsystems.Drive.ShiftCommand;
 import edu.nr.main.subsystems.Puncher.Puncher;
 import edu.nr.main.subsystems.Puncher.ResetDogEarCommand;
 import edu.nr.main.subsystems.Puncher.TensionToDistanceCommandActual;
@@ -27,6 +28,6 @@ public class AutonomousInitialGroup extends CommandGroup
         this.addParallel(new CameraOnCommand());
         this.addParallel(new TensionToDistanceCommandActual(Puncher.TENSIONER_SHOOTING_TENSION));
         this.addParallel(new ShooterRotateTargetCommand(ShooterRotator.AUTONOMOUS_ANGLE));
-        this.addParallel(new DriveDistanceCommand(8.5f, .6f));
+        this.addParallel(new DriveDistanceCommand(8.5f, .7f));
     }
 }
