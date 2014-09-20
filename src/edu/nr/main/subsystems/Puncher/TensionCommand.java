@@ -6,19 +6,13 @@
 
 package edu.nr.main.subsystems.Puncher;
 
-import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- *
- * @author colin
- */
 public class TensionCommand extends Command
 {
    public TensionCommand()
    {
-       this.requires(Robot.puncher);
+       this.requires(Puncher.getInstance());
    }
    protected void initialize() 
    {
@@ -27,7 +21,7 @@ public class TensionCommand extends Command
 
     protected void execute() 
     {
-        Robot.puncher.setTentionerSpeed(Robot.puncher.TENSIONER_REGULAR_SPEED);
+        Puncher.getInstance().setTentionerSpeed(Puncher.getInstance().TENSIONER_REGULAR_SPEED);
     }
 
     protected boolean isFinished() 

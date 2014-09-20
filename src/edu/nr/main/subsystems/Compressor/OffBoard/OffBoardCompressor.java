@@ -8,7 +8,6 @@ package edu.nr.main.subsystems.Compressor.OffBoard;
 
 import edu.nr.main.RobotMap;
 import edu.nr.main.subsystems.Compressor.CompressorBase;
-import edu.nr.main.subsystems.Printable;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,9 +16,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  * @author colin
  */
-public class OffBoardCompressor extends CompressorBase implements Printable
+public class OffBoardCompressor extends CompressorBase
 {
-    public OffBoardCompressor()
+    private static OffBoardCompressor singleton = null;
+    public static OffBoardCompressor getInstance()
+    {
+        if(singleton == null)
+            singleton = new OffBoardCompressor();
+        
+        return singleton;
+    }
+    
+    private OffBoardCompressor()
     {
         compressorRelay = new Relay(RobotMap.OFF_BOARD_COMPRESSOR_RELAY);
         compressorRelay.setDirection(Relay.Direction.kForward);

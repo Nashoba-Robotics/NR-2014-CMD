@@ -7,7 +7,6 @@
 package edu.nr.main.test;
 
 import edu.nr.main.Autonomous.*;
-import edu.nr.main.subsystems.Camera.CameraOnCommand;
 import edu.nr.main.subsystems.Drive.DriveDistanceCommand;
 import edu.nr.main.subsystems.Drive.ResetEncs;
 import edu.nr.main.subsystems.Drive.ShiftCommand;
@@ -34,7 +33,6 @@ public class TwoBallAutonomous extends CommandGroup
         this.addParallel(new TopArmUpCommand());
         
         this.addSequential(new WaitCommand(2));
-        //this.addSequential(new CheckHotGoalCommand());
         this.addSequential(new PunchGroupCommand());
     }
 }

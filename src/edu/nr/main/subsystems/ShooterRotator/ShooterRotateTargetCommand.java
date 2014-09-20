@@ -25,23 +25,23 @@ public class ShooterRotateTargetCommand extends Command
     {
         this.speed = ShooterRotator.REGULAR_SPEED;
         this.destination = destination;
-        this.requires(Robot.shooterRotator);
+        this.requires(ShooterRotator.getInstance());
     }
     
     protected void initialize() 
     {
-        Robot.shooterRotator.initCAN();
+        ShooterRotator.getInstance().initCAN();
         
         startTime = System.currentTimeMillis();
         
-        goingForward = (Robot.shooterRotator.getRotation() - destination) < 0;
+        goingForward = (ShooterRotator.getInstance().getRotation() - destination) < 0;
     }
 
     int count = 0;
     protected void execute()
     {
         //Do all of the calculations in posotive, then apply negative sign at the end if we are going in reverse
-        double err = Math.abs(destination - Robot.shooterRotator.getRotation());
+        double err = Math.abs(destination - ShooterRotator.getInstance().getRotation());
         double proportionalStopDistance = 10;
         double proportionalSpeed = ((1/proportionalStopDistance)*err)*speed;
         double finalSpeed = Math.min(speed, proportionalSpeed);
@@ -49,14 +49,14 @@ public class ShooterRotateTargetCommand extends Command
         
         finalSpeed += integralSpeed;
         finalSpeed *= ((goingForward)?1:-1); //If we are going in reverse, reverse the speed
-        Robot.shooterRotator.rotate(finalSpeed);
+        ShooterRotator.getInstance().rotate(finalSpeed);
         
         SmartDashboard.putNumber("Integral", integralSpeed);
         SmartDashboard.putNumber("Proportional", proportionalSpeed);
         SmartDashboard.putNumber("err", err);
         
         count++;
-        //Robot.shooterRotator.rotate((goingForward)?speed:-speed);
+        //ShooterRotator.getInstance().rotate((goingForward)?speed:-speed);
     }
 
     protected boolean isFinished()
@@ -68,19 +68,19 @@ public class ShooterRotateTargetCommand extends Command
         
         if(goingForward)
         {
-            //System.out.println("Quitting: " + Robot.shooterRotator.getRotation() + " forward");
-            return Robot.shooterRotator.getRotation() - destination >= 0;
+            //System.out.println("Quitting: " + ShooterRotator.getInstance().getRotation() + " forward");
+            return ShooterRotator.getInstance().getRotation() - destination >= 0;
         }
         else
         {
-            //System.out.println("Quitting: " + Robot.shooterRotator.getRotation() + " reverse");
-            return Robot.shooterRotator.getRotation() - destination <= 0;
+            //System.out.println("Quitting: " + ShooterRotator.getInstance().getRotation() + " reverse");
+            return ShooterRotator.getInstance().getRotation() - destination <= 0;
         }
     }
 
     protected void end()
     {
-        Robot.shooterRotator.rotate(0);
+        ShooterRotator.getInstance().rotate(0);
     }
 
     protected void interrupted() {

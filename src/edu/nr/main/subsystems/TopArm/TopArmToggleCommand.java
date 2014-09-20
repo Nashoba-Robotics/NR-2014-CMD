@@ -20,13 +20,13 @@ public class TopArmToggleCommand extends Command{
 
     protected void execute() 
     {
-        if(Robot.topArm.isDeployed())
+        if(TopArm.getInstance().isDeployed())
         {
-            Robot.topArm.undeploy();
+            TopArm.getInstance().undeploy();
         }
         else
         {
-            Robot.topArm.deploy();
+            TopArm.getInstance().deploy();
         }
     }
 

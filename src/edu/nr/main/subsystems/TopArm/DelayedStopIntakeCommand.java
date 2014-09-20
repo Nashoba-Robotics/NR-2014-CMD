@@ -7,6 +7,7 @@
 package edu.nr.main.subsystems.TopArm;
 
 import edu.nr.main.Robot;
+import edu.nr.main.subsystems.BottomRollers.BottomRollers;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -28,8 +29,8 @@ public class DelayedStopIntakeCommand extends Command
         if(current - init > 0.5)
         {
             done = true;
-            Robot.rollers.stopRoll();
-            Robot.topArm.runTopArm(0);
+            BottomRollers.getInstance().stopRoll();
+            TopArm.getInstance().runTopArm(0);
         }
     }
 

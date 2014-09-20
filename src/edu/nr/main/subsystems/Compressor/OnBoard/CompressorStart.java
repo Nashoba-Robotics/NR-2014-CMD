@@ -18,14 +18,14 @@ public class CompressorStart extends Command
     public CompressorStart()
     {
         super("Start");
-        this.requires(Robot.compressor);
+        this.requires(Compressor.getInstance());
     }
     protected void initialize() {
     }
 
     protected void execute()
     {
-        Robot.compressor.startCompressor();
+        Compressor.getInstance().startCompressor();
     }
 
     protected boolean isFinished()

@@ -3,7 +3,6 @@
 package edu.nr.main.subsystems.Drive;
 
 import edu.nr.main.RobotMap;
-import edu.nr.main.subsystems.Printable;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -16,15 +15,25 @@ import edu.wpi.first.wpilibj.ADXL345_I2C;
 import edu.wpi.first.wpilibj.ADXL345_I2C.DataFormat_Range;
 import edu.wpi.first.wpilibj.Ultrasonic;
 
-public class Drive extends Subsystem implements Printable
+public class Drive extends Subsystem
 {
+    private static Drive singleton;
+    public static Drive getInstance()
+    {
+        if(singleton == null)
+            singleton = new Drive();
+        
+        return singleton;
+    }
+    
     private ADXL345_I2C accel;
     private RobotDrive drive = null;
     private Gyro gyro;
     private Encoder e1, e2;
     private DoubleSolenoid shifter;
     Ultrasonic sonic;
-    public Drive()
+    
+    private Drive()
     {
         drive = new RobotDrive(new Talon(1),new Talon(2),new Talon(3),new Talon(4));
         drive.setSafetyEnabled(false);
@@ -105,10 +114,9 @@ public class Drive extends Subsystem implements Printable
         return 0;
     }
     
+    //At time of writing, encoder 2 is broken, so just use encoder 1
     public double getAverageEncoderDistance()
     {
-        //average is multiplied by 34/32 to correct for encoder error
-        //return ((e1.getDistance() + e2.getDistance())/2.0f);
         return e1.getDistance();
     }
     
@@ -134,9 +142,8 @@ public class Drive extends Subsystem implements Printable
         }
         else
         {
-            //System.out.println("Error with encoder");
+            System.err.println("Warning: class Drive was asked for raw encoder '" + which + "' when there is no such encoder");
             return 0;
-            //throw new RuntimeException("Error: Invalid encoder value");
         }
     }
     

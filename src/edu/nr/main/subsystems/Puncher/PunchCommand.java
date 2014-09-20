@@ -6,28 +6,23 @@
 
 package edu.nr.main.subsystems.Puncher;
 
-import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- * @author colin
- */
 public class PunchCommand extends Command
 {
     public PunchCommand()
     {
-        this.requires(Robot.puncher);
+        this.requires(Puncher.getInstance());
     }
     
     protected void initialize() 
     {
-        Robot.puncher.setTentionerSpeed(0);
+        Puncher.getInstance().setTentionerSpeed(0);
     }
 
     protected void execute() 
     {
-        Robot.puncher.punch();
+        Puncher.getInstance().punch();
     }
 
     protected boolean isFinished() 
@@ -44,5 +39,4 @@ public class PunchCommand extends Command
     {
         
     }
-    
 }

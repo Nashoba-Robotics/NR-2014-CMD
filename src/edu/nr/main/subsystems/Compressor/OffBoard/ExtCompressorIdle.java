@@ -19,7 +19,7 @@ public class ExtCompressorIdle extends Command
 {
     public ExtCompressorIdle()
     {
-        this.requires(Robot.extCompressor);
+        this.requires(OffBoardCompressor.getInstance());
     }
     protected void initialize() {
     }

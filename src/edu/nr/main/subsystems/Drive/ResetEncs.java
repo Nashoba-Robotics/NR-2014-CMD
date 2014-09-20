@@ -21,7 +21,7 @@ public class ResetEncs extends Command
 
     protected void execute() 
     {
-        Robot.drive.resetEncs();
+        Drive.getInstance().resetEncs();
     }
 
     protected boolean isFinished()

@@ -10,8 +10,7 @@ import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
- * @author colin
+ * Command for shifting gears on the drive train
  */
 public class ShiftCommand extends Command
 {
@@ -27,9 +26,9 @@ public class ShiftCommand extends Command
     protected void execute() 
     {
         if(direction)
-            Robot.drive.setFirstGear();
+            Drive.getInstance().setFirstGear();
         else
-            Robot.drive.setSecondGear();
+            Drive.getInstance().setSecondGear();
     }
 
     protected boolean isFinished() 

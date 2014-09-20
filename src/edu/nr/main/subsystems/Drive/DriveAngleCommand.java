@@ -11,8 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
- * @author colin
+ * (WARNING) class was never tested- probably does not work correctly
  */
 public class DriveAngleCommand extends Command
 {
@@ -28,20 +27,21 @@ public class DriveAngleCommand extends Command
     public DriveAngleCommand(double angle, double speed)
     {
         this.speed = speed * (angle/Math.abs(angle));
-        this.requires(Robot.drive);
+        
+        this.requires(Drive.getInstance());
     }
     
     protected void initialize() 
     {
         this.angle = SmartDashboard.getNumber("Angle");
         count = 0;
-        Robot.drive.resetEncs();
-        Robot.drive.resetGyro();
+        Drive.getInstance().resetEncs();
+        Drive.getInstance().resetGyro();
     }
 
     protected void execute() 
     {
-        double currentAngle = Robot.drive.getGyroAngle();
+        double currentAngle = Drive.getInstance().getGyroAngle();
         error = angle - currentAngle;
         SmartDashboard.putNumber("Error", error);
         double stopAngle = 50;
@@ -49,18 +49,13 @@ public class DriveAngleCommand extends Command
         
         double integralSpeed =  count * error/Math.abs(error) * 0.005;
         double commandingSpeed = proportionalSpeed + integralSpeed;
-        Robot.drive.drive(0, -commandingSpeed);
+        Drive.getInstance().drive(0, -commandingSpeed);
         
         SmartDashboard.putNumber("Proportional", proportionalSpeed);
         SmartDashboard.putNumber("Integral", integralSpeed);
         SmartDashboard.putNumber("Count", count);
-        SmartDashboard.putNumber("Gyro", Robot.drive.getGyroAngle());
+        SmartDashboard.putNumber("Gyro", Drive.getInstance().getGyroAngle());
         SmartDashboard.putNumber("Error", error);
-        /*SmartDashboard.putNumber("Commanding angle", commandingSpeed);
-        SmartDashboard.putNumber("Gyro", currentAngle);
-        SmartDashboard.putNumber("Final Speed", finalSpeed);
-        SmartDashboard.putNumber("Integral Speed", integralSpeed);
-        SmartDashboard.putNumber("Gyro Rate", gyro.getRate());*/
         
         if(error < stopAngle)
             count++;
@@ -75,7 +70,7 @@ public class DriveAngleCommand extends Command
     protected boolean isFinished()
     {
         double epsilon = 2;
-        return ((Math.abs(error) < epsilon) && (Math.abs(Robot.drive.getGyroRate()) < 10));
+        return ((Math.abs(error) < epsilon) && (Math.abs(Drive.getInstance().getGyroRate()) < 10));
     }
 
     protected void end() 

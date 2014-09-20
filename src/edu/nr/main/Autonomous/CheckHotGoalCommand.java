@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.tables.TableKeyNotDefinedException;
 
 /**
- *
- * @author colin
+ * Checks to see if RoboRealms indicated in smart dashboard that the goal we are facing is hot.
+ * (Not used in competition)
  */
 public class CheckHotGoalCommand extends Command
 {
@@ -35,7 +35,7 @@ public class CheckHotGoalCommand extends Command
         }
         catch(TableKeyNotDefinedException t)
         {
-            System.err.println("ERROR DURING AUTONOMOUS");
+            System.err.println("ERROR DURING AUTONOMOUS HOT GOAL CHECK");
             new AutonomousPunchCommand(0).start();
         }
     }

@@ -20,7 +20,7 @@ public class DelayedTopArmCommand extends Command
     private long start;
     protected void initialize() 
     {
-        if(Robot.topArm.isDeployed())
+        if(TopArm.getInstance().isDeployed())
         {
             delayed = true;
             start = System.currentTimeMillis();
@@ -29,7 +29,7 @@ public class DelayedTopArmCommand extends Command
         {
             delayed = false;
         }
-        Robot.topArm.undeploy();
+        TopArm.getInstance().undeploy();
     }
 
     protected void execute() 

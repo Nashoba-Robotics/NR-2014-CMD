@@ -21,7 +21,7 @@ public class TopArmRunCommand extends Command
 
     protected void execute()
     {
-        Robot.topArm.runTopArm(1.0);
+        TopArm.getInstance().runTopArm(1.0);
     }
 
     protected boolean isFinished() 

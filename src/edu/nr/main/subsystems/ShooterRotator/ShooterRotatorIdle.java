@@ -18,7 +18,7 @@ public class ShooterRotatorIdle extends Command
     public ShooterRotatorIdle()
     {
         super("Shooter Rotator Idle");
-        this.requires(Robot.shooterRotator);
+        this.requires(ShooterRotator.getInstance());
     }
     
     protected void initialize() 
@@ -28,7 +28,7 @@ public class ShooterRotatorIdle extends Command
 
     protected void execute() 
     {
-        Robot.shooterRotator.rotate(0);
+        ShooterRotator.getInstance().rotate(0);
     }
 
     protected boolean isFinished() 

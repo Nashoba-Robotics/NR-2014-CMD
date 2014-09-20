@@ -11,8 +11,7 @@ import edu.nr.main.subsystems.Puncher.PunchGroupCommand;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
- * @author Robotics
+ * Uses the ultrasonic sensor to drive to a certain distance from an object (PID)
  */
 public class DriveToUltrasonicDistance extends Command
 {
@@ -21,23 +20,21 @@ public class DriveToUltrasonicDistance extends Command
     public DriveToUltrasonicDistance(float target)
     {
         this.target = target;
-        this.requires(Robot.drive);
+        this.requires(Drive.getInstance());
     }
     
     protected void initialize() 
     {
-        goingForward = (Robot.drive.getUltrasonicFeet() > target);
+        goingForward = (Drive.getInstance().getUltrasonicFeet() > target);
     }
 
     float speed = 0.8f;
     protected void execute() 
     {
-        goingForward = Robot.drive.getUltrasonicFeet() > target;
-        double err = Math.abs(target - Robot.drive.getUltrasonicFeet());
+        goingForward = Drive.getInstance().getUltrasonicFeet() > target;
+        double err = Math.abs(target - Drive.getInstance().getUltrasonicFeet());
         
-        //if(err < 3)
-        //    Robot.topArm.undeploy();
-        if(Robot.drive.getUltrasonicFeet() < 8)
+        if(Drive.getInstance().getUltrasonicFeet() < 8)
         {
             new PunchGroupCommand().start();
         }
@@ -48,12 +45,12 @@ public class DriveToUltrasonicDistance extends Command
         
         newSpeed *= ((goingForward)?-1:1); // Reverse the speed if we are going backwards NOTE: The drive train is reversed
         
-        Robot.drive.drive(newSpeed, 0);
+        Drive.getInstance().drive(newSpeed, 0);
     }
 
     protected boolean isFinished() 
     {
-        return Math.abs(target - Robot.drive.getUltrasonicFeet()) < 0.5;
+        return Math.abs(target - Drive.getInstance().getUltrasonicFeet()) < 0.5;
     }
 
     protected void end() {

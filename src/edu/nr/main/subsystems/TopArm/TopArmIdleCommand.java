@@ -19,7 +19,7 @@ public class TopArmIdleCommand extends Command
     long lastTime;
     public TopArmIdleCommand()
     {
-        this.requires(Robot.topArm);
+        this.requires(TopArm.getInstance());
     }
     protected void initialize() 
     {
@@ -28,7 +28,7 @@ public class TopArmIdleCommand extends Command
 
     protected void execute() 
     {
-        /*if(Robot.topArm.isRunning && Robot.topArm.getIRSensor())
+        /*if(TopArm.getInstance().isRunning && TopArm.getInstance().getIRSensor())
         {
             if(!startedCounting)
             {
@@ -40,7 +40,7 @@ public class TopArmIdleCommand extends Command
                 new DelayedStopIntakeCommand().start();
             }
         }
-        else if(!Robot.topArm.getIRSensor())
+        else if(!TopArm.getInstance().getIRSensor())
         {
             startedCounting = false;
         }*/

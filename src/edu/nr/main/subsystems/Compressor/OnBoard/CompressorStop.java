@@ -18,7 +18,7 @@ public class CompressorStop extends Command
     public CompressorStop()
     {
         super("Compressor Stop");
-        this.requires(Robot.compressor);
+        this.requires(Compressor.getInstance());
     }
     protected void initialize()
     {
@@ -27,7 +27,7 @@ public class CompressorStop extends Command
 
     protected void execute()
     {
-        Robot.compressor.stopCompressor();
+        Compressor.getInstance().stopCompressor();
     }
 
     protected boolean isFinished()

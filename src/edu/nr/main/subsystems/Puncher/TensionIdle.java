@@ -6,26 +6,21 @@
 
 package edu.nr.main.subsystems.Puncher;
 
-import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- * @author colin
- */
 public class TensionIdle extends Command
 {
     public TensionIdle()
     {
         super("Tension Idle");
-        this.requires(Robot.puncher);
+        this.requires(Puncher.getInstance());
     }
     protected void initialize() {
     }
 
     protected void execute() 
     {
-        Robot.puncher.setTentionerSpeed(0);
+        Puncher.getInstance().setTentionerSpeed(0);
     }
 
     protected boolean isFinished()

@@ -20,7 +20,7 @@ public class CompressorIdle extends Command
     public CompressorIdle()
     {
         super("Compressor Idle");
-        this.requires(Robot.compressor);
+        this.requires(Compressor.getInstance());
     }
     protected void initialize() 
     {
@@ -32,12 +32,12 @@ public class CompressorIdle extends Command
         if(SmartDashboard.getBoolean("Auto Compressor"))
         if(CompressorBase.getPressureLimitStatus())
         {
-            Robot.compressor.stopCompressor();
+            Compressor.getInstance().stopCompressor();
         }
         else if(SmartDashboard.getBoolean("Auto Compressor"))
         {
             //Uncomment if we want automatic pressurizing
-            Robot.compressor.startCompressor();
+            Compressor.getInstance().startCompressor();
         }
         
         SmartDashboard.putBoolean("Pressure Limit", CompressorBase.getPressureLimitStatus());

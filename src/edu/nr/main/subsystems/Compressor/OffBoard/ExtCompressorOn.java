@@ -17,14 +17,14 @@ public class ExtCompressorOn extends Command
 {
     public ExtCompressorOn()
     {
-        this.requires(Robot.extCompressor);
+        this.requires(OffBoardCompressor.getInstance());
     }
     protected void initialize() {
     }
 
     protected void execute() 
     {
-        Robot.extCompressor.startCompressor();
+        OffBoardCompressor.getInstance().startCompressor();
     }
 
     protected boolean isFinished() 

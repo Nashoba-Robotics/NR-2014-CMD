@@ -405,7 +405,7 @@ diff -rupN C:/Users/colin/workspace/NetBeans/NEW/src/edu/nr/main/subsystems/Comp
  import edu.wpi.first.wpilibj.Relay;
  import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 @@ -8,47 +7,40 @@ import edu.wpi.first.wpilibj.smartdashbo
- public class InternalCompressor extends CompressorBase implements Printable {
+ public class InternalCompressor extends CompressorBase {
      private static InternalCompressor INSTANCE = null;
      
 -    private InternalCompressor() 

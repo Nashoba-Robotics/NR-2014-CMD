@@ -9,21 +9,19 @@ package edu.nr.main.subsystems.BottomRollers;
 import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- * @author colin
- */
 public class RollIdleCommand extends Command
 {
     public RollIdleCommand()
     {
-        this.requires(Robot.rollers);
+        this.requires(BottomRollers.getInstance());
     }
     protected void initialize() 
     {
+        
     }
 
-    protected void execute() {
+    protected void execute() 
+    {
     }
 
     protected boolean isFinished() 

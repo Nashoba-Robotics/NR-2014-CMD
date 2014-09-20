@@ -8,26 +8,30 @@ package edu.nr.main.subsystems.ShooterRotator;
 
 import edu.nr.main.Robot;
 import edu.nr.main.RobotMap;
-import edu.nr.main.subsystems.Printable;
 import edu.wpi.first.wpilibj.AnalogChannel;
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- * @author colin
- */
-public class ShooterRotator extends Subsystem implements Printable
+public class ShooterRotator extends Subsystem
 {
-    //public static final double BOTTOM_POSITION = 0.078, FORTY_FIVE = 0.162, NINETY = 0.267, STARTING_POSITION = 0.257, FORTY=.1585, AUTONOMOUS_ANGLE = 0.146;
+    private static ShooterRotator singleton = null;
+    public static ShooterRotator getInstance()
+    {
+        if(singleton == null)
+            singleton = new ShooterRotator();
+        
+        return singleton;
+    }
+    
     public static final double STARTING_POSITION = 85.4, AUTONOMOUS_ANGLE = 42.5;
-            ;
     public static final double REGULAR_SPEED = 0.9;
     public static final double LOWER_LIMIT = -16.7, UPPER_LIMIT = STARTING_POSITION;
     private CANJaguar rotationJag;
     ShooterPotentiometer pot;
-    public ShooterRotator()
+    
+    private ShooterRotator()
     {
         pot = new ShooterPotentiometer(2);
         SmartDashboard.putNumber("Shooter Rotate Distance", 0);
@@ -38,15 +42,18 @@ public class ShooterRotator extends Subsystem implements Printable
         } 
         catch (CANTimeoutException ex) 
         {
-            Robot.canExceptions++;
+            reportCANException(ex);
         }
     }
     public void initCAN()
     {
-        try {
+        try 
+        {
             rotationJag.configNeutralMode(CANJaguar.NeutralMode.kBrake);
-        } catch (CANTimeoutException ex) {
-            Robot.canExceptions++;
+        } 
+        catch (CANTimeoutException ex) 
+        {
+            reportCANException(ex);
         }
     }
     
@@ -66,8 +73,9 @@ public class ShooterRotator extends Subsystem implements Printable
         {
             rotationJag.setX(-speed);
         }
-        catch (CANTimeoutException ex) {
-            Robot.canExceptions++;
+        catch (CANTimeoutException ex) 
+        {
+            reportCANException(ex);
         }
     }
 
@@ -75,14 +83,18 @@ public class ShooterRotator extends Subsystem implements Printable
     {
         SmartDashboard.putData("Shooter Rotator", this);
         SmartDashboard.putData("Shooter Rotator Idle", new ShooterRotatorIdle());
-        SmartDashboard.putData("Rotate vertical", new ShooterRotateTargetCommand(.267));
-        SmartDashboard.putData("Rotate bottom", new ShooterRotateTargetCommand(.078));
-        SmartDashboard.putData("Rotate 45", new ShooterRotateTargetCommand(.162));
-        SmartDashboard.putData("Rotate 40", new ShooterRotateTargetCommand(.1585));
         SmartDashboard.putData("Rotate Starting Position", new ShooterRotateTargetCommand(STARTING_POSITION));
+    }
+    
+    private void reportCANException(Exception ex)
+    {
+        Robot.reportCANException(ex, "Rotator jag #" + RobotMap.SHOOTER_ROTATION_JAG);
     }
 }
 
+/**
+ * A class that converts the potentiometer's value into degrees
+ */
 class ShooterPotentiometer extends AnalogChannel
 {
     public ShooterPotentiometer(int channel)
@@ -90,7 +102,11 @@ class ShooterPotentiometer extends AnalogChannel
         super(channel);
     }
     private final double FACTOR = .2888192405, OFFSET = -47.9963;
-    //private final double FACTOR = 3.4622266289, OFFSET = 166.1860728346;
+    
+    /**
+     * 
+     * @return The angle of the potentiometer in degrees
+     */
     public double getAngle()
     {
         return (this.getValue() * FACTOR + OFFSET);

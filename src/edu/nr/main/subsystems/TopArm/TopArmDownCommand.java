@@ -18,7 +18,7 @@ public class TopArmDownCommand extends Command
     public TopArmDownCommand()
     {
         super("Top Arm Down");
-        this.requires(Robot.topArm);
+        this.requires(TopArm.getInstance());
     }
     protected void initialize() 
     {
@@ -27,8 +27,8 @@ public class TopArmDownCommand extends Command
 
     protected void execute()
     {
-        Robot.topArm.deploy();
-        //Robot.topArm.runTopArm(1.0);
+        TopArm.getInstance().deploy();
+        //TopArm.getInstance().runTopArm(1.0);
     }
 
     protected boolean isFinished() 

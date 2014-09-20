@@ -7,6 +7,11 @@
 package edu.nr.main.subsystems;
 
 import edu.nr.main.Robot;
+import edu.nr.main.subsystems.BottomRollers.BottomRollers;
+import edu.nr.main.subsystems.Drive.Drive;
+import edu.nr.main.subsystems.Puncher.Puncher;
+import edu.nr.main.subsystems.ShooterRotator.ShooterRotator;
+import edu.nr.main.subsystems.TopArm.TopArm;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -15,13 +20,14 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class CancelAllCommand extends Command
 {
-
+    //By requiring every subsystem, this command boots out any currently running commands for each subsystem.
+    //This command also exits immediately, so the default command for each subsystem is started.
     public CancelAllCommand() {
-        this.requires(Robot.drive);
-        this.requires(Robot.rollers);
-        this.requires(Robot.topArm);
-        this.requires(Robot.shooterRotator);
-        this.requires(Robot.puncher);
+        this.requires(Drive.getInstance());
+        this.requires(BottomRollers.getInstance());
+        this.requires(TopArm.getInstance());
+        this.requires(ShooterRotator.getInstance());
+        this.requires(Puncher.getInstance());
     }
      
     protected void initialize() 

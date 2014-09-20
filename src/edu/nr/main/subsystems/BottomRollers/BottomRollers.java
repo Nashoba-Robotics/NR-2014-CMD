@@ -1,40 +1,42 @@
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package edu.nr.main.subsystems.BottomRollers;
 
 import edu.nr.main.Robot;
 import edu.nr.main.RobotMap;
-import edu.nr.main.subsystems.Printable;
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- *
- * @author colin
- */
-public class BottomRollers extends Subsystem implements Printable
+public class BottomRollers extends Subsystem
 {
-    private RollerPair rollers;
-    public BottomRollers()
+    private static BottomRollers singleton;
+    public static BottomRollers getInstance()
+    {
+        if(singleton == null)
+            singleton = new BottomRollers();
+        
+        return singleton;
+    }
+    
+    
+    private final RollerPair rollers;
+    private BottomRollers()
     {
         CANJaguar roller1 = null;
-        try {
+        try 
+        {
             roller1 = new CANJaguar(RobotMap.ROLLER_JAG);
-        } catch (CANTimeoutException ex) {
-            ex.printStackTrace();
+        } 
+        catch (CANTimeoutException ex) 
+        {
+            showCANException(ex);
         }
         Victor roller2 = new Victor(RobotMap.ROLLER_VICTOR);
         roller2.setSafetyEnabled(false);
         rollers = new RollerPair(roller1, roller2);
     }
+    
     protected void initDefaultCommand() 
     {
         this.setDefaultCommand(new RollIdleCommand());
@@ -53,12 +55,16 @@ public class BottomRollers extends Subsystem implements Printable
     public void sendInfo() 
     {
         SmartDashboard.putData("Bottom Rollers", this);
-        //SmartDashboard.putData("First Roller", rollers.getJag());
-        //SmartDashboard.putData("Second Roller", rollers.getVictor());
         SmartDashboard.putData("Roll Command", new RollCommand());
         SmartDashboard.putData("Stop Roll", new StopRollCommand());
     }
     
+    /**
+     * We are using a jaguar for one roller, and a victor for the other, so this class makes it easy
+     * to set a speed for both. The jaguar and victor do not have the same voltage when told to run at
+     * a certain percentage (one of them does not have a linear voltage vs. percent graph),
+     * which is why the jaguar is set to 70% and the victor to 50%. The result from these percentages is roughly the same output voltage
+     */
     private class RollerPair
     {
         private CANJaguar jag1;
@@ -73,26 +79,26 @@ public class BottomRollers extends Subsystem implements Printable
         {
             try 
             {
-                jag1.setX(0.7);//SmartDashboard.getNumber("Jag Speed"));//speed+0.2);
-            } catch (CANTimeoutException ex) 
+                jag1.setX(0.7);
+            } 
+            catch (CANTimeoutException ex) 
             {
-                System.err.println("Error: Couldn't talk to shooter jag \n" + ex.toString());
+                showCANException(ex);
             }
-            victor.set(
-                    0.5);//SmartDashboard.getNumber("Victor Speed"));//speed);
+            victor.set(0.5);
         }
         
         public void stop()
         {
             try 
             {
-                jag1.setX(0);//SmartDashboard.getNumber("Jag Speed"));//speed+0.2);
-            } catch (CANTimeoutException ex) 
+                jag1.setX(0);
+            } 
+            catch (CANTimeoutException ex) 
             {
-                Robot.canExceptions++;
-                //System.err.println("Error: Couldn't talk to shooter jag \n" + ex.toString());
+                showCANException(ex);
             }
-            victor.set(0);//SmartDashboard.getNumber("Victor Speed"));//speed);
+            victor.set(0);
         }
         
         public CANJaguar getJag()
@@ -104,5 +110,10 @@ public class BottomRollers extends Subsystem implements Printable
         {
             return victor;
         }
+    }
+    
+    private static void showCANException(Exception ex)
+    {
+        Robot.reportCANException(ex, "Bottom Rollers Jag #" + RobotMap.ROLLER_JAG);
     }
 }

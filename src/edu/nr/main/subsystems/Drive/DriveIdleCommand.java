@@ -9,15 +9,11 @@ package edu.nr.main.subsystems.Drive;
 import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- * @author colin
- */
 public class DriveIdleCommand extends Command
 {
     public DriveIdleCommand()
     {
-        this.requires(Robot.drive);
+        this.requires(Drive.getInstance());
     }
     
     protected void initialize() 
@@ -27,7 +23,7 @@ public class DriveIdleCommand extends Command
 
     protected void execute() 
     {
-        Robot.drive.drive(0, 0);
+        Drive.getInstance().drive(0, 0);
     }
 
     protected boolean isFinished() 

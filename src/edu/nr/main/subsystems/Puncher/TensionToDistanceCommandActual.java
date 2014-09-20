@@ -6,33 +6,28 @@
 
 package edu.nr.main.subsystems.Puncher;
 
-import edu.nr.main.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- * @author colin
- */
 public class TensionToDistanceCommandActual extends Command
 {
     private float dist;
     float start;
     public TensionToDistanceCommandActual(float distance)
     {
-        this.requires(Robot.puncher);
+        this.requires(Puncher.getInstance());
         dist = distance;
     }
     protected void initialize() 
     {
-        Robot.puncher.initCAN();
-        Robot.puncher.setWinchLimit(dist);
-        Robot.puncher.resetDogEar();
+        Puncher.getInstance().initCAN();
+        Puncher.getInstance().setWinchLimit(dist);
+        Puncher.getInstance().resetDogEar();
         start = System.currentTimeMillis();
     }
 
     protected void execute() 
     {
-        Robot.puncher.setTentionerSpeed(Puncher.TENSIONER_REGULAR_SPEED);
+        Puncher.getInstance().setTentionerSpeed(Puncher.TENSIONER_REGULAR_SPEED);
     }
 
     protected boolean isFinished() 
@@ -40,7 +35,7 @@ public class TensionToDistanceCommandActual extends Command
         if(System.currentTimeMillis() - start > 8000)
             return true;
         
-        return !Robot.puncher.getForwardLimitOK();
+        return !Puncher.getInstance().getForwardLimitOK();
     }
 
     protected void end() {

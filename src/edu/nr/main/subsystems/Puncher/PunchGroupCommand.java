@@ -6,19 +6,10 @@
 
 package edu.nr.main.subsystems.Puncher;
 
-import edu.nr.main.Robot;
-import edu.nr.main.subsystems.ShooterRotator.ShooterRotateTargetCommand;
-import edu.nr.main.subsystems.ShooterRotator.ShooterRotator;
 import edu.nr.main.subsystems.TopArm.DelayedTopArmCommand;
-import edu.nr.main.subsystems.TopArm.TopArmDownCommand;
-import edu.nr.main.subsystems.TopArm.TopArmUpCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
-/**
- *
- * @author colin
- */
 public class PunchGroupCommand extends CommandGroup
 {
     public PunchGroupCommand()

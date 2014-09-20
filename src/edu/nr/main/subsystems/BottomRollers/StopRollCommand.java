@@ -18,7 +18,7 @@ public class StopRollCommand extends Command
     public StopRollCommand()
     {
         super("Stop Roll");
-        this.requires(Robot.rollers);
+        this.requires(BottomRollers.getInstance());
     }
     protected void initialize()
     {
@@ -27,7 +27,7 @@ public class StopRollCommand extends Command
 
     protected void execute() 
     {
-        Robot.rollers.stopRoll();
+        BottomRollers.getInstance().stopRoll();
     }
 
     protected boolean isFinished() 

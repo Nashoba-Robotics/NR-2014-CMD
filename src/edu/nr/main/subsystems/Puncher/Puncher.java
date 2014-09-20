@@ -8,11 +8,9 @@ package edu.nr.main.subsystems.Puncher;
 
 import edu.nr.main.Robot;
 import edu.nr.main.RobotMap;
-import edu.nr.main.subsystems.Printable;
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.can.CANTimeoutException;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,14 +19,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  * @author colin
  */
-public class Puncher extends Subsystem implements Printable
+public class Puncher extends Subsystem
 {
+    private static Puncher singleton = null;
+    public static Puncher getInstance()
+    {
+        if(singleton == null)
+            singleton = new Puncher();
+        
+        return singleton;
+    }
+    
     private CANJaguar winch;
     private DoubleSolenoid dogEar;
     public static final float TENSIONER_REGULAR_SPEED = .9f;
-    public static final float TENSIONER_SHOOTING_TENSION = 0.98f;//0.98f;
+    public static final float TENSIONER_SHOOTING_TENSION = 0.98f;
     
-    public Puncher() 
+    private Puncher() 
     {
         try 
         {
@@ -37,10 +44,10 @@ public class Puncher extends Subsystem implements Printable
             winch.setPositionReference(CANJaguar.PositionReference.kPotentiometer);
             winch.setSafetyEnabled(false);
             setWinchLimit(.95f);
-        } catch (CANTimeoutException ex) 
+        } 
+        catch (CANTimeoutException ex) 
         {
-            Robot.canExceptions++;
-            //ex.printStackTrace();
+            reportCANException(ex);
         }
         dogEar = new DoubleSolenoid(RobotMap.DOG_EAR_SOLENOID_DEPLOY, RobotMap.DOG_EAR_SOLENOID_UNDEPLOY);
         dogEar.set(Value.kReverse);
@@ -54,9 +61,9 @@ public class Puncher extends Subsystem implements Printable
             winch.setPositionReference(CANJaguar.PositionReference.kPotentiometer);
             winch.setSafetyEnabled(false);
         }
-        catch(CANTimeoutException e)
+        catch(CANTimeoutException ex)
         {
-            Robot.canExceptions++;
+            reportCANException(ex);
         }
     }
     
@@ -71,8 +78,7 @@ public class Puncher extends Subsystem implements Printable
             return winch.getForwardLimitOK();
         } catch (CANTimeoutException ex) 
         {
-            Robot.canExceptions++;
-            //ex.printStackTrace();
+            reportCANException(ex);
         }
         return false;
     }
@@ -92,8 +98,7 @@ public class Puncher extends Subsystem implements Printable
         try {
             winch.setX(speed);
         } catch (CANTimeoutException ex) {
-            Robot.canExceptions++;
-            //ex.printStackTrace();
+            reportCANException(ex);
         }
     }
     
@@ -102,8 +107,7 @@ public class Puncher extends Subsystem implements Printable
         try {
             winch.configSoftPositionLimits(position, -2);
         } catch (CANTimeoutException ex) {
-            Robot.canExceptions++;
-        //ex.printStackTrace();
+            reportCANException(ex);
         }
     }
     
@@ -113,8 +117,7 @@ public class Puncher extends Subsystem implements Printable
             return winch.getOutputVoltage();
         } catch (CANTimeoutException ex) {
             
-            Robot.canExceptions++;
-            //ex.printStackTrace();
+            reportCANException(ex);
         }
         return -1;
     }
@@ -125,8 +128,7 @@ public class Puncher extends Subsystem implements Printable
             return winch.getOutputCurrent();
         } catch (CANTimeoutException ex) {
             
-            Robot.canExceptions++;
-            //ex.printStackTrace();
+            reportCANException(ex);
         }
         return -1;
     }
@@ -137,17 +139,11 @@ public class Puncher extends Subsystem implements Printable
             return winch.getPosition();
         } catch (CANTimeoutException ex) 
         {
-            Robot.canExceptions++;
-            ex.printStackTrace();
+            reportCANException(ex);
         }
         return 1;
     }
     
-    /*public void setDogEar(Value value)
-    {
-        dogEar.set(value);
-    }*/
-
     public void sendInfo() 
     {
         SmartDashboard.putData("Puncher", this);
@@ -157,5 +153,10 @@ public class Puncher extends Subsystem implements Printable
         SmartDashboard.putData("Punch Command", new PunchCommand());
         SmartDashboard.putData("Punch Group Command", new PunchGroupCommand());
         SmartDashboard.putData("Tension to Distance", new TensionToDistanceCommand());
+    }
+    
+    private static void reportCANException(Exception ex)
+    {
+        Robot.reportCANException(ex, "Winch Jag: #" + RobotMap.WINCH_JAG);
     }
 }

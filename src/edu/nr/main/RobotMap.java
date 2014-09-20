@@ -33,7 +33,6 @@ public class RobotMap
     public static final int ENCODER_1_B = 7;
     public static final int ENCODER_2_A = 8;
     public static final int ENCODER_2_B = 9;
-    public static final int TOP_ARM_IR_SENSOR = 10;
     
     //Pneumatics
     public static final int DOG_EAR_SOLENOID_UNDEPLOY = 5;

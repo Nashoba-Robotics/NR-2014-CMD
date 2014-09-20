@@ -8,7 +8,6 @@ package edu.nr.main.subsystems.TopArm;
 
 import edu.nr.main.Robot;
 import edu.nr.main.RobotMap;
-import edu.nr.main.subsystems.Printable;
 import edu.wpi.first.wpilibj.CANJaguar;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -21,28 +20,30 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  * @author colin
  */
-public class TopArm extends Subsystem implements Printable
+public class TopArm extends Subsystem
 {
+    private static TopArm singleton = null;
+    public static TopArm getInstance()
+    {
+        if(singleton == null)
+            singleton = new TopArm();
+        
+        return singleton;
+    }
+            
     private DoubleSolenoid solenoid;
     private CANJaguar jag;
-    private ArmIR ir;
     
-    public TopArm()
+    private TopArm()
     {
         solenoid = new DoubleSolenoid(RobotMap.TOP_ARM_SOLENOID_DEPLOY, RobotMap.TOP_ARM_SOLENOID_UNDEPLOY);
-        try {
+        try 
+        {
             jag = new CANJaguar(RobotMap.TOP_ARM_JAG);
-        } catch (CANTimeoutException ex) {
-            System.err.println("Error: couldn't create top arm jag!!");
+        } catch (CANTimeoutException ex) 
+        {
+            reportCANException(ex);
         }
-        
-        ir = new ArmIR(RobotMap.TOP_ARM_IR_SENSOR);
-    }
-    
-    public boolean getIRSensor()
-    {
-        //Must be inverted because the sensor reports the opposite
-        return (!ir.get());
     }
     
     protected void initDefaultCommand()
@@ -71,9 +72,9 @@ public class TopArm extends Subsystem implements Printable
         isRunning = (Math.abs(speed) > 0);
         try {
             jag.setX(-speed);
-        } catch (CANTimeoutException ex) {
-                Robot.canExceptions++;
-//System.out.println("ERROR: Couldn't set top arm jag speed");
+        } catch (CANTimeoutException ex) 
+        {
+                reportCANException(ex);
         }
     }
     
@@ -90,22 +91,9 @@ public class TopArm extends Subsystem implements Printable
         SmartDashboard.putData(new TopArmRunCommand());
         SmartDashboard.putData(new TopArmStopCommand());
     }
-}
-
-class ArmIR
-{
-    private Counter counter;
-    private DigitalInput input;
     
-    public ArmIR(int channel)
+    private void reportCANException(Exception ex)
     {
-        input = new DigitalInput(channel);
-        counter = new Counter(input);
-        counter.setMaxPeriod(.25);
-    }
-    
-    public boolean get()
-    {
-        return (input.get() && counter.getStopped());
+        Robot.reportCANException(ex, "Top Arm Jag #" + RobotMap.TOP_ARM_JAG);
     }
 }

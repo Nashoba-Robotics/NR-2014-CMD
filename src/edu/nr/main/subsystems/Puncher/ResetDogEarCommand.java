@@ -6,14 +6,8 @@
 
 package edu.nr.main.subsystems.Puncher;
 
-import edu.nr.main.Robot;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- * @author colin
- */
 public class ResetDogEarCommand extends Command
 {
     public ResetDogEarCommand()
@@ -25,7 +19,7 @@ public class ResetDogEarCommand extends Command
 
     protected void execute() 
     {
-        Robot.puncher.resetDogEar();
+        Puncher.getInstance().resetDogEar();
     }
 
     protected boolean isFinished()

@@ -18,7 +18,7 @@ public class RollCommand extends Command
     public RollCommand()
     {
         super("Roll Command");
-        this.requires(Robot.rollers);
+        this.requires(BottomRollers.getInstance());
     }
     
     protected void initialize() 
@@ -28,7 +28,7 @@ public class RollCommand extends Command
 
     protected void execute() 
     {
-        Robot.rollers.startRoll();
+        BottomRollers.getInstance().startRoll();
     }
 
     protected boolean isFinished() 

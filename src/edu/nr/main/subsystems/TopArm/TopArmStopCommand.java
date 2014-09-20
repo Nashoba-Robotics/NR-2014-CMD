@@ -21,7 +21,7 @@ public class TopArmStopCommand extends Command
 
     protected void execute() 
     {
-        Robot.topArm.runTopArm(0);
+        TopArm.getInstance().runTopArm(0);
     }
 
     protected boolean isFinished() 

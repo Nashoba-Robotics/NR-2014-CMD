@@ -17,7 +17,7 @@ public class ExtCompressorOff extends Command
 {
     public ExtCompressorOff()
     {
-        this.requires(Robot.extCompressor);
+        this.requires(OffBoardCompressor.getInstance());
     }
     
     protected void initialize() {
@@ -25,7 +25,7 @@ public class ExtCompressorOff extends Command
 
     protected void execute() 
     {
-        Robot.extCompressor.stopCompressor();
+        OffBoardCompressor.getInstance().stopCompressor();
     }
 
     protected boolean isFinished()

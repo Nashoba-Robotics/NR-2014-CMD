@@ -18,15 +18,15 @@ public class TopArmUpCommand extends Command
     public TopArmUpCommand()
     {
         super("Top Arm Up");
-        this.requires(Robot.topArm);
+        this.requires(TopArm.getInstance());
     }
     protected void initialize() {
     }
 
     protected void execute() 
     {
-        Robot.topArm.undeploy();
-        //Robot.topArm.runTopArm(0);
+        TopArm.getInstance().undeploy();
+        //TopArm.getInstance().runTopArm(0);
     }
 
     protected boolean isFinished() 
